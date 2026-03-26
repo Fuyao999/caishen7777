@@ -1,0 +1,22 @@
+{
+  "name": "财神大陆-第二阶段",
+  "version": "0.1.0",
+  "description": "财神大陆游戏第二阶段 - 6-99级+十二财域系统",
+  "main": "GameController.js",
+  "scripts": {
+    "test": "node test.js",
+    "start": "node -e \"const Game = require('./GameController'); const g = new Game(); console.log(g.getStatus());\"",
+    "dev": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "game",
+    "财神",
+    "模拟经营",
+    "RPG"
+  ],
+  "author": "财神大陆开发团队",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
