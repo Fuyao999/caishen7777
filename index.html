@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>财神大陆 - 第二阶段</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        /* 顶部货币栏 */
+        .top-bar {
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-bottom: 2px solid #d4af37;
+        }
+        .currency-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+        }
+        .currency-icon {
+            width: 24px;
+            height: 24px;
+            background: #d4af37;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* 玩家信息卡 */
+        .player-card {
+            background: rgba(212,175,55,0.1);
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .player-name { font-size: 24px; color: #d4af37; margin-bottom: 10px; }
+        .player-level { font-size: 32px; font-weight: bold; }
+        .exp-bar {
+            background: rgba(0,0,0,0.5);
+            height: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .exp-fill {
+            background: linear-gradient(90deg, #d4af37, #ffd700);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        
+        /* 庙宇信息 */
+        .temple-card {
+            background: rgba(139,69,19,0.2);
+            border: 2px solid #8b4513;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .temple-title { color: #d4af37; font-size: 20px; margin-bottom: 15px; }
+        .temple-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .info-item { 
+            background: rgba(0,0,0,0.3); 
+            padding: 10px; 
+            border-radius: 8px;
+            text-align: center;
+        }
+        .info-label { color: #888; font-size: 12px; }
+        .info-value { color: #d4af37; font-size: 18px; font-weight: bold; }
+        
+        /* 功能按钮区 */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .action-btn {
+            background: linear-gradient(135deg, #d4af37, #b8941f);
+            border: none;
+            border-radius: 12px;
+            padding: 20px;
+            color: #1a1a2e;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212,175,55,0.4);
+        }
+        .action-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        /* 财域区域 */
+        .domains-section {
+            background: rgba(25,25,112,0.2);
+            border: 2px solid #191970;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .domains-title { color: #87ceeb; font-size: 20px; margin-bottom: 15px; }
+        .domain-item {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .domain-item.locked { opacity: 0.5; }
+        .domain-name { font-weight: bold; }
+        .domain-level { color: #888; font-size: 12px; }
+        .enter-btn {
+            background: #4169e1;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: white;
+            cursor: pointer;
+        }
+        .enter-btn:disabled {
+            background: #666;
+        }
+        
+        /* 日志区域 */
+        .log-section {
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .log-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #333;
+            font-size: 14px;
+        }
+        .log-time { color: #888; font-size: 12px; }
+        
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 2px solid #d4af37;
+        }
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 5px 15px;
+        }
+        .nav-btn.active { color: #d4af37; }
+    </style>
+</head>
+<body>
+    <!-- 顶部货币栏 -->
+    <div class="top-bar">
+        <div class="currency-item">
+            <div class="currency-icon">💰</div>
+            <span id="money">1000</span>
+        </div>
+        <div class="currency-item">
+            <div class="currency-icon">💎</div>
+            <span id="yuanbao">0</span>
+        </div>
+        <div class="currency-item">
+            <div class="currency-icon">⭐</div>
+            <span id="merit">0</span>
+        </div>
+        <div class="currency-item">
+            <div class="currency-icon">🧩</div>
+            <span id="fragments">0</span>
+        </div>
+    </div>
+
+    <!-- 主内容 -->
+    <div class="main-content">
+        <!-- 玩家信息 -->
+        <div class="player-card">
+            <div class="player-name">小财神</div>
+            <div class="player-level">Lv.<span id="level">1</span></div>
+            <div class="exp-bar">
+                <div class="exp-fill" id="exp-bar" style="width: 0%"></div>
+            </div>
+            <div>经验: <span id="exp">0</span> / <span id="need-exp">100</span></div>
+            <div style="margin-top:10px;color:#d4af37">形态: <span id="form">泥胎</span></div>
+        </div>
+
+        <!-- 庙宇信息 -->
+        <div class="temple-card">
+            <div class="temple-title">🏛️ 破庙（Lv.1）</div>
+            <div class="temple-info">
+                <div class="info-item">
+                    <div class="info-label">每小时产出</div>
+                    <div class="info-value"><span id="hourly-output">100</span>💰</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">存储上限</div>
+                    <div class="info-value"><span id="storage-limit">5000</span>💰</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">招财幡</div>
+                    <div class="info-value"><span id="banners">0</span>📜</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">信徒</div>
+                    <div class="info-value"><span id="disciples">0</span>👥</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能按钮 -->
+        <div class="action-grid">
+            <button class="action-btn" onclick="game.worship()">🙏 供奉</button>
+            <button class="action-btn" onclick="game.alms()">🥣 化缘</button>
+            <button class="action-btn" onclick="game.upgrade()">⬆️ 升级庙宇</button>
+            <button class="action-btn" onclick="game.synthesize()">🔨 合成幡</button>
+        </div>
+
+        <!-- 十二财域 -->
+        <div class="domains-section" id="domains-section" style="display:none">
+            <div class="domains-title">🌟 十二财域（已解锁）</div>
+            <div id="domains-list">
+                <!-- 动态生成 -->
+            </div>
+        </div>
+
+        <!-- 日志 -->
+        <div class="log-section" id="log">
+            <div class="log-item">
+                <span class="log-time">系统</span>：欢迎来到财神大陆！
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+        <button class="nav-btn active">🏠 主页</button>
+        <button class="nav-btn">🛕 庙宇</button>
+        <button class="nav-btn">🗺️ 财域</button>
+        <button class="nav-btn">🎒 背包</button>
+        <button class="nav-btn">⚙️ 设置</button>
+    </div>
+
+    <script>
+        // 简化版游戏逻辑（完整版需要引入JS文件）
+        const game = {
+            data: {
+                money: 1000, level: 1, exp: 0, merit: 0, fragments: 0, banners: 0,
+                templeLevel: 1, disciples: 0, almsCount: 0
+            },
+            
+            log: function(msg) {
+                const logDiv = document.getElementById('log');
+                const time = new Date().toLocaleTimeString();
+                logDiv.innerHTML = `<div class="log-item"><span class="log-time">${time}</span>：${msg}</div>` + logDiv.innerHTML;
+            },
+            
+            updateUI: function() {
+                document.getElementById('money').textContent = this.data.money;
+                document.getElementById('level').textContent = this.data.level;
+                document.getElementById('exp').textContent = this.data.exp;
+                document.getElementById('merit').textContent = this.data.merit;
+                document.getElementById('fragments').textContent = this.data.fragments;
+                document.getElementById('banners').textContent = this.data.banners;
+                
+                // 经验条
+                const needExp = this.getNeedExp();
+                const percent = (this.data.exp / needExp) * 100;
+                document.getElementById('exp-bar').style.width = percent + '%';
+                document.getElementById('need-exp').textContent = needExp;
+            },
+            
+            getNeedExp: function() {
+                if (this.data.level <= 5) {
+                    return [0, 100, 300, 600, 1000, 1500][this.data.level] || 1500;
+                }
+                return 1000 + (this.data.level - 5) * 200;
+            },
+            
+            worship: function() {
+                this.data.money += 50;
+                this.data.merit += 1;
+                this.log('供奉成功！获得50香火钱、1功德');
+                this.updateUI();
+            },
+            
+            alms: function() {
+                if (this.data.almsCount >= 20) {
+                    this.log('今日化缘次数已达上限！');
+                    return;
+                }
+                const reward = Math.floor(Math.random() * 50) + 30;
+                this.data.money += reward;
+                this.data.exp += 10;
+                this.data.almsCount++;
+                this.data.merit += 5;
+                
+                if (Math.random() < 0.1) {
+                    this.data.fragments += 5;
+                    this.log(`化缘暴击！获得${reward}钱、5碎片！`);
+                } else {
+                    this.log(`化缘成功！获得${reward}钱`);
+                }
+                
+                this.checkLevelUp();
+                this.updateUI();
+            },
+            
+            checkLevelUp: function() {
+                const need = this.getNeedExp();
+                if (this.data.exp >= need && this.data.level < 99) {
+                    this.data.level++;
+                    this.data.exp -= need;
+                    this.log(`🎉 升级！达到${this.data.level}级！`);
+                    
+                    if (this.data.level === 6) {
+                        document.getElementById('domains-section').style.display = 'block';
+                        this.log('🌟 解锁十二财域！');
+                    }
+                }
+            },
+            
+            upgrade: function() {
+                const costs = [0, 5000, 15000, 50000, 150000];
+                const banners = [0, 3, 6, 10, 15];
+                
+                if (this.data.templeLevel >= 5) {
+                    this.log('庙宇已达满级，可进入十二财域！');
+                    return;
+                }
+                
+                const cost = costs[this.data.templeLevel];
+                const needBanners = banners[this.data.templeLevel];
+                
+                if (this.data.money < cost) {
+                    this.log(`香火钱不足（${this.data.money}/${cost}）`);
+                    return;
+                }
+                if (this.data.banners < needBanners) {
+                    this.log(`招财幡不足（${this.data.banners}/${needBanners}）`);
+                    return;
+                }
+                
+                this.data.money -= cost;
+                this.data.banners -= needBanners;
+                this.data.templeLevel++;
+                this.log(`🏛️ 庙宇升级到Lv.${this.data.templeLevel}！`);
+                this.updateUI();
+            },
+            
+            synthesize: function() {
+                if (this.data.fragments < 40) {
+                    this.log(`碎片不足（${this.data.fragments}/40）`);
+                    return;
+                }
+                this.data.fragments -= 40;
+                this.data.banners++;
+                this.log('合成成功！获得1个招财幡');
+                this.updateUI();
+            }
+        };
+        
+        // 初始化
+        game.updateUI();
+    </script>
+</body>
+</html>
