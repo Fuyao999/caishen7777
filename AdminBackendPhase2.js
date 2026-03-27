@@ -3,7 +3,7 @@ const router = express.Router();
 
 /**
  * 财神大陆 - 第二阶段管理后台 API
- * 支持21个系统的数据监控和管理
+ * 支持21个系统的数据监控和管理 + 机器人系统
  */
 
 // ===== 统计数据 =====
@@ -318,6 +318,121 @@ router.get('/anticheat', async (req, res) => {
         };
         
         res.json({ success: true, data: cheatData });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+});
+
+// ===== 机器人管理 =====
+router.get('/robots/stats', async (req, res) => {
+    try {
+        const stats = {
+            total: 500,
+            active: 450,
+            online: 120,
+            byLevel: {
+                '1-10': 150,
+                '11-30': 175,
+                '31-50': 100,
+                '51-80': 60,
+                '81-99': 15
+            },
+            byBehavior: {
+                casual: 150,
+                active: 200,
+                hardcore: 50,
+                trader: 60,
+                pvp: 40
+            },
+            todayActions: 12500
+        };
+        
+        res.json({ success: true, data: stats });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+});
+
+router.get('/robots', async (req, res) => {
+    const { page = 1, limit = 20, status, behavior, search } = req.query;
+    
+    try {
+        // 模拟机器人数据
+        const robots = [];
+        for (let i = 1; i <= Math.min(limit, 100); i++) {
+            const id = (page - 1) * limit + i;
+            robots.push({
+                id: id,
+                name: `机器人_${id}`,
+                level: Math.floor(Math.random() * 99) + 1,
+                behavior: ['casual', 'active', 'hardcore', 'trader', 'pvp'][Math.floor(Math.random() * 5)],
+                status: Math.random() > 0.1 ? 'active' : 'inactive',
+                isOnline: Math.random() > 0.7,
+                lastLogin: new Date(Date.now() - Math.floor(Math.random() * 86400000)).toISOString(),
+                todayActions: Math.floor(Math.random() * 50),
+                money: Math.floor(Math.random() * 100000),
+                totalPlayTime: Math.floor(Math.random() * 1000)
+            });
+        }
+        
+        res.json({
+            success: true,
+            data: robots,
+            pagination: {
+                page: parseInt(page),
+                limit: parseInt(limit),
+                total: 500
+            }
+        });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+});
+
+router.post('/robots/batch-create', async (req, res) => {
+    const { count = 10, behavior = 'random', minLevel = 1, maxLevel = 99 } = req.body;
+    
+    try {
+        res.json({
+            success: true,
+            message: `成功创建${count}个机器人`,
+            data: { created: count, behavior, levelRange: `${minLevel}-${maxLevel}` }
+        });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+});
+
+router.delete('/robots/:id', async (req, res) => {
+    const { id } = req.params;
+    
+    try {
+        res.json({ success: true, message: `机器人${id}已删除` });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+});
+
+router.post('/robots/batch-delete', async (req, res) => {
+    const { ids, all = false } = req.body;
+    
+    try {
+        if (all) {
+            return res.json({ success: true, message: '已删除全部机器人' });
+        }
+        res.json({ success: true, message: `已删除${ids?.length || 0}个机器人` });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+});
+
+router.post('/robots/ai-tick', async (req, res) => {
+    try {
+        res.json({
+            success: true,
+            message: 'AI调度完成',
+            data: { actionCount: 120, timestamp: new Date().toISOString() }
+        });
     } catch (error) {
         res.json({ success: false, message: error.message });
     }

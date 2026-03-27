@@ -314,6 +314,9 @@
                 <li onclick="showPage('anticheat')">
                     <i>🛡️</i><span>反作弊</span>
                 </li>
+                <li onclick="showPage('robots')">
+                    <i>🤖</i><span>机器人</span>
+                </li>
                 <li onclick="showPage('logs')">
                     <i>📝</i><span>系统日志</span>
                 </li>
@@ -537,6 +540,115 @@
             <div id="anticheat" class="page" style="display:none;">
                 <div class="header"><h2>🛡️ 反作弊</h2></div>
                 <div class="panel"><div class="panel-body">反作弊内容</div></div>
+            </div>
+
+            <!-- 机器人管理 -->
+            <div id="robots" class="page" style="display:none;">
+                <div class="header">
+                    <h2>🤖 机器人管理</h2>
+                    <div>
+                        <button class="btn btn-primary" onclick="alert('批量创建')">批量创建</button>
+                        <button class="btn btn-success" onclick="alert('AI调度')">运行AI调度</button>
+                        <button class="btn btn-danger" onclick="alert('全部删除')">全部删除</button>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>总机器人</h3>
+                        <div class="value">500</div>
+                        <div class="change up">↑ 50 今日新增</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>活跃机器人</h3>
+                        <div class="value">450</div>
+                        <div class="change up">90% 活跃率</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>当前在线</h3>
+                        <div class="value">120</div>
+                        <div class="change">24% 在线率</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>今日行动</h3>
+                        <div class="value">12,500</div>
+                        <div class="change up">↑ 1,200 较昨日</div>
+                    </div>
+                </div>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="搜索机器人ID/名称">
+                    <select>
+                        <option value="">全部状态</option>
+                        <option value="active">活跃</option>
+                        <option value="inactive">停用</option>
+                    </select>
+                    <select>
+                        <option value="">全部行为</option>
+                        <option value="casual">休闲型</option>
+                        <option value="active">活跃型</option>
+                        <option value="hardcore">肝帝型</option>
+                        <option value="trader">商人型</option>
+                        <option value="pvp">竞技型</option>
+                    </select>
+                    <button class="btn btn-primary">搜索</button>
+                </div>
+                
+                <div class="panel">
+                    <div class="panel-body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>名称</th>
+                                    <th>等级</th>
+                                    <th>行为模式</th>
+                                    <th>状态</th>
+                                    <th>在线</th>
+                                    <th>今日行动</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>机器人_1</td>
+                                    <td>45</td>
+                                    <td><span class="badge badge-info">活跃型</span></td>
+                                    <td><span class="badge badge-success">活跃</span></td>
+                                    <td><span class="badge badge-success">在线</span></td>
+                                    <td>42</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">详情</button>
+                                        <button class="btn btn-sm btn-success">上线</button>
+                                        <button class="btn btn-sm btn-danger">删除</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>机器人_2</td>
+                                    <td>78</td>
+                                    <td><span class="badge badge-warning">肝帝型</span></td>
+                                    <td><span class="badge badge-success">活跃</span></td>
+                                    <td><span class="badge badge-danger">离线</span></td>
+                                    <td>0</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">详情</button>
+                                        <button class="btn btn-sm btn-success">上线</button>
+                                        <button class="btn btn-sm btn-danger">删除</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <button>上一页</button>
+                            <button class="active">1</button>
+                            <button>2</button>
+                            <button>3</button>
+                            <button>下一页</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="logs" class="page" style="display:none;">
