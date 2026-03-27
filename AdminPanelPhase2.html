@@ -317,6 +317,9 @@
                 <li onclick="showPage('robots')">
                     <i>🤖</i><span>机器人</span>
                 </li>
+                <li onclick="showPage('recharge')">
+                    <i>💎</i><span>充值管理</span>
+                </li>
                 <li onclick="showPage('logs')">
                     <i>📝</i><span>系统日志</span>
                 </li>
@@ -647,6 +650,118 @@
                             <button>3</button>
                             <button>下一页</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 充值管理 -->
+            <div id="recharge" class="page" style="display:none;">
+                <div class="header">
+                    <h2>💎 充值管理</h2>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>今日充值</h3>
+                        <div class="value">¥25,800</div>
+                        <div class="change up">↑ 12% 较昨日</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>累计充值</h3>
+                        <div class="value">¥1,250,000</div>
+                        <div class="change up">总流水</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>今日订单</h3>
+                        <div class="value">156</div>
+                        <div class="change">98% 成功率</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>VIP用户</h3>
+                        <div class="value">320</div>
+                        <div class="change">占总数 25%</div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">充值订单</span>
+                        <div>
+                            <select>
+                                <option value="">全部状态</option>
+                                <option value="pending">待支付</option>
+                                <option value="paid">已支付</option>
+                                <option value="refunded">已退款</option>
+                            </select>
+                            <button class="btn btn-primary">导出</button>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>订单号</th>
+                                    <th>用户ID</th>
+                                    <th>档位</th>
+                                    <th>金额</th>
+                                    <th>元宝</th>
+                                    <th>状态</th>
+                                    <th>时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ORD123456</td>
+                                    <td>1001</td>
+                                    <td>648元</td>
+                                    <td>¥648</td>
+                                    <td>8424</td>
+                                    <td><span class="badge badge-success">已支付</span></td>
+                                    <td>2026-03-27 10:30</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">详情</button>
+                                        <button class="btn btn-sm btn-danger">退款</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">VIP配置</span>
+                        <button class="btn btn-primary">修改配置</button>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>VIP等级</th>
+                                    <th>名称</th>
+                                    <th>累计充值</th>
+                                    <th>特权</th>
+                                    <th>用户数</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>VIP1</td>
+                                    <td>青铜VIP</td>
+                                    <td>¥6</td>
+                                    <td>每日礼包、经验加成5%</td>
+                                    <td>150</td>
+                                </tr>
+                                <tr>
+                                    <td>VIP5</td>
+                                    <td>钻石VIP</td>
+                                    <td>¥1000</td>
+                                    <td>专属称号、交易免税、专属客服</td>
+                                    <td>25</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
