@@ -1,7 +1,7 @@
 import { _decorator, Component, director } from 'cc';
 const { ccclass, property } = _decorator;
 
-// 导入所有系统
+// 导入所有系统（21个）
 import { LevelSystem99 } from './LevelSystem99';
 import { TwelveDomainsSystem } from './TwelveDomainsSystem';
 import { CombatSystem } from './CombatSystem';
@@ -10,16 +10,27 @@ import { SectSystem } from './SectSystem';
 import { MentorSystem } from './MentorSystem';
 import { MarketSystem } from './MarketSystem';
 import { PVPSystem } from './PVPSystem';
+import { WishTreeSystem } from './WishTreeSystem';
+import { BalanceSystem } from './BalanceSystem';
+import { AntiCheatSystem } from './AntiCheatSystem';
+import { EventSystem } from './EventSystem';
+import { PetSystem } from './PetSystem';
+import { MountSystem } from './MountSystem';
+import { InventorySystem } from './InventorySystem';
+import { SideRoomSystem } from './SideRoomSystem';
+import { DeathRebirthSystem } from './DeathRebirthSystem';
+import { SkillExtendedSystem } from './SkillExtendedSystem';
+import { SpiritContractSystem } from './SpiritContractSystem';
 
 /**
- * 财神大陆 - 第二阶段主控制器（完整版）
- * 整合所有8个核心系统
+ * 财神大陆 - 第二阶段主控制器（完全体）
+ * 整合所有21个核心系统
  */
 
 @ccclass('GameControllerPhase2')
 export class GameControllerPhase2 extends Component {
     
-    // 所有系统实例
+    // 所有系统实例（21个）
     levelSystem: LevelSystem99 = null;
     domainSystem: TwelveDomainsSystem = null;
     combatSystem: CombatSystem = null;
@@ -28,6 +39,17 @@ export class GameControllerPhase2 extends Component {
     mentorSystem: MentorSystem = null;
     marketSystem: MarketSystem = null;
     pvpSystem: PVPSystem = null;
+    wishTreeSystem: WishTreeSystem = null;
+    balanceSystem: BalanceSystem = null;
+    antiCheatSystem: AntiCheatSystem = null;
+    eventSystem: EventSystem = null;
+    petSystem: PetSystem = null;
+    mountSystem: MountSystem = null;
+    inventorySystem: InventorySystem = null;
+    sideRoomSystem: SideRoomSystem = null;
+    deathRebirthSystem: DeathRebirthSystem = null;
+    skillSystem: SkillExtendedSystem = null;
+    spiritSystem: SpiritContractSystem = null;
     
     // 玩家数据
     player: any = null;
@@ -45,7 +67,7 @@ export class GameControllerPhase2 extends Component {
         console.log('玩家当前状态:', this.getPlayerStatus());
     }
     
-    // 初始化所有系统
+    // 初始化所有系统（21个）
     initSystems(): void {
         this.levelSystem = this.node.addComponent(LevelSystem99);
         this.domainSystem = this.node.addComponent(TwelveDomainsSystem);
@@ -55,8 +77,19 @@ export class GameControllerPhase2 extends Component {
         this.mentorSystem = this.node.addComponent(MentorSystem);
         this.marketSystem = this.node.addComponent(MarketSystem);
         this.pvpSystem = this.node.addComponent(PVPSystem);
+        this.wishTreeSystem = this.node.addComponent(WishTreeSystem);
+        this.balanceSystem = this.node.addComponent(BalanceSystem);
+        this.antiCheatSystem = this.node.addComponent(AntiCheatSystem);
+        this.eventSystem = this.node.addComponent(EventSystem);
+        this.petSystem = this.node.addComponent(PetSystem);
+        this.mountSystem = this.node.addComponent(MountSystem);
+        this.inventorySystem = this.node.addComponent(InventorySystem);
+        this.sideRoomSystem = this.node.addComponent(SideRoomSystem);
+        this.deathRebirthSystem = this.node.addComponent(DeathRebirthSystem);
+        this.skillSystem = this.node.addComponent(SkillExtendedSystem);
+        this.spiritSystem = this.node.addComponent(SpiritContractSystem);
         
-        console.log('8个核心系统初始化完成');
+        console.log('21个核心系统初始化完成');
     }
     
     // 初始化玩家
