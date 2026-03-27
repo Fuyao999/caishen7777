@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>财神大陆 - 第二阶段管理后台</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            width: 220px;
+            background: #16213e;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            text-align: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #0f3460;
+            margin-bottom: 20px;
+        }
+        
+        .logo h1 {
+            font-size: 18px;
+            color: #e94560;
+        }
+        
+        .logo span {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-menu li:hover,
+        .nav-menu li.active {
+            background: #0f3460;
+            border-left-color: #e94560;
+        }
+        
+        .nav-menu i {
+            margin-right: 10px;
+            width: 20px;
+            display: inline-block;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #0f3460;
+        }
+        
+        .header h2 {
+            font-size: 24px;
+        }
+        
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #16213e;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #e94560;
+        }
+        
+        .stat-card h3 {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .stat-card .change {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .stat-card .change.up { color: #4ade80; }
+        .stat-card .change.down { color: #f87171; }
+        
+        /* 面板 */
+        .panel {
+            background: #16213e;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .panel-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #0f3460;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .panel-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .panel-body {
+            padding: 20px;
+        }
+        
+        /* 表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #0f3460;
+        }
+        
+        th {
+            color: #888;
+            font-weight: normal;
+        }
+        
+        tr:hover {
+            background: #0f3460;
+        }
+        
+        /* 按钮 */
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #e94560;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #ff6b6b;
+        }
+        
+        .btn-success {
+            background: #4ade80;
+            color: #1a1a2e;
+        }
+        
+        .btn-danger {
+            background: #f87171;
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        
+        /* 标签 */
+        .badge {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .badge-success { background: #4ade80; color: #1a1a2e; }
+        .badge-danger { background: #f87171; color: white; }
+        .badge-warning { background: #fbbf24; color: #1a1a2e; }
+        .badge-info { background: #60a5fa; color: white; }
+        
+        /* 搜索框 */
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-box input,
+        .search-box select {
+            padding: 8px 12px;
+            border: 1px solid #0f3460;
+            background: #1a1a2e;
+            color: #eee;
+            border-radius: 4px;
+        }
+        
+        .search-box input {
+            flex: 1;
+        }
+        
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 20px;
+        }
+        
+        .pagination button {
+            padding: 6px 12px;
+            border: 1px solid #0f3460;
+            background: #16213e;
+            color: #eee;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .pagination button.active,
+        .pagination button:hover {
+            background: #e94560;
+            border-color: #e94560;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+            }
+            .sidebar .logo h1,
+            .nav-menu span {
+                display: none;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>财神大陆</h1>
+                <span>第二阶段管理后台</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="active" onclick="showPage('dashboard')">
+                    <i>📊</i><span>数据概览</span>
+                </li>
+                <li onclick="showPage('users')">
+                    <i>👥</i><span>用户管理</span>
+                </li>
+                <li onclick="showPage('sects')">
+                    <i>🏛️</i><span>门派管理</span>
+                </li>
+                <li onclick="showPage('mentors')">
+                    <i>👨‍🏫</i><span>师徒管理</span>
+                </li>
+                <li onclick="showPage('trades')">
+                    <i>💰</i><span>交易管理</span>
+                </li>
+                <li onclick="showPage('pvp')">
+                    <i>⚔️</i><span>PVP管理</span>
+                </li>
+                <li onclick="showPage('events')">
+                    <i>🎉</i><span>活动管理</span>
+                </li>
+                <li onclick="showPage('anticheat')">
+                    <i>🛡️</i><span>反作弊</span>
+                </li>
+                <li onclick="showPage('logs')">
+                    <i>📝</i><span>系统日志</span>
+                </li>
+                <li onclick="showPage('settings')">
+                    <i>⚙️</i><span>系统设置</span>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 主内容 -->
+        <main class="main-content">
+            <!-- 数据概览页面 -->
+            <div id="dashboard" class="page">
+                <div class="header">
+                    <h2>📊 数据概览</h2>
+                    <div class="admin-info">
+                        <span>管理员：admin</span>
+                        <button class="btn btn-sm">退出</button>
+                    </div>
+                </div>
+
+                <!-- 统计卡片 -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>总用户数</h3>
+                        <div class="value">12,580</div>
+                        <div class="change up">↑ 5.2% 较昨日</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>今日活跃</h3>
+                        <div class="value">3,240</div>
+                        <div class="change up">↑ 8.1% 较昨日</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>当前在线</h3>
+                        <div class="value">856</div>
+                        <div class="change down">↓ 2.3% 较上小时</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>今日收入</h3>
+                        <div class="value">¥25,800</div>
+                        <div class="change up">↑ 12.5% 较昨日</div>
+                    </div>
+                </div>
+
+                <!-- 系统状态 -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">系统状态监控</span>
+                        <span class="badge badge-success">运行正常</span>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>系统模块</th>
+                                    <th>状态</th>
+                                    <th>数据量</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>等级系统</td>
+                                    <td><span class="badge badge-success">正常</span></td>
+                                    <td>12,580 用户</td>
+                                    <td><button class="btn btn-sm btn-primary">查看</button></td>
+                                </tr>
+                                <tr>
+                                    <td>十二财域</td>
+                                    <td><span class="badge badge-success">正常</span></td>
+                                    <td>12 个域</td>
+                                    <td><button class="btn btn-sm btn-primary">查看</button></td>
+                                </tr>
+                                <tr>
+                                    <td>门派系统</td>
+                                    <td><span class="badge badge-success">正常</span></td>
+                                    <td>12 门派 / 1,250 成员</td>
+                                    <td><button class="btn btn-sm btn-primary">查看</button></td>
+                                </tr>
+                                <tr>
+                                    <td>师徒系统</td>
+                                    <td><span class="badge badge-success">正常</span></td>
+                                    <td>580 对师徒</td>
+                                    <td><button class="btn btn-sm btn-primary">查看</button></td>
+                                </tr>
+                                <tr>
+                                    <td>交易市场</td>
+                                    <td><span class="badge badge-success">正常</span></td>
+                                    <td>320 摊位 / 150 拍卖</td>
+                                    <td><button class="btn btn-sm btn-primary">查看</button></td>
+                                </tr>
+                                <tr>
+                                    <td>PVP系统</td>
+                                    <td><span class="badge badge-success">正常</span></td>
+                                    <td>今日 1,520 场对战</td>
+                                    <td><button class="btn btn-sm btn-primary">查看</button></td>
+                                </tr>
+                                <tr>
+                                    <td>活动系统</td>
+                                    <td><span class="badge badge-warning">财神诞进行中</span></td>
+                                    <td>5,000 参与</td>
+                                    <td><button class="btn btn-sm btn-primary">管理</button></td>
+                                </tr>
+                                <tr>
+                                    <td>反作弊系统</td>
+                                    <td><span class="badge badge-success">正常</span></td>
+                                    <td>2 可疑 / 0 封禁</td>
+                                    <td><button class="btn btn-sm btn-primary">查看</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他页面占位 -->
+            <div id="users" class="page" style="display:none;">
+                <div class="header">
+                    <h2>👥 用户管理</h2>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="搜索用户ID/昵称/手机号">
+                    <select>
+                        <option value="">全部等级</option>
+                        <option value="1-10">1-10级</option>
+                        <option value="11-30">11-30级</option>
+                        <option value="31-60">31-60级</option>
+                        <option value="61-99">61-99级</option>
+                    </select>
+                    <select>
+                        <option value="">全部境界</option>
+                        <option>炼气期</option>
+                        <option>筑基期</option>
+                        <option>结丹期</option>
+                        <option>元婴期</option>
+                    </select>
+                    <button class="btn btn-primary">搜索</button>
+                </div>
+                <div class="panel">
+                    <div class="panel-body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>昵称</th>
+                                    <th>等级</th>
+                                    <th>境界</th>
+                                    <th>香火钱</th>
+                                    <th>元宝</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1001</td>
+                                    <td>财神小玩家</td>
+                                    <td>45</td>
+                                    <td>化神期</td>
+                                    <td>520,000</td>
+                                    <td>5,200</td>
+                                    <td><span class="badge badge-success">正常</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">详情</button>
+                                        <button class="btn btn-sm btn-danger">封禁</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1002</td>
+                                    <td>修仙大佬</td>
+                                    <td>78</td>
+                                    <td>大乘期</td>
+                                    <td>1,250,000</td>
+                                    <td>12,500</td>
+                                    <td><span class="badge badge-success">正常</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">详情</button>
+                                        <button class="btn btn-sm btn-danger">封禁</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <button>上一页</button>
+                            <button class="active">1</button>
+                            <button>2</button>
+                            <button>3</button>
+                            <button>下一页</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他页面简略展示 -->
+            <div id="sects" class="page" style="display:none;">
+                <div class="header"><h2>🏛️ 门派管理</h2></div>
+                <div class="panel"><div class="panel-body">门派管理内容</div></div>
+            </div>
+
+            <div id="mentors" class="page" style="display:none;">
+                <div class="header"><h2>👨‍🏫 师徒管理</h2></div>
+                <div class="panel"><div class="panel-body">师徒管理内容</div></div>
+            </div>
+
+            <div id="trades" class="page" style="display:none;">
+                <div class="header"><h2>💰 交易管理</h2></div>
+                <div class="panel"><div class="panel-body">交易管理内容</div></div>
+            </div>
+
+            <div id="pvp" class="page" style="display:none;">
+                <div class="header"><h2>⚔️ PVP管理</h2></div>
+                <div class="panel"><div class="panel-body">PVP管理内容</div></div>
+            </div>
+
+            <div id="events" class="page" style="display:none;">
+                <div class="header"><h2>🎉 活动管理</h2></div>
+                <div class="panel"><div class="panel-body">活动管理内容</div></div>
+            </div>
+
+            <div id="anticheat" class="page" style="display:none;">
+                <div class="header"><h2>🛡️ 反作弊</h2></div>
+                <div class="panel"><div class="panel-body">反作弊内容</div></div>
+            </div>
+
+            <div id="logs" class="page" style="display:none;">
+                <div class="header"><h2>📝 系统日志</h2></div>
+                <div class="panel"><div class="panel-body">系统日志内容</div></div>
+            </div>
+
+            <div id="settings" class="page" style="display:none;">
+                <div class="header"><h2>⚙️ 系统设置</h2></div>
+                <div class="panel"><div class="panel-body">系统设置内容</div></div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 页面切换
+        function showPage(pageName) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // 显示选中页面
+            document.getElementById(pageName).style.display = 'block';
+            
+            // 更新导航状态
+            document.querySelectorAll('.nav-menu li').forEach(li => {
+                li.classList.remove('active');
+            });
+            event.target.closest('li').classList.add('active');
+        }
+    </</script>
+</body>
+</html>
