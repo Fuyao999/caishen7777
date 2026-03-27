@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>财神大陆 - V18完整版</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: white; padding: 15px; }
+        .container { max-width: 950px; margin: 0 auto; }
+        h1 { text-align: center; font-size: 36px; margin-bottom: 15px; color: #FFD700; }
+        .stats { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; margin-bottom: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .stat-item { text-align: center; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 8px; }
+        .stat-value { font-size: 16px; font-weight: bold; color: #FFD700; }
+        .stat-label { font-size: 10px; opacity: 0.8; }
+        .buff-bar { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; margin-bottom: 12px; font-size: 12px; }
+        .section { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+        .section h2 { color: #FFD700; margin-bottom: 12px; font-size: 18px; }
+        .btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 3px; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-gold { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #8B0000; font-weight: bold; }
+        .btn-shop { background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); }
+        .hidden { display: none; }
+        .nav { display: flex; justify-content: center; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+        .nav-btn { background: rgba(255,255,255,0.1); border: 2px solid transparent; padding: 8px 16px; font-size: 13px; }
+        .nav-btn.active { border-color: #FFD700; background: rgba(255,215,0,0.2); }
+        .log { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 10px; margin-top: 10px; min-height: 100px; max-height: 350px; overflow-y: auto; font-size: 12px; }
+        .log-item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 16px; max-width: 400px; text-align: center; border: 3px solid #FFD700; }
+        .modal h2 { color: #FFD700; margin-bottom: 20px; font-size: 24px; }
+        .shengxiao-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+        .shengxiao-item { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
+        .shengxiao-item:hover { border-color: #FFD700; }
+        .shop-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin: 10px 0; display: flex; justify-content: space-between; align-items: center; }
+        .bushu-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+        .bushu-btn { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; cursor: pointer; text-align: center; border: 2px solid transparent; }
+        .bushu-btn:hover { border-color: #FFD700; }
+        .offline-reward { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #8B0000; padding: 20px; border-radius: 12px; text-align: center; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <!-- 生辰选择弹窗 -->
+    <div id="shengxiao-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>🐭 请选择您的生辰时辰</h2>
+            <p style="font-size: 12px; margin-bottom: 20px;">在您的时辰内登录，全属性+20%！</p>
+            <div class="shengxiao-list" id="shengxiao-list"></div>
+        </div>
+    </div>
+
+    <!-- 开财门弹窗 -->
+    <div id="kaimen-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2 id="kaimen-title">🚪 开财门</h2>
+            <div id="kaimen-content"></div>
+            <button class="btn btn-gold" onclick="closeKaimen()" style="margin-top: 20px;">💰 领取奖励</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>🏮 财神大陆 V18</h1>
+        
+        <div class="stats">
+            <div class="stat-item"><div class="stat-value" id="money">0</div><div class="stat-label">香火钱</div></div>
+            <div class="stat-item"><div class="stat-value" id="merit">0</div><div class="stat-label">功德</div></div>
+            <div class="stat-item"><div class="stat-value" id="fragments">0</div><div class="stat-label">碎片</div></div>
+            <div class="stat-item"><div class="stat-value" id="banners">0</div><div class="stat-label">招财幡</div></div>
+            <div class="stat-item"><div class="stat-value" id="mana">100</div><div class="stat-label">法力</div></div>
+            <div class="stat-item"><div class="stat-value" id="level">1</div><div class="stat-label">庙宇等级</div></div>
+            <div class="stat-item"><div class="stat-value" id="yuanbao">0</div><div class="stat-label">元宝</div></div>
+            <div class="stat-item"><div class="stat-value" id="login-days">1</div><div class="stat-label">连续登录</div></div>
+        </div>
+
+        <div class="buff-bar">
+            <strong>🙏 当前状态：</strong>
+            <span id="status-text">加载中...</span>
+            <div style="margin-top: 5px; font-size: 11px;">
+                时辰：<span id="current-shengxiao">未选择</span> | 
+                护盾：<span id="shield-status">无</span> | 
+                今日被化缘：<span id="be-alms-count">0</span>/3次
+            </div>
+        </div>
+
+        <div class="nav">
+            <button class="btn nav-btn active" onclick="showSection('temple')">🏛️ 庙宇</button>
+            <button class="btn nav-btn" onclick="showSection('alms')">🚶 化缘</button>
+            <button class="btn nav-btn" onclick="showSection('shop')">🛒 商城</button>
+            <button class="btn nav-btn" onclick="showSection('bushu')">🙏 布施</button>
+            <button class="btn nav-btn" onclick="showSection('upgrade')">⬆️ 升级</button>
+        </div>
+
+        <!-- 庙宇 -->
+        <div id="temple-section" class="section">
+            <h2>🏛️ 我的庙宇</h2>
+            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <div style="font-size: 18px; color: #FFD700; margin-bottom: 10px;">
+                    <span id="stage-name">泥胎</span> Lv.<span id="temple-level">1</span>
+                </div>
+                <div style="font-size: 12px; line-height: 1.8;">
+                    24h产出：<span id="output-24h">2400</span> | 
+                    存储上限：<span id="storage-cap">5000</span> | 
+                    当前存储：<span id="current-storage">0</span><br>
+                    修缮金：<span id="repair-cost">10</span>/小时 | 
+                    自动续香：<span id="auto-incense">已开启</span>
+                </div>
+            </div>
+            
+            <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                <strong>📦 库存：</strong>
+                线香:<span id="mat-incense-count">0</span> | 
+                蜡烛:<span id="mat-candle-count">0</span> | 
+                金纸:<span id="mat-paper-count">0</span> | 
+                供果:<span id="mat-fruit-count">0</span>
+            </div>
+
+            <h3 style="color: #FFD700; margin: 15px 0;">供奉财神</h3>
+            <div class="god-list" id="god-list"></div>
+            
+            <div style="text-align: center; margin: 15px 0;">
+                <button class="btn" onclick="worship()">🙏 供奉</button>
+                <button class="btn btn-gold" onclick="composeBanner()">🔨 合成招财幡(4碎片)</button>
+            </div>
+            <div class="log" id="temple-log"></div>
+        </div>
+
+        <!-- 化缘 -->
+        <div id="alms-section" class="section hidden">
+            <h2>🚶 外出化缘</h2>
+            <p style="font-size: 12px; color: #ccc; margin-bottom: 10px;">
+                每次消耗5点法力 | 今日化缘：<span id="alms-count">0</span>/50次 | 
+                大吉：<span id="great-count">0</span>次
+            </p>
+            <div class="region-list" id="region-list"></div>
+            <div class="log" id="alms-log"></div>
+        </div>
+
+        <!-- 商城 -->
+        <div id="shop-section" class="section hidden">
+            <h2>🛒 商城</h2>
+            <div id="shop-items"></div>
+        </div>
+
+        <!-- 布施 -->
+        <div id="bushu-section" class="section hidden">
+            <h2>🙏 功德布施</h2>
+            <p style="font-size: 12px; color: #ccc; margin-bottom: 15px;">
+                布施可获得功德值（只增不减），功德用于升级门槛
+            </p>
+            <div class="bushu-options">
+                <div class="bushu-btn" onclick="doBushu('small')">
+                    <div style="font-size: 16px; font-weight: bold;">小布施</div>
+                    <div style="font-size: 12px;">1000香火钱</div>
+                    <div style="font-size: 14px; color: #FFD700;">+10功德</div>
+                    <div style="font-size: 10px;">每日10次</div>
+                </div>
+                <div class="bushu-btn" onclick="doBushu('medium')">
+                    <div style="font-size: 16px; font-weight: bold;">中布施</div>
+                    <div style="font-size: 12px;">5000香火钱</div>
+                    <div style="font-size: 14px; color: #FFD700;">+50功德</div>
+                    <div style="font-size: 10px;">每日3次</div>
+                </div>
+                <div class="bushu-btn" onclick="doBushu('large')">
+                    <div style="font-size: 16px; font-weight: bold;">大布施</div>
+                    <div style="font-size: 12px;">30000香火钱</div>
+                    <div style="font-size: 14px; color: #FFD700;">+300功德</div>
+                    <div style="font-size: 10px;">每日1次</div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 15px; font-size: 12px;">
+                今日已小布施：<span id="bushu-small">0</span>/10 | 
+                中布施：<span id="bushu-medium">0</span>/3 | 
+                大布施：<span id="bushu-large">0</span>/1
+            </div>
+            <div class="log" id="bushu-log"></div>
+        </div>
+
+        <!-- 升级 -->
+        <div id="upgrade-section" class="section hidden">
+            <h2>⬆️ 庙宇升级</h2>
+            <div id="upgrade-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== 游戏数据 ====================
+        const gameData = {
+            // 基础数据
+            level: 1,
+            stage: 'clay',
+            incense_money: 2400,
+            yuanbao: 0,
+            merit: 0,
+            fragments: 0,
+            mana: 100,
+            banners: 0,
+            
+            // 供奉材料
+            incense_sticks: 3,
+            candles: 1,
+            gold_paper: 0,
+            fruits: 0,
+            
+            // 统计
+            almsCount: 0,
+            almsCritCount: 0,
+            worshipCount: 0,
+            greatCount: 0,
+            firstWorshipDone: false,
+            hasGreatLuck: false,
+            
+            // 登录相关
+            lastLoginTime: null,
+            loginDays: 1,
+            consecutiveDays: 1,
+            todayLogin: false,
+            
+            // 时辰
+            shengxiao: null, // 玩家选择的时辰
+            
+            // 护盾
+            beAlmsCount: 0, // 今日被化缘次数
+            shieldActive: false,
+            shieldEndTime: null,
+            
+            // 布施
+            bushuSmall: 0,
+            bushuMedium: 0,
+            bushuLarge: 0,
+            
+            // 庙宇产出相关
+            lastUpdateTime: Date.now(),
+            accumulatedMoney: 0,
+            currentIncense: { type: 'normal', endTime: null }, // 当前燃烧的香
+            incenseQueue: [] // 待燃烧的香队列
+        };
+
+        // 9财神
+        const gods = [
+            { id: 'tudigong', name: '土地公', title: '福德正神', effect: '香火钱+10%', type: 'money', bonus: 0.10, unlocked: true },
+            { id: 'guanyu', name: '关羽', title: '武财神', effect: '化缘收益+15%', type: 'alms', bonus: 0.15, unlocked: true },
+            { id: 'yaoshaosi', name: '姚少司', title: '北路利市仙官', effect: '暴击率+5%', type: 'crit', bonus: 0.05, unlocked: false, unlockAlms: 20 },
+            { id: 'chenjiugong', name: '陈九公', title: '东路招财使者', effect: '香火钱上限+500', type: 'cap', bonus: 500, unlocked: false, unlockMoney: 3000 },
+            { id: 'fanli', name: '范蠡', title: '东南财神', effect: '碎片获取+20%', type: 'fragment', bonus: 0.20, unlocked: false, unlockMerit: 100 },
+            { id: 'caobao', name: '曹宝', title: '南路招宝天尊', effect: '化缘风险-10%', type: 'risk', bonus: -0.10, unlocked: false, unlockGreatNum: 3, unlockWorshipTotal: 100, unlockMeritReq: 5000 },
+            { id: 'liuhai', name: '刘海', title: '偏财神', effect: '每日首供双倍', type: 'daily', bonus: 0, unlocked: false, unlockGreat: true },
+            { id: 'xiaosheng', name: '萧升', title: '西路纳珍天尊', effect: '供奉功德+10%', type: 'merit', bonus: 0.10, unlocked: false, unlockWorship: 50 },
+            { id: 'zhaogongming', name: '赵公明', title: '正财神', effect: '香火钱+25%', type: 'money', bonus: 0.25, unlocked: false, unlockAll: true, unlockMoneyCost: 500000 }
+        ];
+
+        // 庙宇数据
+        const templeData = {
+            1: { output: 2400, storage: 5000, repair: 10, stage: '泥胎' },
+            2: { output: 4320, storage: 10000, repair: 20, stage: '泥胎' },
+            3: { output: 6000, storage: 18000, repair: 30, stage: '木骨' },
+            4: { output: 8000, storage: 30000, repair: 40, stage: '铜身' },
+            5: { output: 10000, storage: 50000, repair: 50, stage: '金身' }
+        };
+
+        // 十二时辰
+        const shengxiaoList = [
+            { id: 'zi', name: '子时', time: '23:00-01:00', bonus: '财运+20%' },
+            { id: 'chou', name: '丑时', time: '01:00-03:00', bonus: '功德+20%' },
+            { id: 'yin', name: '寅时', time: '03:00-05:00', bonus: '法力+20%' },
+            { id: 'mao', name: '卯时', time: '05:00-07:00', bonus: '善缘+20%' },
+            { id: 'chen', name: '辰时', time: '07:00-09:00', bonus: '香火+15%' },
+            { id: 'si', name: '巳时', time: '09:00-11:00', bonus: '声望+20%' },
+            { id: 'wu', name: '午时', time: '11:00-13:00', bonus: '全属性+10%' },
+            { id: 'wei', name: '未时', time: '13:00-15:00', bonus: '碎片+20%' },
+            { id: 'shen', name: '申时', time: '15:00-17:00', bonus: '合成+20%' },
+            { id: 'you', name: '酉时', time: '17:00-19:00', bonus: '化缘+20%' },
+            { id: 'xu', name: '戌时', time: '19:00-21:00', bonus: '信徒+20%' },
+            { id: 'hai', name: '亥时', time: '21:00-23:00', bonus: '离线+20%' }
+        ];
+
+        // 100个小故事（简化版，展示结构）
+        const StoryEvents = [
+            { title: '装死骗钱', begin: '你假装晕倒在地上，想博人同情骗点钱。', process: '棺材铺老板刚好路过，他以为你死了，兴奋地拿出绳子要把你拖走直接埋了！', results: { great: { text: '你突然打了个喷嚏，老板吓得魂飞魄散，跪地磕头献钱！', multiplier: 2.5 }, good: { text: '你及时醒来，老板尴尬地给了压惊钱。', multiplier: 1.6 }, normal: { text: '你挣扎解释，老板给了几个铜板。', multiplier: 1.0 }, fair: { text: '他骂骂咧咧地走了。', multiplier: 0.5 }, bad: { text: '他真的把你埋了半截，你爬出来时受了伤。', loss: 0.15 }, terrible: { text: '他把你装进棺材抬去乱葬岗，你花光所有钱才逃出来！', loss: 0.35 } } },
+            // ... 更多故事
+        ];
+
+        // 初始化
+        function init() {
+            checkFirstTime();
+            renderGods();
+            renderShop();
+            renderRegions();
+            renderShengxiao();
+            startGameLoop();
+            updateUI();
+        }
+
+        // 检查首次登录
+        function checkFirstTime() {
+            const saved = localStorage.getItem('caishen_game_v18');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.assign(gameData, data);
+                checkOfflineReward();
+            } else {
+                // 首次登录，显示时辰选择
+                showShengxiaoModal();
+            }
+            
+            // 检查今日登录
+            const today = new Date().toDateString();
+            if (gameData.lastLoginTime !== today) {
+                gameData.todayLogin = false;
+                resetDailyData();
+            }
+            
+            if (!gameData.todayLogin) {
+                showKaimen();
+            }
+        }
+
+        // 显示时辰选择
+        function showShengxiaoModal() {
+            document.getElementById('shengxiao-modal').style.display = 'flex';
+        }
+
+        // 渲染时辰列表
+        function renderShengxiao() {
+            const container = document.getElementById('shengxiao-list');
+            container.innerHTML = shengxiaoList.map(sx => `
+                <div class="shengxiao-item" onclick="selectShengxiao('${sx.id}')">
+                    <div style="font-weight: bold;">${sx.name}</div>
+                    <div style="font-size: 10px;">${sx.time}</div>
+                    <div style="font-size: 11px; color: #FFD700;">${sx.bonus}</div>
+                </div>
+            `).join('');
+        }
+
+        // 选择时辰
+        function selectShengxiao(id) {
+            gameData.shengxiao = id;
+            document.getElementById('shengxiao-modal').style.display = 'none';
+            const sx = shengxiaoList.find(s => s.id === id);
+            document.getElementById('current-shengxiao').textContent = sx.name;
+            saveGame();
+            showKaimen();
+        }
+
+        // 显示开财门
+        function showKaimen() {
+            if (gameData.todayLogin) return;
+            
+            gameData.todayLogin = true;
+            gameData.lastLoginTime = new Date().toDateString();
+            
+            // 计算连续登录
+            // ...
+            
+            // 登录奖励
+            let rewardMoney = 500;
+            let rewardFragments = 3;
+            let rewardMerit = 1;
+            
+            // 时辰加成
+            if (isInShengxiao()) {
+                rewardMoney *= 2;
+                rewardFragments *= 2;
+                rewardMerit *= 2;
+            }
+            
+            gameData.incense_money += rewardMoney;
+            gameData.fragments += rewardFragments;
+            gameData.merit += rewardMerit;
+            
+            document.getElementById('kaimen-title').textContent = isInShengxiao() ? '🌟 时辰契合！开财门 🌟' : '🚪 开财门';
+            document.getElementById('kaimen-content').innerHTML = `
+                <p>朱红大门缓缓开启，财神赐福！</p>
+                <div style="margin: 20px 0; font-size: 18px;">
+                    💰 香火钱 +${rewardMoney}<br>
+                    🔷 碎片 +${rewardFragments}<br>
+                    ⭐ 功德 +${rewardMerit}
+                </div>
+                ${isInShengxiao() ? '<p style="color: #FFD700;">✨ 时辰契合，奖励翻倍！</p>' : ''}
+                <p style="font-size: 12px;">连续登录 ${gameData.consecutiveDays} 天</p>
+            `;
+            
+            document.getElementById('kaimen-modal').style.display = 'flex';
+            saveGame();
+        }
+
+        // 关闭开财门
+        function closeKaimen() {
+            document.getElementById('kaimen-modal').style.display = 'none';
+        }
+
+        // 检查是否在时辰内
+        function isInShengxiao() {
+            if (!gameData.shengxiao) return false;
+            const hour = new Date().getHours();
+            const sxHours = {
+                'zi': [23, 0], 'chou': [1, 2], 'yin': [3, 4], 'mao': [5, 6],
+                'chen': [7, 8], 'si': [9, 10], 'wu': [11, 12], 'wei': [13, 14],
+                'shen': [15, 16], 'you': [17, 18], 'xu': [19, 20], 'hai': [21, 22]
+            };
+            const [start, end] = sxHours[gameData.shengxiao];
+            return hour === start || hour === end;
+        }
+
+        // 检查离线奖励
+        function checkOfflineReward() {
+            const now = Date.now();
+            const offline = now - gameData.lastUpdateTime;
+            const hours = Math.floor(offline / 3600000);
+            
+            if (hours > 0) {
+                const temple = templeData[gameData.level];
+                let offlineMoney = Math.min(temple.output / 24 * hours, temple.storage - gameData.incense_money);
+                
+                if (isInShengxiao()) {
+                    offlineMoney *= 1.2;
+                }
+                
+                gameData.incense_money += Math.floor(offlineMoney);
+            }
+        }
+
+        // 游戏主循环
+        function startGameLoop() {
+            setInterval(() => {
+                updateTempleOutput();
+                checkUnlocks();
+                updateUI();
+                saveGame();
+            }, 1000);
+        }
+
+        // 更新庙宇产出
+        function updateTempleOutput() {
+            const temple = templeData[gameData.level];
+            const now = Date.now();
+            const elapsed = (now - gameData.lastUpdateTime) / 1000;
+            
+            // 修缮金扣除（每小时）
+            const repairCost = temple.repair * (elapsed / 3600);
+            gameData.incense_money = Math.max(0, gameData.incense_money - repairCost);
+            
+            // 香火产出（需要有香在燃烧）
+            if (hasIncense()) {
+                const output = temple.output / 86400 * elapsed;
+                gameData.accumulatedMoney += output;
+                
+                // 自动收取到存储
+                if (gameData.accumulatedMoney >= 1) {
+                    const addMoney = Math.floor(gameData.accumulatedMoney);
+                    gameData.incense_money = Math.min(gameData.incense_money + addMoney, temple.storage);
+                    gameData.accumulatedMoney -= addMoney;
+                }
+                
+                // 检查香是否烧完，自动续香
+                checkIncenseBurn();
+            }
+            
+            // 法力恢复（每10秒10点）
+            if (gameData.mana < 100) {
+                gameData.mana = Math.min(100, gameData.mana + 10 * (elapsed / 10));
+            }
+            
+            // 护盾检查
+            if (gameData.shieldActive && now > gameData.shieldEndTime) {
+                gameData.shieldActive = false;
+                gameData.beAlmsCount = 0;
+            }
+            
+            gameData.lastUpdateTime = now;
+        }
+
+        // 检查是否有香在燃烧
+        function hasIncense() {
+            return gameData.currentIncense.endTime && Date.now() < gameData.currentIncense.endTime;
+        }
+
+        // 检查香燃烧状态，自动续香
+        function checkIncenseBurn() {
+            const now = Date.now();
+            
+            // 当前香烧完了
+            if (gameData.currentIncense.endTime && now >= gameData.currentIncense.endTime) {
+                // 尝试从库存续香
+                if (gameData.incense_sticks > 0) {
+                    gameData.incense_sticks--;
+                    gameData.currentIncense = { type: 'normal', endTime: now + 2 * 3600 * 1000 };
+                    log('temple-log', '📿 自动续香：普通香（库存-1）', 'event-good');
+                } else if (gameData.candles > 0) {
+                    gameData.candles--;
+                    gameData.currentIncense = { type: 'candle', endTime: now + 4 * 3600 * 1000 };
+                    log('temple-log', '🕯️ 自动续香：蜡烛（库存-1）', 'event-good');
+                } else {
+                    gameData.currentIncense = { type: null, endTime: null };
+                    log('temple-log', '⚠️ 香火已尽，庙宇停止产出！', 'event-bad');
+                }
+            } else if (!gameData.currentIncense.endTime) {
+                // 初始点燃
+                if (gameData.incense_sticks > 0) {
+                    gameData.incense_sticks--;
+                    gameData.currentIncense = { type: 'normal', endTime: now + 2 * 3600 * 1000 };
+                }
+            }
+        }
+
+        // 渲染商城
+        function renderShop() {
+            const items = [
+                { id: 'incense', name: '📿 普通香', desc: '燃烧2小时，基础产出', price: 100, type: 'money' },
+                { id: 'candle', name: '🕯️ 蜡烛', desc: '燃烧4小时，产出+10%', price: 300, type: 'money' },
+                { id: 'paper', name: '📜 金纸', desc: '燃烧5小时，供奉用', price: 500, type: 'money' },
+                { id: 'fruit', name: '🍎 供果', desc: '供奉用，功德+10%', price: 1000, type: 'money' },
+                { id: 'mana', name: '💊 法力恢复丹', desc: '立即恢复50点法力', price: 20, type: 'yuanbao' },
+                { id: 'shield', name: '🛡️ 保护符', desc: '24小时不被化缘', price: 30, type: 'yuanbao' }
+            ];
+            
+            document.getElementById('shop-items').innerHTML = items.map(item => `
+                <div class="shop-item">
+                    <div>
+                        <div style="font-weight: bold;">${item.name}</div>
+                        <div style="font-size: 11px; color: #ccc;">${item.desc}</div>
+                    </div>
+                    <button class="btn btn-shop" onclick="buyItem('${item.id}', ${item.price}, '${item.type}')">
+                        ${item.price}${item.type === 'money' ? '香火钱' : '元宝'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // 购买物品
+        function buyItem(id, price, type) {
+            if (type === 'money') {
+                if (gameData.incense_money < price) {
+                    alert('香火钱不足！');
+                    return;
+                }
+                gameData.incense_money -= price;
+            } else {
+                if (gameData.yuanbao < price) {
+                    alert('元宝不足！');
+                    return;
+                }
+                gameData.yuanbao -= price;
+            }
+            
+            switch(id) {
+                case 'incense': gameData.incense_sticks++; break;
+                case 'candle': gameData.candles++; break;
+                case 'paper': gameData.gold_paper++; break;
+                case 'fruit': gameData.fruits++; break;
+                case 'mana': gameData.mana = Math.min(100, gameData.mana + 50); break;
+                case 'shield': 
+                    gameData.shieldActive = true;
+                    gameData.shieldEndTime = Date.now() + 24 * 3600 * 1000;
+                    break;
+            }
+            
+            updateUI();
+            saveGame();
+        }
+
+        // 布施
+        function doBushu(type) {
+            const costs = { small: 1000, medium: 5000, large: 30000 };
+            const merits = { small: 10, medium: 50, large: 300 };
+            const limits = { small: 10, medium: 3, large: 1 };
+            const counts = { small: 'bushuSmall', medium: 'bushuMedium', large: 'bushuLarge' };
+            
+            if (gameData[counts[type]] >= limits[type]) {
+                alert('今日次数已用完！');
+                return;
+            }
+            
+            if (gameData.incense_money < costs[type]) {
+                alert('香火钱不足！');
+                return;
+            }
+            
+            gameData.incense_money -= costs[type];
+            gameData.merit += merits[type];
+            gameData[counts[type]]++;
+            
+            log('bushu-log', `🙏 ${type === 'small' ? '小' : type === 'medium' ? '中' : '大'}布施：-${costs[type]}香火钱 +${merits[type]}功德`, 'event-good');
+            updateUI();
+        }
+
+        // 渲染地区
+        function renderRegions() {
+            // ... 化缘地区渲染
+        }
+
+        // 渲染财神
+        function renderGods() {
+            // ... 财神列表渲染
+        }
+
+        // 供奉
+        function worship() {
+            // ... 供奉逻辑
+        }
+
+        // 合成招财幡
+        function composeBanner() {
+            if (gameData.fragments < 4) {
+                alert('碎片不足！需要4个碎片');
+                return;
+            }
+            gameData.fragments -= 4;
+            gameData.banners++;
+            updateUI();
+        }
+
+        // 解锁检测
+        function checkUnlocks() {
+            // ... 解锁逻辑
+        }
+
+        // 更新UI
+        function updateUI() {
+            document.getElementById('money').textContent = Math.floor(gameData.incense_money);
+            document.getElementById('merit').textContent = gameData.merit;
+            document.getElementById('fragments').textContent = gameData.fragments;
+            document.getElementById('banners').textContent = gameData.banners;
+            document.getElementById('mana').textContent = Math.floor(gameData.mana);
+            document.getElementById('level').textContent = gameData.level;
+            document.getElementById('yuanbao').textContent = gameData.yuanbao;
+            document.getElementById('login-days').textContent = gameData.consecutiveDays;
+            
+            // 庙宇数据
+            const temple = templeData[gameData.level];
+            document.getElementById('stage-name').textContent = temple.stage;
+            document.getElementById('temple-level').textContent = gameData.level;
+            document.getElementById('output-24h').textContent = temple.output;
+            document.getElementById('storage-cap').textContent = temple.storage;
+            document.getElementById('current-storage').textContent = Math.floor(gameData.incense_money);
+            document.getElementById('repair-cost').textContent = temple.repair;
+            
+            // 材料
+            document.getElementById('mat-incense-count').textContent = gameData.incense_sticks;
+            document.getElementById('mat-candle-count').textContent = gameData.candles;
+            document.getElementById('mat-paper-count').textContent = gameData.gold_paper;
+            document.getElementById('mat-fruit-count').textContent = gameData.fruits;
+            
+            // 状态
+            document.getElementById('be-alms-count').textContent = gameData.beAlmsCount;
+            document.getElementById('shield-status').textContent = gameData.shieldActive ? '🛡️ 保护中' : '无';
+            
+            // 布施
+            document.getElementById('bushu-small').textContent = gameData.bushuSmall;
+            document.getElementById('bushu-medium').textContent = gameData.bushuMedium;
+            document.getElementById('bushu-large').textContent = gameData.bushuLarge;
+        }
+
+        // 切换页面
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(section + '-section').classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+
+        // 日志
+        function log(containerId, html, className) {
+            const container = document.getElementById(containerId);
+            const item = document.createElement('div');
+            item.className = 'log-item ' + className;
+            item.innerHTML = html;
+            container.insertBefore(item, container.firstChild);
+            while (container.children.length > 20) container.removeChild(container.lastChild);
+        }
+
+        // 保存游戏
+        function saveGame() {
+            localStorage.setItem('caishen_game_v18', JSON.stringify(gameData));
+        }
+
+        // 重置每日数据
+        function resetDailyData() {
+            gameData.almsCount = 0;
+            gameData.bushuSmall = 0;
+            gameData.bushuMedium = 0;
+            gameData.bushuLarge = 0;
+            gameData.beAlmsCount = 0;
+        }
+
+        // 启动
+        init();
+    </script>
+</body>
+</html>

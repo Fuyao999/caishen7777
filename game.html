@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>财神大陆 - 完整版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: #FFD700;
+        }
+        .stats {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        .section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 5px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .god-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .god-item {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .god-item:hover {
+            border-color: #FFD700;
+        }
+        .god-item.selected {
+            border-color: #FFD700;
+            background: rgba(255,215,0,0.2);
+        }
+        .god-name {
+            font-weight: bold;
+            color: #FFD700;
+        }
+        .god-effect {
+            font-size: 12px;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+        .region-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .region-item {
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .region-item:hover {
+            background: rgba(0,0,0,0.3);
+        }
+        .region-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .region-risk {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .region-reward {
+            font-size: 14px;
+            color: #FFD700;
+            margin-top: 5px;
+        }
+        .log {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            min-height: 100px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .log-item {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+        }
+        .log-item:last-child {
+            border-bottom: none;
+        }
+        .upgrade-section {
+            text-align: center;
+            padding: 20px;
+        }
+        .current-stage {
+            font-size: 32px;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+        .upgrade-requirement {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .upgrade-btn {
+            background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+            font-size: 20px;
+            padding: 20px 40px;
+        }
+        .hidden {
+            display: none;
+        }
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            padding: 10px 20px;
+        }
+        .nav-btn.active {
+            border-color: #FFD700;
+            background: rgba(255,215,0,0.2);
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 32px; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .god-list { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏮 财神大陆</h1>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="money">1000</div>
+                <div class="stat-label">香火钱</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="merit">0</div>
+                <div class="stat-label">功德</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="mana">100</div>
+                <div class="stat-label">法力</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="level">1</div>
+                <div class="stat-label">等级</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="stage">泥胎</div>
+                <div class="stat-label">阶段</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="yuanbao">100</div>
+                <div class="stat-label">元宝</div>
+            </div>
+        </div>
+        
+        <div class="nav">
+            <button class="btn nav-btn active" onclick="showSection('temple')">🏛️ 庙宇</button>
+            <button class="btn nav-btn" onclick="showSection('alms')">🚶 化缘</button>
+            <button class="btn nav-btn" onclick="showSection('upgrade')">⬆️ 升级</button>
+        </div>
+        
+        <div id="temple-section" class="section">
+            <h2>供奉财神</h2>
+            <p>选择财神供奉，获得香火钱和功德</p>
+            <div style="margin: 10px 0;">
+                <span>线香: <span id="incense-sticks">10</span></span> | 
+                <span>蜡烛: <span id="candles">5</span></span> | 
+                <span>金纸: <span id="gold-paper">3</span></span> | 
+                <span>供果: <span id="fruits">2</span></span>
+            </div>
+            <div class="god-list" id="god-list"></div>
+            <div class="log" id="temple-log"></div>
+        </div>
+        
+        <div id="alms-section" class="section hidden">
+            <h2>外出化缘</h2>
+            <p>选择地区化缘，获取香火钱（有风险）</p>
+            <div class="region-list">
+                <div class="region-item" onclick="goAlms('east')">
+                    <div class="region-name">东</div>
+                    <div class="region-risk">风险: 低 (10%)</div>
+                    <div class="region-reward">收益: 100±</div>
+                </div>
+                <div class="region-item" onclick="goAlms('south')">
+                    <div class="region-name">南</div>
+                    <div class="region-risk">风险: 中 (20%)</div>
+                    <div class="region-reward">收益: 200±</div>
+                </div>
+                <div class="region-item" onclick="goAlms('west')">
+                    <div class="region-name">西</div>
+                    <div class="region-risk">风险: 高 (30%)</div>
+                    <div class="region-reward">收益: 300±</div>
+                </div>
+                <div class="region-item" onclick="goAlms('north')">
+                    <div class="region-name">北</div>
+                    <div class="region-risk">风险: 极高 (40%)</div>
+                    <div class="region-reward">收益: 500±</div>
+                </div>
+            </div>
+            <div class="log" id="alms-log"></div>
+        </div>
+        
+        <div id="upgrade-section" class="section hidden">
+            <h2>升级进化</h2>
+            <div class="upgrade-section">
+                <div class="current-stage" id="current-stage">泥胎</div>
+                <div class="upgrade-requirement" id="upgrade-requirement">
+                    升级需要: 100功德
+                </div>
+                <button class="btn upgrade-btn" onclick="doUpgrade()">
+                    ✨ 立即升级
+                </button>
+            </div>
+            <div class="log" id="upgrade-log"></div>
+        </div>
+    </div>
+
+    <script>
+        // 游戏数据
+        const gameData = {
+            level: 1,
+            stage: 'clay',
+            incense_money: 1000,
+            yuanbao: 100,
+            merit: 0,
+            mana: 100,
+            incense_sticks: 10,
+            candles: 5,
+            gold_paper: 3,
+            fruits: 2,
+            cultivation: 0
+        };
+        
+        const stages = {
+            clay: { name: '泥胎', next: 'wood', need: 100 },
+            wood: { name: '木骨', next: 'bronze', need: 500 },
+            bronze: { name: '铜身', next: 'gold', need: 2000 },
+            gold: { name: '金身', next: null, need: 10000 }
+        };
+        
+        const gods = [
+            { id: 'caishen', name: '赵公明', title: '正财神', effect: '香火钱+20%', bonus: 1.2 },
+            { id: 'wencaishen', name: '比干', title: '文财神', effect: '法力上限+10', bonus: 1 },
+            { id: 'wucaishen', name: '关公', title: '武财神', effect: '化缘收益+15%', bonus: 1 },
+            { id: 'piancaishen', name: '范蠡', title: '偏财神', effect: '暴击率+5%', bonus: 1 },
+            { id: 'shengcai', name: '李诡祖', title: '增福财神', effect: '供奉功德+10%', bonus: 1.1 },
+            { id: 'lucaishen', name: '沈万三', title: '禄财神', effect: '法力回复+20%', bonus: 1 },
+            { id: 'shoucaishen', name: '刘海蟾', title: '寿财神', effect: '香火钱上限+1000', bonus: 1 },
+            { id: 'xicaishen', name: '子贡', title: '喜财神', effect: '每日首供双倍', bonus: 1 },
+            { id: 'caishenpo', name: '财神奶奶', title: '财神婆婆', effect: '化缘风险-10%', bonus: 1 }
+        ];
+        
+        let selectedGod = 0;
+        
+        // 初始化
+        function init() {
+            renderGods();
+            updateUI();
+            startManaRecovery();
+        }
+        
+        // 渲染财神列表
+        function renderGods() {
+            const container = document.getElementById('god-list');
+            container.innerHTML = gods.map((god, index) => `
+                <div class="god-item ${index === selectedGod ? 'selected' : ''}" onclick="selectGod(${index})">
+                    <div class="god-name">${god.name}</div>
+                    <div class="god-effect">${god.effect}</div>
+                </div>
+            `).join('');
+        }
+        
+        // 选择财神
+        function selectGod(index) {
+            selectedGod = index;
+            renderGods();
+        }
+        
+        // 供奉
+        function worship() {
+            if (gameData.incense_sticks <= 0) {
+                log('temple-log', '❌ 线香不足！');
+                return;
+            }
+            
+            gameData.incense_sticks--;
+            
+            const god = gods[selectedGod];
+            let reward = Math.floor(10 * god.bonus);
+            
+            gameData.incense_money += reward;
+            gameData.merit += 1;
+            
+            log('temple-log', `✅ 供奉${god.name}成功！获得${reward}香火钱，1功德`);
+            
+            // 切换下一个财神
+            selectedGod = (selectedGod + 1) % gods.length;
+            renderGods();
+            updateUI();
+        }
+        
+        // 化缘
+        function goAlms(region) {
+            if (gameData.mana < 10) {
+                log('alms-log', '❌ 法力不足！请等待恢复');
+                return;
+            }
+            
+            gameData.mana -= 10;
+            
+            const regions = {
+                east: { risk: 0.1, reward: 100, name: '东' },
+                south: { risk: 0.2, reward: 200, name: '南' },
+                west: { risk: 0.3, reward: 300, name: '西' },
+                north: { risk: 0.4, reward: 500, name: '北' }
+            };
+            
+            const config = regions[region];
+            
+            if (Math.random() < config.risk) {
+                // 遇到风险
+                const events = ['遇匪', '被骗', '生病', '遇到天灾'];
+                const event = events[Math.floor(Math.random() * events.length)];
+                const loss = Math.floor(gameData.incense_money * 0.3);
+                gameData.incense_money = Math.max(0, gameData.incense_money - loss);
+                log('alms-log', `💀 在${config.name}遭遇${event}！损失${loss}香火钱`);
+            } else {
+                // 成功
+                const reward = Math.floor(config.reward * (0.8 + Math.random() * 0.4));
+                gameData.incense_money += reward;
+                log('alms-log', `✅ 在${config.name}化缘成功！获得${reward}香火钱`);
+            }
+            
+            updateUI();
+        }
+        
+        // 升级
+        function doUpgrade() {
+            const current = stages[gameData.stage];
+            
+            if (!current.next) {
+                log('upgrade-log', '🎉 已达到最高阶段！');
+                return;
+            }
+            
+            if (gameData.merit < current.need) {
+                log('upgrade-log', `❌ 功德不足，需要${current.need}功德`);
+                return;
+            }
+            
+            gameData.merit -= current.need;
+            gameData.stage = current.next;
+            gameData.level += 5;
+            
+            const newStage = stages[gameData.stage];
+            log('upgrade-log', `🎉 升级成功！进化到${newStage.name}！等级提升到${gameData.level}`);
+            
+            updateUI();
+        }
+        
+        // 显示不同区域
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(section + '-section').classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+        
+        // 更新UI
+        function updateUI() {
+            document.getElementById('money').textContent = gameData.incense_money;
+            document.getElementById('merit').textContent = gameData.merit;
+            document.getElementById('mana').textContent = gameData.mana;
+            document.getElementById('level').textContent = gameData.level;
+            document.getElementById('stage').textContent = stages[gameData.stage].name;
+            document.getElementById('yuanbao').textContent = gameData.yuanbao;
+            
+            document.getElementById('incense-sticks').textContent = gameData.incense_sticks;
+            document.getElementById('candles').textContent = gameData.candles;
+            document.getElementById('gold-paper').textContent = gameData.gold_paper;
+            document.getElementById('fruits').textContent = gameData.fruits;
+            
+            const current = stages[gameData.stage];
+            document.getElementById('current-stage').textContent = current.name;
+            
+            if (current.next) {
+                document.getElementById('upgrade-requirement').textContent = 
+                    `升级需要: ${current.need}功德 (当前${gameData.merit})`;
+            } else {
+                document.getElementById('upgrade-requirement').textContent = '已达到最高阶段！';
+            }
+        }
+        
+        // 日志
+        function log(containerId, message) {
+            const container = document.getElementById(containerId);
+            const item = document.createElement('div');
+            item.className = 'log-item';
+            item.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            container.insertBefore(item, container.firstChild);
+            
+            // 限制日志数量
+            while (container.children.length > 10) {
+                container.removeChild(container.lastChild);
+            }
+        }
+        
+        // 法力恢复
+        function startManaRecovery() {
+            setInterval(() => {
+                if (gameData.mana < 100) {
+                    gameData.mana++;
+                    updateUI();
+                }
+            }, 1000);
+        }
+        
+        // 启动游戏
+        init();
+        
+        // 添加供奉按钮事件
+        document.addEventListener('DOMContentLoaded', () => {
+            const worshipBtn = document.createElement('button');
+            worshipBtn.className = 'btn';
+            worshipBtn.textContent = '🙏 供奉（消耗1线香）';
+            worshipBtn.onclick = worship;
+            worshipBtn.style.marginTop = '15px';
+            document.getElementById('temple-section').appendChild(worshipBtn);
+        });
+    </script>
+</body>
+</html>

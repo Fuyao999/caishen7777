@@ -1,0 +1,15 @@
+{
+    "systemInfo": {
+        "arch": "arm64",
+        "cpu": "Apple M1",
+        "version": "Darwin Kernel Version 25.3.0: Wed Jan 28 20:53:31 PST 2026; root:xnu-12377.91.3~2/RELEASE_ARM64_T8103"
+    },
+    "sceneListMap": {
+        "758c821c-14d9-495e-98f2-66fe63cdf12e": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scene.scene",
+        "37849424-e333-4167-8802-8b3eb7f16df7": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/loginScene.scene",
+        "30ac378e-bccd-42a5-a15b-2f78dab126a9": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/MainScene.scene",
+        "78ed7296-3b66-494b-a9c5-cd9bbc24ab64": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/TempleScene.scene",
+        "93eadaf5-df92-4c89-b6ff-fb179c14a1db": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/AlmsScene.scene"
+    },
+    "deviceMd5": "96e2191dc2aa28d16e51972c0c485d2b"
+}

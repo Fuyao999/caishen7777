@@ -1,0 +1,4020 @@
+{
+  "modules": {
+    "cce:/internal/x/cc": {
+      "mTimestamp": 15653.146958000958,
+      "chunkId": "86ea51a86e5d858891ef07385334b7b1017d7ca2",
+      "imports": [
+        {
+          "value": "cce:/internal/x/cc-fu/2d",
+          "resolved": "__unresolved_0",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 14
+            },
+            "end": {
+              "line": 1,
+              "column": 40
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/sorting",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 14
+            },
+            "end": {
+              "line": 2,
+              "column": 45
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/3d",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 14
+            },
+            "end": {
+              "line": 3,
+              "column": 40
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/animation",
+          "resolved": "__unresolved_3",
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 14
+            },
+            "end": {
+              "line": 4,
+              "column": 47
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/audio",
+          "resolved": "__unresolved_4",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 14
+            },
+            "end": {
+              "line": 5,
+              "column": 43
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/base",
+          "resolved": "__unresolved_5",
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 14
+            },
+            "end": {
+              "line": 6,
+              "column": 42
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/dragon-bones",
+          "resolved": "__unresolved_6",
+          "loc": {
+            "start": {
+              "line": 7,
+              "column": 14
+            },
+            "end": {
+              "line": 7,
+              "column": 50
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/gfx-webgl",
+          "resolved": "__unresolved_7",
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 14
+            },
+            "end": {
+              "line": 8,
+              "column": 47
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/gfx-webgl2",
+          "resolved": "__unresolved_8",
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 14
+            },
+            "end": {
+              "line": 9,
+              "column": 48
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/intersection-2d",
+          "resolved": "__unresolved_9",
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 14
+            },
+            "end": {
+              "line": 10,
+              "column": 53
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/light-probe",
+          "resolved": "__unresolved_10",
+          "loc": {
+            "start": {
+              "line": 11,
+              "column": 14
+            },
+            "end": {
+              "line": 11,
+              "column": 49
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/particle",
+          "resolved": "__unresolved_11",
+          "loc": {
+            "start": {
+              "line": 12,
+              "column": 14
+            },
+            "end": {
+              "line": 12,
+              "column": 46
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/particle-2d",
+          "resolved": "__unresolved_12",
+          "loc": {
+            "start": {
+              "line": 13,
+              "column": 14
+            },
+            "end": {
+              "line": 13,
+              "column": 49
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/physics-2d-box2d",
+          "resolved": "__unresolved_13",
+          "loc": {
+            "start": {
+              "line": 14,
+              "column": 14
+            },
+            "end": {
+              "line": 14,
+              "column": 54
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/physics-2d-framework",
+          "resolved": "__unresolved_14",
+          "loc": {
+            "start": {
+              "line": 15,
+              "column": 14
+            },
+            "end": {
+              "line": 15,
+              "column": 58
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/physics-ammo",
+          "resolved": "__unresolved_15",
+          "loc": {
+            "start": {
+              "line": 16,
+              "column": 14
+            },
+            "end": {
+              "line": 16,
+              "column": 50
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/physics-framework",
+          "resolved": "__unresolved_16",
+          "loc": {
+            "start": {
+              "line": 17,
+              "column": 14
+            },
+            "end": {
+              "line": 17,
+              "column": 55
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/wait-for-ammo-instantiation",
+          "resolved": "__unresolved_17",
+          "loc": {
+            "start": {
+              "line": 18,
+              "column": 14
+            },
+            "end": {
+              "line": 18,
+              "column": 65
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/primitive",
+          "resolved": "__unresolved_18",
+          "loc": {
+            "start": {
+              "line": 19,
+              "column": 14
+            },
+            "end": {
+              "line": 19,
+              "column": 47
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/profiler",
+          "resolved": "__unresolved_19",
+          "loc": {
+            "start": {
+              "line": 20,
+              "column": 14
+            },
+            "end": {
+              "line": 20,
+              "column": 46
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/skeletal-animation",
+          "resolved": "__unresolved_20",
+          "loc": {
+            "start": {
+              "line": 21,
+              "column": 14
+            },
+            "end": {
+              "line": 21,
+              "column": 56
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/spine",
+          "resolved": "__unresolved_21",
+          "loc": {
+            "start": {
+              "line": 22,
+              "column": 14
+            },
+            "end": {
+              "line": 22,
+              "column": 43
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/terrain",
+          "resolved": "__unresolved_22",
+          "loc": {
+            "start": {
+              "line": 23,
+              "column": 14
+            },
+            "end": {
+              "line": 23,
+              "column": 45
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/tiled-map",
+          "resolved": "__unresolved_23",
+          "loc": {
+            "start": {
+              "line": 24,
+              "column": 14
+            },
+            "end": {
+              "line": 24,
+              "column": 47
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/tween",
+          "resolved": "__unresolved_24",
+          "loc": {
+            "start": {
+              "line": 25,
+              "column": 14
+            },
+            "end": {
+              "line": 25,
+              "column": 43
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/ui",
+          "resolved": "__unresolved_25",
+          "loc": {
+            "start": {
+              "line": 26,
+              "column": 14
+            },
+            "end": {
+              "line": 26,
+              "column": 40
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/video",
+          "resolved": "__unresolved_26",
+          "loc": {
+            "start": {
+              "line": 27,
+              "column": 14
+            },
+            "end": {
+              "line": 27,
+              "column": 43
+            }
+          }
+        },
+        {
+          "value": "cce:/internal/x/cc-fu/webview",
+          "resolved": "__unresolved_27",
+          "loc": {
+            "start": {
+              "line": 28,
+              "column": 14
+            },
+            "end": {
+              "line": 28,
+              "column": 45
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/2d"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/sorting"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/3d"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/animation"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/audio"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/base"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/dragon-bones"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/gfx-webgl"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/gfx-webgl2"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/intersection-2d"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/light-probe"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/particle"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/particle-2d"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/physics-2d-box2d"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/physics-2d-framework"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/physics-ammo"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/physics-framework"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/wait-for-ammo-instantiation"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/primitive"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/profiler"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/skeletal-animation"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/spine"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/terrain"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/tiled-map"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/tween"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/ui"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/video"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "external",
+            "specifierOrURL": "cce:/internal/x/cc-fu/webview"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "cce:/internal/x/prerequisite-imports": {
+      "mTimestamp": 45081311.799416006,
+      "chunkId": "7cbb3ed998b1973f492af7954527f9c68c4a8e96",
+      "imports": [
+        {
+          "value": "file:///Applications/Cocos/Creator/3.8.0/CocosCreator.app/Contents/Resources/resources/3d/engine/editor/assets/tools/debug-view-runtime-control.ts",
+          "resolved": "__unresolved_0",
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 7
+            },
+            "end": {
+              "line": 4,
+              "column": 155
+            }
+          }
+        },
+        {
+          "value": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 7
+            },
+            "end": {
+              "line": 5,
+              "column": 121
+            }
+          }
+        },
+        {
+          "value": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Game.ts",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 7
+            },
+            "end": {
+              "line": 6,
+              "column": 109
+            }
+          }
+        },
+        {
+          "value": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/GameMain.ts",
+          "resolved": "__unresolved_3",
+          "loc": {
+            "start": {
+              "line": 7,
+              "column": 7
+            },
+            "end": {
+              "line": 7,
+              "column": 113
+            }
+          }
+        },
+        {
+          "value": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/AlmsScene.ts",
+          "resolved": "__unresolved_4",
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 7
+            },
+            "end": {
+              "line": 8,
+              "column": 117
+            }
+          }
+        },
+        {
+          "value": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/MainScene.ts",
+          "resolved": "__unresolved_5",
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 7
+            },
+            "end": {
+              "line": 9,
+              "column": 117
+            }
+          }
+        },
+        {
+          "value": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/TempleScene.ts",
+          "resolved": "__unresolved_6",
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 7
+            },
+            "end": {
+              "line": 10,
+              "column": 119
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Applications/Cocos/Creator/3.8.0/CocosCreator.app/Contents/Resources/resources/3d/engine/editor/assets/tools/debug-view-runtime-control.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Game.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/GameMain.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/AlmsScene.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/MainScene.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/TempleScene.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Applications/Cocos/Creator/3.8.0/CocosCreator.app/Contents/Resources/resources/3d/engine/editor/assets/tools/debug-view-runtime-control.ts": {
+      "mTimestamp": {
+        "mtime": 1689834927000,
+        "uuid": "b2bd1fa7-8d7c-49c5-a158-df29a6d3a594"
+      },
+      "chunkId": "accf1ad4a9f90779d8ecc7f41e8e048e81335b1f",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 220
+            },
+            "end": {
+              "line": 1,
+              "column": 224
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/AdditionalDomainsConfig.ts": {
+      "mTimestamp": {
+        "mtime": 1774224902823.697,
+        "uuid": "89568c70-1a89-4602-a51c-f3fea4546a2b"
+      },
+      "chunkId": "55b2ae7e1c4ea27f8c5006b55021f202b60fab98",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/AudioResources.ts": {
+      "mTimestamp": {
+        "mtime": 1774227545930.3782,
+        "uuid": "b237d4ee-ed02-416f-9b71-a8e90bd36e6d"
+      },
+      "chunkId": "d1d72402cbdc72871b2e404c1e337b745c7e1c9b",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/BattleBalanceConfig.ts": {
+      "mTimestamp": {
+        "mtime": 1774224835863.6223,
+        "uuid": "21bf2f63-514c-407f-bb94-8886c3137ab3"
+      },
+      "chunkId": "3a525928d2fa8d588b0b475b21a2df6359c43990",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/EquipmentConfig.ts": {
+      "mTimestamp": {
+        "mtime": 1774205362946.9006,
+        "uuid": "ec930941-afc1-49db-88d8-8029d62ca194"
+      },
+      "chunkId": "ea3d2f89129692a1522b318da7cc6e55cd141dd4",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/EquipmentStatsConfig.ts": {
+      "mTimestamp": {
+        "mtime": 1774224835863.6196,
+        "uuid": "850f86a5-08c5-4c6d-98fe-8e2971c0fa4d"
+      },
+      "chunkId": "be6e60e9790012652866a08680b007d036fe8bfa",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/GameConfig.ts": {
+      "mTimestamp": {
+        "mtime": 1774205311356.8342,
+        "uuid": "f5b1d5aa-39d1-4994-bf0c-a17978f37c0b"
+      },
+      "chunkId": "7789b4087e85abcd6eb0822353087b871cca613d",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/LevelConfig.ts": {
+      "mTimestamp": {
+        "mtime": 1774224723934.5176,
+        "uuid": "070677e4-b183-4693-b838-f7b483865957"
+      },
+      "chunkId": "3402b472d4a003bea0cfcdf2b5aad5c0149628c7",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/PetConfig.ts": {
+      "mTimestamp": {
+        "mtime": 1774205436069.6682,
+        "uuid": "914eb0f0-93c3-489e-8aaa-abec5272f997"
+      },
+      "chunkId": "fb137f2519cb5ad5b8adb14294b68a0942accdd2",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/QuestConfig.ts": {
+      "mTimestamp": {
+        "mtime": 1774205436069.6357,
+        "uuid": "c55e8fc5-3382-4a3c-bb03-d812f61364f8"
+      },
+      "chunkId": "143437ef9de7a963e5e641bb14cdaeee74e77417",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/ResourceMapping.ts": {
+      "mTimestamp": {
+        "mtime": 1774232465270.8948,
+        "uuid": "11c0cfbd-8e73-43d7-9fdb-7c65fd67402c"
+      },
+      "chunkId": "e3db51de7b7813a890d1889d39e66dfd3bb5e96c",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/SceneConfig.ts": {
+      "mTimestamp": {
+        "mtime": 1774205362946.8933,
+        "uuid": "ee83f7f0-3607-4748-b54f-0bb36a653d1e"
+      },
+      "chunkId": "7c6935173c32725610cac22f1ac8aaca2d70a7ad",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/SceneNames.ts": {
+      "mTimestamp": {
+        "mtime": 1774205603656.618,
+        "uuid": "40e5d22f-f7a6-4768-9e0c-26b37e17ed46"
+      },
+      "chunkId": "5621b34844be501cf135a90c445d5f73f97622e0",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/SkillConfig.ts": {
+      "mTimestamp": {
+        "mtime": 1774205484467.8347,
+        "uuid": "85628441-066f-4c8c-be5c-5f7473ef5be9"
+      },
+      "chunkId": "1c39998dd1f5b054fe7b2b38a605b0ee0a77c222",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/AudioManager.ts": {
+      "mTimestamp": {
+        "mtime": 1774205189750.1504,
+        "uuid": "fb8590e1-4bdc-48b1-a67b-7edc32c2a3f8"
+      },
+      "chunkId": "27aa54b995c2594ce2d8e51eff7074d20cf6a658",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 62
+            },
+            "end": {
+              "line": 1,
+              "column": 66
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts": {
+      "mTimestamp": {
+        "mtime": 1774237896684.5125,
+        "uuid": "2ffd577b-b605-4e67-a1a0-d7cbd724a9b6"
+      },
+      "chunkId": "2d5039901ff0481d402f895151673d444e45fad2",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 48
+            },
+            "end": {
+              "line": 1,
+              "column": 52
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "cce:/internal/code-quality/cr.mjs": {
+      "mTimestamp": 1774232482319,
+      "chunkId": "3a1fd7b13056478820ebedd306d3446d1aa408cc",
+      "imports": [],
+      "type": "esm",
+      "resolutions": []
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/NetworkManager.ts": {
+      "mTimestamp": {
+        "mtime": 1774200579473.543,
+        "uuid": "fbb7069d-1410-4cde-a09a-29b0f60c60d6"
+      },
+      "chunkId": "574c4d0485bb3555e92dd61669e3694105687367",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/PlayerData.ts": {
+      "mTimestamp": {
+        "mtime": 1774200579472.9727,
+        "uuid": "842e2aae-b9c2-49c8-871d-75cfa314fe34"
+      },
+      "chunkId": "d3976f1d53f695fdc848d1ee4ce1b9b84392c1f4",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/AuctionScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774226291261.7542,
+        "uuid": "9b5cceab-e00d-4f55-92b4-e6fdbd318719"
+      },
+      "chunkId": "5e74ee1150bdee760c2164ede80de931d9ba618d",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 110
+            },
+            "end": {
+              "line": 1,
+              "column": 114
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/BagScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774205149509.4888,
+        "uuid": "ef12dde6-2f1a-47ed-826d-d9eb7d993627"
+      },
+      "chunkId": "5cd71d34acb353d0332bb1360813c7167c6392c3",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 102
+            },
+            "end": {
+              "line": 1,
+              "column": 106
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/BattleScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774205484467.8374,
+        "uuid": "862fd9c0-631b-483b-a47c-e3c40c0bfa40"
+      },
+      "chunkId": "b5e4d03b10282fb039eca251bc896b64e30686f1",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 90
+            },
+            "end": {
+              "line": 1,
+              "column": 94
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        },
+        {
+          "value": "../Utils/Utils",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 22
+            },
+            "end": {
+              "line": 3,
+              "column": 38
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Utils/Utils.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Utils/Utils.ts": {
+      "mTimestamp": {
+        "mtime": 1774205362946.8933,
+        "uuid": "fa2beedd-b923-441b-af89-a87a69fb573c"
+      },
+      "chunkId": "71b9a80e2e9e82c08bce78ac7283a681972b7540",
+      "imports": [
+        {
+          "value": "cc"
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/BlackMarketScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774226526725.5647,
+        "uuid": "9dfc568b-74f4-4311-8c96-249c7e104913"
+      },
+      "chunkId": "bb7c63321c48bee8b64c875d9618687c88f9de8e",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 108
+            },
+            "end": {
+              "line": 1,
+              "column": 112
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/CultivateScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774205567666.5618,
+        "uuid": "430068c1-6ff4-49ff-b873-b4736aad44c9"
+      },
+      "chunkId": "8d081b2f71ec8457ccdfebe0173dbbc3f9b4ef77",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 82
+            },
+            "end": {
+              "line": 1,
+              "column": 86
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/DomainScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774206212215.061,
+        "uuid": "33568d46-d5d2-4f47-9feb-680dfb7d2295"
+      },
+      "chunkId": "a259461944f8c37d4dc33c26b05afedff6791c3e",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 90
+            },
+            "end": {
+              "line": 1,
+              "column": 94
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        },
+        {
+          "value": "../Config/SceneConfig",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 28
+            },
+            "end": {
+              "line": 3,
+              "column": 51
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/SceneConfig.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/EnhanceScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774226425374.7458,
+        "uuid": "152de4ea-2041-4d50-bebc-6918b21faa86"
+      },
+      "chunkId": "e4425f298cc6bb503ace6d30cc31d4641d06455e",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 98
+            },
+            "end": {
+              "line": 1,
+              "column": 102
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/FarmScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774226291261.7424,
+        "uuid": "bf9ac670-fe52-4feb-823f-2ea98618b9a7"
+      },
+      "chunkId": "20fd08977e097e22646b74b5f1641a13418cac66",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 90
+            },
+            "end": {
+              "line": 1,
+              "column": 94
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/FriendScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774206212215.061,
+        "uuid": "c0a12182-e018-41a4-b020-a9070ef3c219"
+      },
+      "chunkId": "02791d30bfce7fde5ed55d179ff59fffe087fcf0",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 102
+            },
+            "end": {
+              "line": 1,
+              "column": 106
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/GachaScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774206300508.0244,
+        "uuid": "661e6687-24f9-4f3e-8205-fd07f031c39a"
+      },
+      "chunkId": "799b930b95c4683cc5519fa4f71bd09e6ab48b79",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 101
+            },
+            "end": {
+              "line": 1,
+              "column": 105
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/GuideManager.ts": {
+      "mTimestamp": {
+        "mtime": 1774205235769.9028,
+        "uuid": "57edd693-1168-4081-ad4b-6485eb1786a3"
+      },
+      "chunkId": "4ea0e8dbd27784df988e21cbf082b8eb59935520",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 93
+            },
+            "end": {
+              "line": 1,
+              "column": 97
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/GuildScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774206257339.2314,
+        "uuid": "5e9a255c-75a8-4421-b54f-409d86ceeabe"
+      },
+      "chunkId": "c0f0bd484ff4221b604bb564d54ac18afdc30ca7",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 102
+            },
+            "end": {
+              "line": 1,
+              "column": 106
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/LoginScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774200579472.8276,
+        "uuid": "4ed9377a-dee9-4997-9b62-620b09127503"
+      },
+      "chunkId": "a15747d44b1a53472551586518394441d878a6c8",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 78
+            },
+            "end": {
+              "line": 1,
+              "column": 82
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/MailScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774206300508.0283,
+        "uuid": "90692a2c-f936-48a7-b5e4-b6529ecf27f1"
+      },
+      "chunkId": "83f0ba2e27e0daa8563f6c2e225957dba910af88",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 102
+            },
+            "end": {
+              "line": 1,
+              "column": 106
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/MainScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774237921385.0554,
+        "uuid": "8cb4396e-72ba-49c0-9d9a-a163818a571b"
+      },
+      "chunkId": "3fdc0df1029deea4e3413b75bffc79990d9ebed5",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 69
+            },
+            "end": {
+              "line": 1,
+              "column": 73
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/MapScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774206212215.0637,
+        "uuid": "25c4952e-e87d-49b1-8c3b-6795ce7b4ef7"
+      },
+      "chunkId": "ded92beab26de2a704b6e698e9c316ee0b61c22b",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 108
+            },
+            "end": {
+              "line": 1,
+              "column": 112
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        },
+        {
+          "value": "../Config/SceneConfig",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 28
+            },
+            "end": {
+              "line": 3,
+              "column": 51
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/SceneConfig.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/MentorScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774226526725.5444,
+        "uuid": "2e55069d-a366-4ec5-81d6-f43741cd738c"
+      },
+      "chunkId": "d30d6c52115c8c4ddd5432dd3eab53a2db2fad37",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 102
+            },
+            "end": {
+              "line": 1,
+              "column": 106
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/PVPScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774226425374.7454,
+        "uuid": "633e7f95-3d3b-433e-94c2-6021e905327f"
+      },
+      "chunkId": "98a29897fa974cb418448342d3be5d72aa5cfac0",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 102
+            },
+            "end": {
+              "line": 1,
+              "column": 106
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/QuestScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774206339150.4922,
+        "uuid": "1b48b1d8-546a-4859-9a99-12d45151f9a8"
+      },
+      "chunkId": "487bdb6c3ea22e4aa1750d9187e3b375ce7949cb",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 110
+            },
+            "end": {
+              "line": 1,
+              "column": 114
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        },
+        {
+          "value": "../Config/QuestConfig",
+          "resolved": "__unresolved_2",
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 28
+            },
+            "end": {
+              "line": 3,
+              "column": 51
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Config/QuestConfig.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/RankScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774206339150.4844,
+        "uuid": "a21bb39b-4aaa-4202-bad7-2207f69aeec9"
+      },
+      "chunkId": "020eb1fdfcfdf1de9b92bb1e948439471b0e7500",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 110
+            },
+            "end": {
+              "line": 1,
+              "column": 114
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/SailingScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774226588730.4084,
+        "uuid": "33bc20b4-f25c-44f1-a5a6-d20c4397423d"
+      },
+      "chunkId": "54608b550c6ae1929f93f52b652361852e3a2629",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 77
+            },
+            "end": {
+              "line": 1,
+              "column": 81
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/SettingsScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774205567666.5862,
+        "uuid": "305bf084-099a-41b0-ad55-5dd0dcf527a3"
+      },
+      "chunkId": "0b1c7c79b75699af0ae9e96471c2a7b1a2b9574e",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 77
+            },
+            "end": {
+              "line": 1,
+              "column": 81
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/ShopScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774206257339.2617,
+        "uuid": "ad6fafde-7f94-4803-9f7f-5cff62b04b11"
+      },
+      "chunkId": "142743523854057ba1cb5a9eb502526a83b68200",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 102
+            },
+            "end": {
+              "line": 1,
+              "column": 106
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/StockScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774226291261.7424,
+        "uuid": "8109abba-203e-49ad-9279-bc84490ea181"
+      },
+      "chunkId": "9be591272c3ca79874fa578850d17f2eb8495d17",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 102
+            },
+            "end": {
+              "line": 1,
+              "column": 106
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/TempleScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774237947947.5447,
+        "uuid": "2d850013-3304-43b0-8ea6-eea835648bc3"
+      },
+      "chunkId": "31ffd048d7885b102e2810ce370396ab0805c4bd",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 69
+            },
+            "end": {
+              "line": 1,
+              "column": 73
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/ThunderScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774226588730.3503,
+        "uuid": "8aec1037-92c3-46b0-8f42-85d966da3739"
+      },
+      "chunkId": "37d3e63aaf03cec2a5149247f90447bbb043faba",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 82
+            },
+            "end": {
+              "line": 1,
+              "column": 86
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/TowerScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774226526725.523,
+        "uuid": "671ac43f-baad-46e5-94ca-ccbbf468ef0e"
+      },
+      "chunkId": "be96af9c58abae4523c18272d5492205137ebd28",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 82
+            },
+            "end": {
+              "line": 1,
+              "column": 86
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/UpgradeScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774205149509.5056,
+        "uuid": "e4d82be6-a3d6-4bc4-b539-25692989371f"
+      },
+      "chunkId": "6cb9f8f99b03b0c0c4c5a10ed78e95066f754dfb",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 82
+            },
+            "end": {
+              "line": 1,
+              "column": 86
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/WorldBossScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774226425374.7456,
+        "uuid": "6521ef51-a7ae-4dca-b41d-47339ab6d5a0"
+      },
+      "chunkId": "801ae42393255c7025c2bc6e1fe7b01348358fe9",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 90
+            },
+            "end": {
+              "line": 1,
+              "column": 94
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/LoginSceneSimple.ts": {
+      "mTimestamp": {
+        "mtime": 1774235304618.007,
+        "uuid": "a70d4961-6e6b-4930-af07-7534b9764c88"
+      },
+      "chunkId": "db1eef89d6e0fc7a145941add56ee2e474411624",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 69
+            },
+            "end": {
+              "line": 1,
+              "column": 73
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/TestScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774236237469.8962,
+        "uuid": "d94d8991-6e3c-4672-9607-c7615c2ac835"
+      },
+      "chunkId": "1f1bd91ff36fc69af556b8dec48295c169e5c02b",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 63
+            },
+            "end": {
+              "line": 1,
+              "column": 67
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/GameMain.ts": {
+      "mTimestamp": {
+        "mtime": 1774237044869.6846,
+        "uuid": "7f3b624d-4665-4128-a8ae-604be455d386"
+      },
+      "chunkId": "285265fd130fa73237b1e196234b825ff724d1fb",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 69
+            },
+            "end": {
+              "line": 1,
+              "column": 73
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/UI/AlmsScene.ts": {
+      "mTimestamp": {
+        "mtime": 1774237978062.6843,
+        "uuid": "5ddfc2c1-1fdf-43ea-9c55-186c4deee51e"
+      },
+      "chunkId": "c841217f730df9c9267a37bb2252e49cc109c1e6",
+      "imports": [
+        {
+          "value": "cce:/internal/code-quality/cr.mjs",
+          "resolved": "__unresolved_0"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 69
+            },
+            "end": {
+              "line": 1,
+              "column": 73
+            }
+          }
+        },
+        {
+          "value": "../Core/GameManager",
+          "resolved": "__unresolved_1",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 28
+            },
+            "end": {
+              "line": 2,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/code-quality/cr.mjs"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Core/GameManager.ts"
+          },
+          "messages": []
+        }
+      ]
+    },
+    "file:///Users/fuyao/Desktop/%E8%B4%A2%E7%A5%9E%E5%A4%A7%E9%99%86-Cocos/client/assets/scripts/Game.ts": {
+      "mTimestamp": {
+        "mtime": 1774240506660.6304,
+        "uuid": "caa5cea8-fdeb-4db1-bf3e-729ac0f4e409"
+      },
+      "chunkId": "ff9e0e6e657b54b8d56b19cd9fc00ca9447adf62",
+      "imports": [
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc"
+        },
+        {
+          "value": "cc",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 95
+            },
+            "end": {
+              "line": 1,
+              "column": 99
+            }
+          }
+        }
+      ],
+      "type": "esm",
+      "resolutions": [
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        },
+        {
+          "resolved": {
+            "type": "module",
+            "url": "cce:/internal/x/cc"
+          },
+          "messages": []
+        }
+      ]
+    }
+  }
+}

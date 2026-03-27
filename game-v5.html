@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>财神大陆 - V5修正版</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { text-align: center; font-size: 48px; margin-bottom: 20px; color: #FFD700; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .stats {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .stat-item { text-align: center; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .stat-value { font-size: 24px; font-weight: bold; color: #FFD700; }
+        .stat-label { font-size: 12px; opacity: 0.8; margin-top: 5px; }
+        .buff-bar {
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .buff-item {
+            display: inline-block;
+            background: rgba(255,215,0,0.2);
+            border: 1px solid #FFD700;
+            border-radius: 15px;
+            padding: 5px 10px;
+            margin: 2px;
+            font-size: 12px;
+        }
+        .section { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; }
+        .section h2 { color: #FFD700; margin-bottom: 15px; font-size: 24px; }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none; color: white; padding: 15px 30px;
+            border-radius: 10px; cursor: pointer; font-size: 18px; margin: 5px;
+            transition: all 0.3s;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
+        .materials { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 15px 0; }
+        .material-btn {
+            background: rgba(0,0,0,0.3);
+            border: 2px solid transparent;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .material-btn.selected { border-color: #FFD700; background: rgba(255,215,0,0.2); }
+        .god-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+        .god-item {
+            background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;
+            text-align: center; cursor: pointer; border: 2px solid transparent;
+        }
+        .god-item.selected { border-color: #FFD700; background: rgba(255,215,0,0.2); }
+        .god-name { font-weight: bold; color: #FFD700; font-size: 16px; }
+        .god-effect { font-size: 11px; margin-top: 5px; }
+        .region-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .region-item {
+            background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;
+            text-align: center; cursor: pointer;
+        }
+        .region-name { font-size: 24px; font-weight: bold; }
+        .region-risk { font-size: 12px; margin-top: 5px; color: #ff6b6b; }
+        .region-reward { font-size: 14px; color: #FFD700; margin-top: 5px; }
+        .log {
+            background: rgba(0,0,0,0.3); border-radius: 10px;
+            padding: 15px; margin-top: 15px; min-height: 100px; max-height: 250px; overflow-y: auto;
+        }
+        .log-item { padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 13px; }
+        .upgrade-info { text-align: center; padding: 20px; }
+        .current-stage { font-size: 32px; color: #FFD700; margin-bottom: 10px; }
+        .need-resources { font-size: 14px; margin-bottom: 20px; line-height: 1.8; }
+        .met { color: #2ecc71; }
+        .unmet { color: #e74c3c; }
+        .hidden { display: none; }
+        .nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .nav-btn { background: rgba(255,255,255,0.1); border: 2px solid transparent; }
+        .nav-btn.active { border-color: #FFD700; background: rgba(255,215,0,0.2); }
+        .event-great { color: #FFD700; font-weight: bold; }
+        .event-good { color: #2ecc71; }
+        .event-bad { color: #e74c3c; }
+        .event-normal { color: #f39c12; }
+        .god-help { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin: 10px 0; font-size: 13px; }
+        .god-help h4 { color: #FFD700; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏮 财神大陆 V5</h1>
+        
+        <!-- 状态栏 -->
+        <div class="stats">
+            <div class="stat-item"><div class="stat-value" id="money">1000</div><div class="stat-label">香火钱</div></div>
+            <div class="stat-item"><div class="stat-value" id="merit">0</div><div class="stat-label">功德</div></div>
+            <div class="stat-item"><div class="stat-value" id="mana">100</div><div class="stat-label">法力</div></div>
+            <div class="stat-item"><div class="stat-value" id="level">1</div><div class="stat-label">等级</div></div>
+            <div class="stat-item"><div class="stat-value" id="stage">泥胎</div><div class="stat-label">阶段</div></div>
+            <div class="stat-item"><div class="stat-value" id="yuanbao">100</div><div class="stat-label">元宝</div></div>
+        </div>
+        
+        <!-- BUFF显示 -->
+        <div class="buff-bar" id="buff-bar">
+            <strong>🙏 当前财神庇佑：</strong><span id="buff-list">无</span>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 10px; font-size: 13px;">
+            线香<span id="incense-sticks">10</span> | 
+            蜡烛<span id="candles">5</span> | 
+            金纸<span id="gold-paper">3</span> | 
+            供果<span id="fruits">2</span>
+        </div>
+        
+        <div class="nav">
+            <button class="btn nav-btn active" onclick="showSection('temple')">🏛️ 庙宇</button>
+            <button class="btn nav-btn" onclick="showSection('alms')">🚶 化缘</button>
+            <button class="btn nav-btn" onclick="showSection('upgrade')">⬆️ 升级</button>
+        </div>
+        
+        <!-- 庙宇 -->
+        <div id="temple-section" class="section">
+            <h2>供奉财神</h2>
+            <div class="god-help">
+                <h4>📖 供奉说明</h4>
+                <p><strong>化缘生效：</strong>赵公明(+20%钱)、关公(+15%钱)、财神奶奶(-10%风险)</p>
+                <p><strong>供奉生效：</strong>李诡祖(+10%功德)</p>
+                <p><strong>持续BUFF：</strong>沈万三(+20%回复)、刘海蟾(+1000上限)</p>
+                <p><strong>材料次数：</strong>线香1次/蜡烛3次/金纸5次/供果10次</p>
+            </div>
+            
+            <div class="materials">
+                <button class="material-btn selected" id="mat-incense" onclick="selectMaterial('incense')">📿 线香<br><small>1次</small></button>
+                <button class="material-btn" id="mat-candle" onclick="selectMaterial('candle')">🕯️ 蜡烛<br><small>3次</small></button>
+                <button class="material-btn" id="mat-paper" onclick="selectMaterial('paper')">📜 金纸<br><small>5次</small></button>
+                <button class="material-btn" id="mat-fruit" onclick="selectMaterial('fruit')">🍎 供果<br><small>10次</small></button>
+            </div>
+            
+            <div class="god-list" id="god-list"></div>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="btn" onclick="worship()">🙏 供奉</button>
+            </div>
+            
+            <div class="log" id="temple-log"></div>
+        </div>
+        
+        <!-- 化缘 -->
+        <div id="alms-section" class="section hidden">
+            <h2>外出化缘</h2>
+            <p style="font-size: 13px; color: #ccc;">消耗5点法力。供奉赵公明/关公可增加收益，供奉财神奶奶可降低风险。</p>
+            
+            <div class="region-list">
+                <div class="region-item" onclick="goAlms('east', 0.10, 100)">
+                    <div class="region-name">东</div>
+                    <div class="region-risk">⚠️ 风险: 10%</div>
+                    <div class="region-reward">💰 基础收益: 100</div>
+                </div>
+                <div class="region-item" onclick="goAlms('south', 0.20, 200)">
+                    <div class="region-name">南</div>
+                    <div class="region-risk">⚠️ 风险: 20%</div>
+                    <div class="region-reward">💰 基础收益: 200</div>
+                </div>
+                <div class="region-item" onclick="goAlms('west', 0.30, 300)">
+                    <div class="region-name">西</div>
+                    <div class="region-risk">⚠️ 风险: 30%</div>
+                    <div class="region-reward">💰 基础收益: 300</div>
+                </div>
+                <div class="region-item" onclick="goAlms('north', 0.40, 500)">
+                    <div class="region-name">北</div>
+                    <div class="region-risk">⚠️ 风险: 40%</div>
+                    <div class="region-reward">💰 基础收益: 500</div>
+                </div>
+            </div>
+            <div class="log" id="alms-log"></div>
+        </div>
+        
+        <!-- 升级 -->
+        <div id="upgrade-section" class="section hidden">
+            <h2>升级进化</h2>
+            <p style="font-size: 13px; color: #FFD700;">💡 功德是门槛（只增不减），其他资源会被扣除</p>
+            
+            <div class="upgrade-info">
+                <div class="current-stage" id="current-stage">泥胎</div>
+                <div class="need-resources" id="need-resources"></div>
+                <button class="btn" style="font-size: 20px; padding: 20px 40px;" onclick="doUpgrade()">✨ 立即升级</button>
+            </div>
+            <div class="log" id="upgrade-log"></div>
+        </div>
+    </div>
+
+    <script>
+        // 游戏数据
+        const gameData = {
+            level: 1, stage: 'clay',
+            incense_money: 1000, yuanbao: 100, merit: 0, mana: 100,
+            incense_sticks: 10, candles: 5, gold_paper: 3, fruits: 2
+        };
+        
+        // 基础法力上限100，刘海蟾可临时增加
+        let baseMaxMana = 100;
+        let tempMoneyCap = 0; // 刘海蟾临时上限
+        
+        const stages = {
+            clay: { name: '泥胎', next: 'wood', need: { merit: 100, money: 5000, incense: 50, candles: 20 } },
+            wood: { name: '木骨', next: 'bronze', need: { merit: 500, money: 20000, incense: 100, candles: 50 } },
+            bronze: { name: '铜身', next: 'gold', need: { merit: 2000, money: 100000, incense: 200, candles: 100 } },
+            gold: { name: '金身', next: null, need: null }
+        };
+        
+        const materials = {
+            incense: { name: '线香', item: 'incense_sticks', cost: 1, duration: 1 },
+            candle: { name: '蜡烛', item: 'candles', cost: 1, duration: 3 },
+            paper: { name: '金纸', item: 'gold_paper', cost: 1, duration: 5 },
+            fruit: { name: '供果', item: 'fruits', cost: 1, duration: 10 }
+        };
+        
+        // 财神分类
+        const gods = [
+            { id: 'caishen', name: '赵公明', effect: '化缘香火钱+20%', type: 'alms', bonus: 0.20 },
+            { id: 'wencaishen', name: '比干', effect: '法力上限+10(6级后)', type: 'passive', bonus: 0 },
+            { id: 'wucaishen', name: '关公', effect: '化缘收益+15%', type: 'alms', bonus: 0.15 },
+            { id: 'piancaishen', name: '范蠡', effect: '化缘暴击5%(×3)', type: 'alms_crit', bonus: 0.05 },
+            { id: 'shengcai', name: '李诡祖', effect: '供奉功德+10%', type: 'worship', bonus: 0.10 },
+            { id: 'lucaishen', name: '沈万三', effect: '法力回复+20%', type: 'recover', bonus: 0.20 },
+            { id: 'shoucaishen', name: '刘海蟾', effect: '香火钱上限+1000', type: 'cap', bonus: 1000 },
+            { id: 'xicaishen', name: '子贡', effect: '每日首供双倍', type: 'daily', bonus: 0 },
+            { id: 'caishenpo', name: '财神奶奶', effect: '化缘风险-10%', type: 'risk', bonus: -0.10 }
+        ];
+        
+        let selectedGod = 0;
+        let selectedMat = 'incense';
+        let activeBuffs = {}; // { godId: { count: 次数, bonus: 加成值, type: 类型 } }
+        
+        // 化缘事件库（50种丰富事件）
+        const eventLibrary = {
+            // 大吉 5% - 获得超额收益
+            great: [
+                { icon: '🎉', msg: '福星高照，遇到散财童子！', result: 'gain' },
+                { icon: '💰', msg: '捡到财神爷掉落的金元宝！', result: 'gain' },
+                { icon: '🌟', msg: '天降祥瑞，紫气东来！', result: 'gain' },
+                { icon: '🔮', msg: '遇仙人指点，财运亨通！', result: 'gain' },
+                { icon: '👑', msg: '被富商认作义子，赠予重金！', result: 'gain' },
+                { icon: '🏆', msg: '参加庙会抽奖，喜中头奖！', result: 'gain' },
+                { icon: '🎊', msg: '路遇迎亲队伍，抢到喜钱！', result: 'gain' },
+                { icon: '💎', msg: '在古庙发现前人藏宝！', result: 'gain' }
+            ],
+            // 小吉 15% - 获得不错收益
+            good: [
+                { icon: '✨', msg: '遇到善信，慷慨布施！', result: 'gain' },
+                { icon: '🍀', msg: '路途顺风，提前到达！', result: 'gain' },
+                { icon: '🎁', msg: '帮助老人，获得意外回报！', result: 'gain' },
+                { icon: '🌈', msg: '路过集市，生意兴隆！', result: 'gain' },
+                { icon: '💎', msg: '发现路边有散落的铜钱！', result: 'gain' },
+                { icon: '🤝', msg: '与商队同行，获得打赏！', result: 'gain' },
+                { icon: '🎵', msg: '街头卖艺，观众打赏！', result: 'gain' },
+                { icon: '🍜', msg: '帮厨洗碗，换来赏钱！', result: 'gain' }
+            ],
+            // 顺利 35% - 正常收益
+            normal: [
+                { icon: '✅', msg: '平安归来，收获符合预期！', result: 'gain' },
+                { icon: '🚶', msg: '一切顺利，化缘成功！', result: 'gain' },
+                { icon: '📿', msg: '虔诚祈祷，获得信众认可！', result: 'gain' },
+                { icon: '🏠', msg: '走访几家，凑足盘缠！', result: 'gain' },
+                { icon: '🙏', msg: '诚心感化，信众施舍！', result: 'gain' },
+                { icon: '🕯️', msg: '为村民祈福，获得香火钱！', result: 'gain' }
+            ],
+            // 平淡 20% - 收益减少
+            fair: [
+                { icon: '😅', msg: '天气不好，耽搁了一些时间！', result: 'gain_less' },
+                { icon: '⏰', msg: '路上耽搁，收益略减！', result: 'gain_less' },
+                { icon: '☁️', msg: '阴云密布，信众不多！', result: 'gain_less' },
+                { icon: '😴', msg: '今天信众不太热情！', result: 'gain_less' },
+                { icon: '🌧️', msg: '遇上下雨，浑身湿透！', result: 'gain_less' },
+                { icon: '🥱', msg: '来得太晚，信众都散了！', result: 'gain_less' }
+            ],
+            // 小凶 10% - 遇到麻烦但还有收益
+            bad: [
+                { icon: '😰', msg: '遇到小混混，被敲诈了一部分！', result: 'gain_then_loss' },
+                { icon: '👞', msg: '鞋子破了，花钱修补！', result: 'gain_then_loss' },
+                { icon: '🍜', msg: '吃了不干净的饭菜，花钱买药！', result: 'gain_then_loss' },
+                { icon: '🐕', msg: '被恶犬追赶，丢了部分钱财！', result: 'gain_then_loss' },
+                { icon: '🎭', msg: '遇到骗子，骗走了一部分！', result: 'gain_then_loss' },
+                { icon: '🏛️', msg: '被官府盘查，打点花费！', result: 'gain_then_loss' }
+            ],
+            // 大凶 风险% - 纯损失
+            terrible: [
+                { icon: '💀', msg: '遭遇土匪抢劫，损失惨重！', result: 'loss_only' },
+                { icon: '🏴‍☠️', msg: '被骗进黑店，差点没回来！', result: 'loss_only' },
+                { icon: '🔥', msg: '遇到天灾火灾，狼狈逃回！', result: 'loss_only' },
+                { icon: '🌊', msg: '渡河时翻船，财物尽失！', result: 'loss_only' },
+                { icon: '⚡', msg: '被雷劈中，厄运连连！', result: 'loss_only' },
+                { icon: '🐍', msg: '被毒蛇咬伤，花光钱医治！', result: 'loss_only' },
+                { icon: '👹', msg: '误入妖邪之地，法力耗尽！', result: 'loss_only' },
+                { icon: '💀', msg: '遭遇山贼埋伏，被洗劫一空！', result: 'loss_only' },
+                { icon: '🌪️', msg: '遇到龙卷风，吹走所有钱财！', result: 'loss_only' }
+            ]
+        };
+        
+        function init() {
+            renderGods();
+            updateUI();
+            setInterval(recoverMana, 1000);
+        }
+        
+        function renderGods() {
+            const container = document.getElementById('god-list');
+            container.innerHTML = gods.map((god, index) => `
+                <div class="god-item ${index === selectedGod ? 'selected' : ''}" onclick="selectGod(${index})">
+                    <div class="god-name">${god.name}</div>
+                    <div class="god-effect">${god.effect}</div>
+                </div>
+            `).join('');
+        }
+        
+        function selectGod(index) {
+            selectedGod = index;
+            renderGods();
+        }
+        
+        function selectMaterial(mat) {
+            selectedMat = mat;
+            document.querySelectorAll('.material-btn').forEach(btn => btn.classList.remove('selected'));
+            document.getElementById('mat-' + mat).classList.add('selected');
+        }
+        
+        // 供奉
+        function worship() {
+            const mat = materials[selectedMat];
+            if (gameData[mat.item] < mat.cost) {
+                log('temple-log', `❌ ${mat.name}不足！`, 'event-bad');
+                return;
+            }
+            
+            gameData[mat.item] -= mat.cost;
+            const god = gods[selectedGod];
+            
+            // 添加/刷新BUFF
+            activeBuffs[god.id] = {
+                count: mat.duration,
+                bonus: god.bonus,
+                type: god.type
+            };
+            
+            // 应用特殊BUFF效果
+            if (god.type === 'cap') {
+                // 刘海蟾 - 临时上限
+                tempMoneyCap = god.bonus;
+            }
+            
+            // 计算供奉奖励
+            let baseReward = 10;
+            if (selectedMat === 'candle') baseReward = 20;
+            if (selectedMat === 'paper') baseReward = 30;
+            if (selectedMat === 'fruit') baseReward = 50;
+            
+            // 功德计算（李诡祖加成）
+            let meritGain = 1;
+            if (god.type === 'worship' && god.id === 'shengcai') {
+                meritGain = Math.floor(meritGain * (1 + god.bonus));
+            }
+            
+            gameData.incense_money += baseReward;
+            gameData.merit += meritGain;
+            
+            let msg = `🙏 供奉${god.name}(${mat.name})！+${baseReward}香火钱 +${meritGain}功德`;
+            if (god.type === 'alms') msg += ` [化缘${god.effect}]`;
+            if (god.type === 'risk') msg += ` [风险${god.effect}]`;
+            if (god.type === 'cap') msg += ` [上限+${god.bonus}]`;
+            msg += ` 剩余${mat.duration}次`;
+            
+            log('temple-log', msg, 'event-good');
+            
+            updateBuffDisplay();
+            updateUI();
+        }
+        
+        // 化缘（修正版 - 事件逻辑正确）
+        function goAlms(region, risk, baseReward) {
+            if (gameData.mana < 5) {
+                log('alms-log', '❌ 法力不足！', 'event-bad');
+                return;
+            }
+            
+            gameData.mana -= 5;
+            
+            // 应用财神奶奶的风险减免
+            let actualRisk = risk;
+            if (activeBuffs['caishenpo']) {
+                actualRisk = Math.max(0.05, risk + activeBuffs['caishenpo'].bonus);
+            }
+            
+            // 计算事件
+            const rand = Math.random();
+            let eventType;
+            
+            // 概率分配：
+            // terrible = actualRisk (纯损失)
+            // bad = 10% (收益然后损失)
+            // fair = 20% (收益减少)
+            // normal = 35% (正常收益)
+            // good = 15% (不错收益)
+            // great = 5% (超额收益)
+            
+            if (rand < actualRisk) {
+                eventType = 'terrible'; // 大凶 - 纯损失
+            } else if (rand < actualRisk + 0.10) {
+                eventType = 'bad'; // 小凶 - 有收益但被敲诈
+            } else if (rand < actualRisk + 0.30) {
+                eventType = 'fair'; // 平淡 - 收益减少
+            } else if (rand < actualRisk + 0.65) {
+                eventType = 'normal'; // 顺利 - 正常
+            } else if (rand < actualRisk + 0.80) {
+                eventType = 'good'; // 小吉 - 不错
+            } else {
+                eventType = 'great'; // 大吉 - 超额
+            }
+            
+            // 获取随机事件
+            const events = eventLibrary[eventType];
+            const evt = events[Math.floor(Math.random() * events.length)];
+            
+            // 计算收益倍数
+            let multiplier = 1.0;
+            if (eventType === 'great') multiplier = 2.0;
+            else if (eventType === 'good') multiplier = 1.5;
+            else if (eventType === 'fair') multiplier = 0.6;
+            else if (eventType === 'bad') multiplier = 0.8; // 有收益但会被扣
+            
+            // 应用财神加成（仅正面收益时）
+            let bonusMult = 1.0;
+            if (eventType !== 'terrible') {
+                if (activeBuffs['caishen']) bonusMult += activeBuffs['caishen'].bonus; // 赵公明+20%
+                if (activeBuffs['wucaishen']) bonusMult += activeBuffs['wucaishen'].bonus; // 关公+15%
+            }
+            
+            // 范蠡暴击
+            let isCrit = false;
+            if (activeBuffs['piancaishen'] && Math.random() < activeBuffs['piancaishen'].bonus) {
+                bonusMult *= 3;
+                isCrit = true;
+            }
+            
+            // 执行结果
+            let finalMsg = '';
+            let cssClass = 'event-normal';
+            
+            if (evt.result === 'loss_only') {
+                // 纯损失
+                const loss = Math.floor(gameData.incense_money * 0.30);
+                gameData.incense_money = Math.max(0, gameData.incense_money - loss);
+                finalMsg = `${evt.icon} 【大凶】${evt.msg} 损失${loss}香火钱！`;
+                cssClass = 'event-bad';
+            } else if (evt.result === 'gain_then_loss') {
+                // 有收益然后损失
+                const gain = Math.floor(baseReward * multiplier * bonusMult);
+                const loss = Math.floor(gain * 0.4); // 被敲诈40%
+                gameData.incense_money += (gain - loss);
+                finalMsg = `${evt.icon} 【小凶】${evt.msg} 获得${gain}但被拿走${loss}，净赚${gain-loss}！`;
+                cssClass = 'event-normal';
+            } else if (evt.result === 'gain_less') {
+                // 收益减少
+                const gain = Math.floor(baseReward * multiplier * bonusMult);
+                gameData.incense_money += gain;
+                finalMsg = `${evt.icon} 【平淡】${evt.msg} 只获得${gain}香火钱！`;
+                cssClass = 'event-normal';
+            } else {
+                // 正常或超额收益
+                const gain = Math.floor(baseReward * multiplier * bonusMult);
+                gameData.incense_money += gain;
+                
+                let typeName = eventType === 'great' ? '大吉' : eventType === 'good' ? '小吉' : '顺利';
+                finalMsg = `${evt.icon} 【${typeName}】${evt.msg}`;
+                if (isCrit) finalMsg += ' 💥暴击!';
+                finalMsg += ` 获得${gain}香火钱！`;
+                
+                cssClass = eventType === 'great' ? 'event-great' : eventType === 'good' ? 'event-good' : 'event-normal';
+            }
+            
+            log('alms-log', finalMsg, cssClass);
+            
+            // 消耗BUFF
+            consumeBuffs();
+            updateBuffDisplay();
+            updateUI();
+        }
+        
+        // 消耗BUFF次数
+        function consumeBuffs() {
+            for (const godId in activeBuffs) {
+                activeBuffs[godId].count--;
+                if (activeBuffs[godId].count <= 0) {
+                    // BUFF消失时移除特殊效果
+                    if (activeBuffs[godId].type === 'cap') {
+                        tempMoneyCap = 0;
+                    }
+                    delete activeBuffs[godId];
+                }
+            }
+        }
+        
+        // 显示BUFF
+        function updateBuffDisplay() {
+            const buffList = document.getElementById('buff-list');
+            if (Object.keys(activeBuffs).length === 0) {
+                buffList.innerHTML = '无';
+                return;
+            }
+            
+            let html = '';
+            for (const godId in activeBuffs) {
+                const god = gods.find(g => g.id === godId);
+                const buff = activeBuffs[godId];
+                html += `<span class="buff-item">${god.name}(${buff.count})${buff.type==='alms'?'+钱':buff.type==='risk'?'-险':''}</span>`;
+            }
+            buffList.innerHTML = html;
+        }
+        
+        // 升级
+        function doUpgrade() {
+            const current = stages[gameData.stage];
+            if (!current.next) {
+                log('upgrade-log', '🎉 已达最高阶段！', 'event-good');
+                return;
+            }
+            
+            const need = current.need;
+            
+            if (gameData.merit < need.merit) {
+                log('upgrade-log', `❌ 功德不足！需${need.merit}(当前${gameData.merit})`, 'event-bad');
+                return;
+            }
+            if (gameData.incense_money < need.money) {
+                log('upgrade-log', `❌ 香火钱不足！需${need.money}(当前${gameData.incense_money})`, 'event-bad');
+                return;
+            }
+            if (gameData.incense_sticks < need.incense) {
+                log('upgrade-log', `❌ 线香不足！需${need.incense}(当前${gameData.incense_sticks})`, 'event-bad');
+                return;
+            }
+            if (gameData.candles < need.candles) {
+                log('upgrade-log', `❌ 蜡烛不足！需${need.candles}(当前${gameData.candles})`, 'event-bad');
+                return;
+            }
+            
+            // 扣除资源（功德不扣）
+            gameData.incense_money -= need.money;
+            gameData.incense_sticks -= need.incense;
+            gameData.candles -= need.candles;
+            
+            gameData.stage = current.next;
+            gameData.level += 5;
+            
+            log('upgrade-log', `🎉 升级成功！${current.name}→${stages[gameData.stage].name}！等级${gameData.level}`, 'event-great');
+            updateUI();
+        }
+        
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(section + '-section').classList.remove('hidden');
+            event.target.classList.add('active');
+            updateUI();
+        }
+        
+        function updateUI() {
+            document.getElementById('money').textContent = gameData.incense_money;
+            document.getElementById('merit').textContent = gameData.merit;
+            document.getElementById('mana').textContent = Math.floor(gameData.mana);
+            document.getElementById('level').textContent = gameData.level;
+            document.getElementById('stage').textContent = stages[gameData.stage].name;
+            document.getElementById('yuanbao').textContent = gameData.yuanbao;
+            
+            document.getElementById('incense-sticks').textContent = gameData.incense_sticks;
+            document.getElementById('candles').textContent = gameData.candles;
+            document.getElementById('gold-paper').textContent = gameData.gold_paper;
+            document.getElementById('fruits').textContent = gameData.fruits;
+            
+            const current = stages[gameData.stage];
+            document.getElementById('current-stage').textContent = current.name;
+            
+            if (current.need) {
+                document.getElementById('need-resources').innerHTML = `
+                    <span class="${gameData.merit >= current.need.merit ? 'met' : 'unmet'}">✨ 功德门槛: ${current.need.merit} (当前${gameData.merit}) ${gameData.merit >= current.need.merit ? '✓' : '✗'}</span><br>
+                    <span class="${gameData.incense_money >= current.need.money ? 'met' : 'unmet'}">💰 香火钱: ${current.need.money} (当前${gameData.incense_money}) ${gameData.incense_money >= current.need.money ? '✓' : '✗'}</span><br>
+                    <span class="${gameData.incense_sticks >= current.need.incense ? 'met' : 'unmet'}">📿 线香: ${current.need.incense} (当前${gameData.incense_sticks}) ${gameData.incense_sticks >= current.need.incense ? '✓' : '✗'}</span><br>
+                    <span class="${gameData.candles >= current.need.candles ? 'met' : 'unmet'}">🕯️ 蜡烛: ${current.need.candles} (当前${gameData.candles}) ${gameData.candles >= current.need.candles ? '✓' : '✗'}</span>
+                `;
+            } else {
+                document.getElementById('need-resources').textContent = '🎉 已达最高阶段！';
+            }
+        }
+        
+        function recoverMana() {
+            let recoverRate = 1;
+            if (activeBuffs['lucaishen']) {
+                recoverRate = 1.2; // 沈万三+20%回复
+            }
+            
+            const maxMana = baseMaxMana + (activeBuffs['shoucaishen'] ? 10 : 0); // 刘海蟾上限
+            
+            if (gameData.mana < maxMana) {
+                gameData.mana = Math.min(maxMana, gameData.mana + recoverRate);
+                updateUI();
+            }
+        }
+        
+        function log(containerId, message, className = '') {
+            const container = document.getElementById(containerId);
+            const item = document.createElement('div');
+            item.className = 'log-item ' + className;
+            item.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            container.insertBefore(item, container.firstChild);
+            while (container.children.length > 15) {
+                container.removeChild(container.lastChild);
+            }
+        }
+        
+        init();
+    </script>
+</body>
+</html>

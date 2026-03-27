@@ -1,0 +1,32 @@
+🔄 初始化数据库...
+数据库初始化完成
+数据库查询错误: Error: This command is not supported in the prepared statement protocol yet
+    at PromisePool.execute (/Users/fuyao/Desktop/财神大陆-Cocos/server/node_modules/mysql2/lib/promise/pool.js:54:22)
+    at query (/Users/fuyao/Desktop/财神大陆-Cocos/server/database.js:36:38)
+    at setupDatabase (/Users/fuyao/Desktop/财神大陆-Cocos/server/setup.js:22:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async start (/Users/fuyao/Desktop/财神大陆-Cocos/server/index.js:61:5) {
+  code: 'ER_UNSUPPORTED_PS',
+  errno: 1295,
+  sql: '\n\nUSE caishen_game',
+  sqlState: 'HY000',
+  sqlMessage: 'This command is not supported in the prepared statement protocol yet'
+}
+SQL执行: 
+
+USE caishen_game...
+✅ 数据库初始化完成
+🏮 财神大陆服务器运行在 http://localhost:3001
+📊 管理后台: http://localhost:3001/admin
+
+API端点:
+  POST /api/auth/login      - 登录
+  GET  /api/player/data     - 玩家数据
+  POST /api/temple/worship  - 供奉
+  POST /api/alms/beg        - 化缘
+  GET  /api/quests/list     - 任务列表
+  GET  /api/mails/list      - 邮件列表
+  GET  /api/friends/list    - 好友列表
+  GET  /api/guilds/list     - 门派列表
+  GET  /api/rankings/level  - 等级榜
+  GET  /api/admin/stats     - 管理统计

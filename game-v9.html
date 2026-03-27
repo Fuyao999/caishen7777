@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>财神大陆 - V9完全连贯版</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 15px;
+        }
+        .container { max-width: 950px; margin: 0 auto; }
+        h1 { text-align: center; font-size: 36px; margin-bottom: 15px; color: #FFD700; }
+        .stats {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .stat-item { text-align: center; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 8px; }
+        .stat-value { font-size: 18px; font-weight: bold; color: #FFD700; }
+        .stat-label { font-size: 10px; opacity: 0.8; }
+        .buff-bar {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 12px;
+            font-size: 12px;
+        }
+        .buff-list { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+        .buff-item {
+            display: inline-block;
+            background: rgba(255,215,0,0.2);
+            border: 1px solid #FFD700;
+            border-radius: 10px;
+            padding: 2px 8px;
+            font-size: 10px;
+        }
+        .section { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+        .section h2 { color: #FFD700; margin-bottom: 12px; font-size: 18px; }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none; color: white; padding: 10px 20px;
+            border-radius: 8px; cursor: pointer; font-size: 14px; margin: 3px;
+        }
+        .materials { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+        .material-btn {
+            background: rgba(0,0,0,0.3);
+            border: 2px solid transparent;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        .material-btn.selected { border-color: #FFD700; background: rgba(255,215,0,0.2); }
+        .god-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+        .god-item {
+            background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px;
+            text-align: center; cursor: pointer; border: 2px solid transparent;
+            font-size: 11px;
+        }
+        .god-item.selected { border-color: #FFD700; background: rgba(255,215,0,0.2); }
+        .god-item.has-buff { border-color: #2ecc71; }
+        .god-name { font-weight: bold; color: #FFD700; font-size: 12px; }
+        .god-effect { font-size: 9px; margin-top: 2px; }
+        .god-buff-count { font-size: 9px; color: #2ecc71; }
+        .region-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px; }
+        .region-item {
+            background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px;
+            text-align: center; cursor: pointer;
+        }
+        .region-name { font-size: 18px; font-weight: bold; }
+        .region-risk { font-size: 10px; margin-top: 3px; color: #ff6b6b; }
+        .log {
+            background: rgba(0,0,0,0.3); border-radius: 8px;
+            padding: 10px; margin-top: 10px; min-height: 100px; max-height: 300px; overflow-y: auto;
+        }
+        .log-item { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 13px; line-height: 1.6; }
+        .event-great { color: #FFD700; font-weight: bold; background: rgba(255,215,0,0.1); border-radius: 4px; padding: 6px; }
+        .event-good { color: #2ecc71; }
+        .event-bad { color: #ff6b6b; }
+        .event-terrible { color: #e74c3c; font-weight: bold; background: rgba(231,76,60,0.1); border-radius: 4px; padding: 6px; }
+        .hidden { display: none; }
+        .nav { display: flex; justify-content: center; gap: 6px; margin-bottom: 12px; }
+        .nav-btn { background: rgba(255,255,255,0.1); border: 2px solid transparent; padding: 8px 16px; font-size: 13px; }
+        .nav-btn.active { border-color: #FFD700; background: rgba(255,215,0,0.2); }
+        .story-box { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; margin: 8px 0; font-size: 13px; line-height: 1.6; }
+        .result-text { margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.2); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏮 财神大陆 V9</h1>
+        
+        <div class="stats">
+            <div class="stat-item"><div class="stat-value" id="money">1000</div><div class="stat-label">香火钱</div></div>
+            <div class="stat-item"><div class="stat-value" id="merit">0</div><div class="stat-label">功德</div></div>
+            <div class="stat-item"><div class="stat-value" id="mana">100</div><div class="stat-label">法力</div></div>
+            <div class="stat-item"><div class="stat-value" id="level">1</div><div class="stat-label">等级</div></div>
+            <div class="stat-item"><div class="stat-value" id="stage">泥胎</div><div class="stat-label">阶段</div></div>
+            <div class="stat-item"><div class="stat-value" id="yuanbao">100</div><div class="stat-label">元宝</div></div>
+        </div>
+        
+        <div class="buff-bar">
+            <strong>🙏 财神庇佑：</strong><span id="buff-list">无</span>
+            <div style="font-size: 11px; color: #ccc; margin-top: 5px;">💡 1-5级：次数叠加 | 6级后：刷新模式</div>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 8px; font-size: 11px;">
+            线香<span id="incense-sticks">10</span> | 蜡烛<span id="candles">5</span> | 金纸<span id="gold-paper">3</span> | 供果<span id="fruits">2</span>
+        </div>
+        
+        <div class="nav">
+            <button class="btn nav-btn active" onclick="showSection('temple')">🏛️ 庙宇</button>
+            <button class="btn nav-btn" onclick="showSection('alms')">🚶 化缘</button>
+            <button class="btn nav-btn" onclick="showSection('upgrade')">⬆️ 升级</button>
+        </div>
+        
+        <!-- 庙宇 -->
+        <div id="temple-section" class="section">
+            <h2>供奉财神</h2>
+            <div class="materials">
+                <button class="material-btn selected" id="mat-incense" onclick="selectMaterial('incense')">📿 线香(1次)</button>
+                <button class="material-btn" id="mat-candle" onclick="selectMaterial('candle')">🕯️ 蜡烛(3次)</button>
+                <button class="material-btn" id="mat-paper" onclick="selectMaterial('paper')">📜 金纸(5次)</button>
+                <button class="material-btn" id="mat-fruit" onclick="selectMaterial('fruit')">🍎 供果(10次)</button>
+            </div>
+            <div class="god-list" id="god-list"></div>
+            <div style="text-align: center; margin-top: 10px;">
+                <button class="btn" onclick="worship()">🙏 供奉</button>
+            </div>
+            <div class="log" id="temple-log"></div>
+        </div>
+        
+        <!-- 化缘 -->
+        <div id="alms-section" class="section hidden">
+            <h2>外出化缘</h2>
+            <div class="region-list">
+                <div class="region-item" onclick="goAlms('east', 0.10, 100)">
+                    <div class="region-name">东</div>
+                    <div class="region-risk">风险10% | 收益100</div>
+                </div>
+                <div class="region-item" onclick="goAlms('south', 0.20, 200)">
+                    <div class="region-name">南</div>
+                    <div class="region-risk">风险20% | 收益200</div>
+                </div>
+                <div class="region-item" onclick="goAlms('west', 0.30, 300)">
+                    <div class="region-name">西</div>
+                    <div class="region-risk">风险30% | 收益300</div>
+                </div>
+                <div class="region-item" onclick="goAlms('north', 0.40, 500)">
+                    <div class="region-name">北</div>
+                    <div class="region-risk">风险40% | 收益500</div>
+                </div>
+            </div>
+            <div class="log" id="alms-log"></div>
+        </div>
+        
+        <!-- 升级 -->
+        <div id="upgrade-section" class="section hidden">
+            <h2>升级进化</h2>
+            <div style="text-align: center;">
+                <div style="font-size: 24px; color: #FFD700; margin-bottom: 10px;" id="current-stage">泥胎</div>
+                <div id="need-resources"></div>
+                <button class="btn" onclick="doUpgrade()">✨ 升级</button>
+            </div>
+            <div class="log" id="upgrade-log"></div>
+        </div>
+    </div>
+
+    <script>
+        const gameData = {
+            level: 1, stage: 'clay',
+            incense_money: 1000, yuanbao: 100, merit: 0, mana: 100,
+            incense_sticks: 10, candles: 5, gold_paper: 3, fruits: 2
+        };
+        
+        const gods = [
+            { id: 'tudi', name: '土地公', effect: '首供双倍+5功德', type: 'worship', bonus: 0, unlocked: true },
+            { id: 'guanyu', name: '关羽', effect: '化缘收益+12%', type: 'alms', bonus: 0.12, unlocked: true },
+            { id: 'yaoshaosi', name: '姚少司', effect: '风险-10%', type: 'risk', bonus: -0.10, unlocked: false },
+            { id: 'xiaosheng', name: '萧升', effect: '东方收益+40%', type: 'regional', bonus: 0.40, region: 'east', unlocked: false },
+            { id: 'chenjiugong', name: '陈九公', effect: '香火钱+80%', type: 'alms_money', bonus: 0.80, unlocked: false },
+            { id: 'caobao', name: '曹宝', effect: '材料-30%', type: 'save', bonus: 0.30, unlocked: false },
+            { id: 'fanli', name: '范蠡', effect: '暴击8%×3倍', type: 'crit', bonus: 0.08, unlocked: false },
+            { id: 'liuhai', name: '刘海', effect: '转盘游戏', type: 'game', bonus: 0, unlocked: false },
+            { id: 'zhaogongming', name: '赵公明', effect: '全部+20%', type: 'all', bonus: 0.20, unlocked: false }
+        ];
+        
+        const materials = {
+            incense: { name: '线香', item: 'incense_sticks', cost: 1, duration: 1 },
+            candle: { name: '蜡烛', item: 'candles', cost: 1, duration: 3 },
+            paper: { name: '金纸', item: 'gold_paper', cost: 1, duration: 5 },
+            fruit: { name: '供果', item: 'fruits', cost: 1, duration: 10 }
+        };
+        
+        let selectedGod = 0;
+        let selectedMat = 'incense';
+        let activeBuffs = {};
+        
+        // ==================== V9：完全连贯的事件生成器 ====================
+        // 每个角色都有6种完整结果，保证6句话全连贯
+        const EventGenerator = {
+            // 所有事件模板 - 每个角色都有完整的6种结果
+            storyTemplates: [
+                {
+                    scene: '🗣️ 你对着空气喊"施主化个缘"',
+                    characters: [
+                        {
+                            name: '渡劫掌门',
+                            text: '一只焦黑的手突然掐住你脖子——是正在渡劫的掌门！',
+                            conflict: '他把你当成了来干扰他渡劫的心魔！',
+                            // 6种结果都和"渡劫掌门"相关
+                            great: '他发现你是财神转世，激动之下把本命法宝都给了你！你获得了XXX香火钱！',
+                            good: '他觉得你有胆量，收你做关门弟子还给了见面礼！你获得了XXX香火钱！',
+                            normal: '误会解除后，他随手赏了你一些灵石！你获得了XXX香火钱！',
+                            fair: '他虽然没怪你，但也没给你什么好东西！你获得了XXX香火钱！',
+                            bad: '他一怒之下把你打进粪坑，你爬出来时还丢了鞋子！净损失XXX香火钱！',
+                            terrible: '他渡劫失败走火入魔，把你当成心魔暴打一顿还抢了你的钱！损失XXX香火钱！'
+                        },
+                        {
+                            name: '隐身高手',
+                            text: '空气中传来一声冷哼——是个隐身高手！',
+                            conflict: '他觉得你在暴露他的位置，想杀人灭口！',
+                            great: '他发现你能感知到他，觉得你是天才，把所有秘籍都给了你！你获得了XXX香火钱！',
+                            good: '他觉得你有趣，教了你一招半式还给了盘缠！你获得了XXX香火钱！',
+                            normal: '他看你只是普通人，警告你之后放了你！你获得了XXX香火钱！',
+                            fair: '他把你打晕扔到了十里外，你走了好久才回来！你获得了XXX香火钱！',
+                            bad: '他把你当成探子严刑拷打，你花钱才保住小命！净损失XXX香火钱！',
+                            terrible: '他直接把你扔下了悬崖，你摔断腿还丢了所有钱！损失XXX香火钱！'
+                        }
+                    ]
+                },
+                {
+                    scene: '🚪 你敲响了一户人家的门',
+                    characters: [
+                        {
+                            name: '王寡妇',
+                            text: '开门的是隔壁村的王寡妇！',
+                            conflict: '她以为你是她跑了三年的相好，拉着你不让走！',
+                            great: '她激动之下把压箱底的嫁妆都塞给了你！你获得了XXX香火钱！',
+                            good: '她给你做了一桌好菜，还包了红包！你获得了XXX香火钱！',
+                            normal: '搞清楚后她不好意思，给了你一些辛苦费！你获得了XXX香火钱！',
+                            fair: '她虽然失望了，但还是给了你一个馒头！你获得了XXX香火钱！',
+                            bad: '她男人突然出现，把你当成奸夫打得半死！净损失XXX香火钱！',
+                            terrible: '她气得把你绑了送官府，说你调戏良家妇女！损失XXX香火钱！'
+                        },
+                        {
+                            name: '黑道老大',
+                            text: '开门的是个满脸横肉的大汉！',
+                            conflict: '他觉得你是来收保护费的对手，抄起刀就要砍你！',
+                            great: '他发现你不是对手，赏识你的胆量收你做二当家！你获得了XXX香火钱！',
+                            good: '他觉得你有种，给了你赏钱还请你喝酒！你获得了XXX香火钱！',
+                            normal: '解释清楚后，他随手扔给你一些碎银子！你获得了XXX香火钱！',
+                            fair: '他把你当成叫花子打发，给了你一个铜板！你获得了XXX香火钱！',
+                            bad: '他把你当成卧底，让手下把你揍了一顿！净损失XXX香火钱！',
+                            terrible: '他把你绑了卖去黑煤窑做苦力，你逃出来时身无分文！损失XXX香火钱！'
+                        }
+                    ]
+                },
+                {
+                    scene: '🥣 你在路边摆了个乞讨的碗',
+                    characters: [
+                        {
+                            name: '蛤蟆财神',
+                            text: '碗里跳出了一只癞蛤蟆——它自称是财神转世！',
+                            conflict: '它说你在抢它的饭碗，要跟你斗法！',
+                            great: '它其实真的是财神变的，赏了你一个金元宝！你获得了XXX香火钱！',
+                            good: '它觉得你有趣，给了你一些铜板当玩具！你获得了XXX香火钱！',
+                            normal: '它跳走了，但留下了一些粘液，被人当成药材买了！你获得了XXX香火钱！',
+                            fair: '它喷了你一脸口水，你只能擦擦脸继续乞讨！你获得了XXX香火钱！',
+                            bad: '它其实有毒，你被毒倒了，花钱买药才活下来！净损失XXX香火钱！',
+                            terrible: '它召唤了一群毒蛤蟆围攻你，你逃跑时丢光了所有钱！损失XXX香火钱！'
+                        },
+                        {
+                            name: '县太爷',
+                            text: '县太爷的轿子路过停了下来！',
+                            conflict: '他以为你是来告状的刁民，想把你抓进大牢！',
+                            great: '他觉得你可怜，开仓放粮还给了你赏银！你获得了XXX香火钱！',
+                            good: '他随手赏了你一些银子，说你是他见过的最诚实的乞丐！你获得了XXX香火钱！',
+                            normal: '他让师爷给了你一些盘缠，让你去做点小买卖！你获得了XXX香火钱！',
+                            fair: '他看了你一眼就离开了，只给了你几个铜板！你获得了XXX香火钱！',
+                            bad: '他嫌你挡路，让衙役把你打了一顿扔出城！净损失XXX香火钱！',
+                            terrible: '他把你当成流民抓去充军，你逃出来时丢了所有家当！损失XXX香火钱！'
+                        }
+                    ]
+                },
+                {
+                    scene: '😵 你假装晕倒在地上',
+                    characters: [
+                        {
+                            name: '江湖郎中',
+                            text: '一个江湖郎中路过！',
+                            conflict: '他想拿你试他的新药，不管三七二十一就给你灌了下去！',
+                            great: '他的药意外打通了任督二脉，你还拿到了试药费！你获得了XXX香火钱！',
+                            good: '他的药虽然奇怪，但确实让你精神了不少，他给了你报酬！你获得了XXX香火钱！',
+                            normal: '你及时醒来拒绝了他的药，他不好意思给了你一些钱！你获得了XXX香火钱！',
+                            fair: '他的药没效果，但也没害你，他给了你一个馒头！你获得了XXX香火钱！',
+                            bad: '他的药让你上吐下泻，你花钱看病才好转！净损失XXX香火钱！',
+                            terrible: '他的药让你浑身起疹子，治病花了你一大笔钱！损失XXX香火钱！'
+                        },
+                        {
+                            name: '棺材铺老板',
+                            text: '棺材铺老板刚好路过！',
+                            conflict: '他以为你死了，想把你拖走直接埋了！',
+                            great: '发现你活着，他觉得是财神显灵，把所有棺材都买了供奉你！你获得了XXX香火钱！',
+                            good: '他觉得不好意思，给了你压惊钱还送你一副好棺材（你卖了换钱）！你获得了XXX香火钱！',
+                            normal: '你及时醒来，他尴尬地给了你一些补偿费！你获得了XXX香火钱！',
+                            fair: '他骂骂咧咧地走了，只丢下几个铜板！你获得了XXX香火钱！',
+                            bad: '他把你当成诈尸，用棍子把你打了一顿！净损失XXX香火钱！',
+                            terrible: '他把你装进棺材抬走了，你花了所有钱才逃出来！损失XXX香火钱！'
+                        }
+                    ]
+                },
+                {
+                    scene: '🪨 你开始表演胸口碎大石',
+                    characters: [
+                        {
+                            name: '同行艺人',
+                            text: '一群江湖卖艺的围观了过来！',
+                            conflict: '他们觉得你在抢生意，要跟你比试！',
+                            great: '你的技术震惊全场，观众把钱都投给了你！你获得了XXX香火钱！',
+                            good: '你赢了比试，他们按照规矩把今天的收入分了你一半！你获得了XXX香火钱！',
+                            normal: '你们各演各的，观众也给了你不打赏钱！你获得了XXX香火钱！',
+                            fair: '他们抢了好的位置，你只能在角落演，收入很少！你获得了XXX香火钱！',
+                            bad: '他们趁夜偷走了你的石头和钱，还打了你一顿！净损失XXX香火钱！',
+                            terrible: '他们把你当成骗子，联合起来把你打残了！损失XXX香火钱！'
+                        },
+                        {
+                            name: '豆腐摊主',
+                            text: '豆腐摊主冲了过来！',
+                            conflict: '你砸的是他用来撑门面的假石头（其实是豆腐渣做的）！',
+                            great: '豆腐店主看你头硬如铁，请你做活招牌，每天给工钱！你获得了XXX香火钱！',
+                            good: '他觉得你有本事，买了你的表演当宣传，给了你好价钱！你获得了XXX香火钱！',
+                            normal: '你赔了他石头钱，但表演收入还不错！你获得了XXX香火钱！',
+                            fair: '他大吵大闹，你只好赔钱了事，只赚了一点！你获得了XXX香火钱！',
+                            bad: '他要你赔石头钱还要赔名誉损失费，你几乎破产！净损失XXX香火钱！',
+                            terrible: '他告你欺诈，你被官府抓去打板子还罚了款！损失XXX香火钱！'
+                        }
+                    ]
+                },
+                {
+                    scene: '💒 你试图混入一场婚礼蹭吃',
+                    characters: [
+                        {
+                            name: '入赘师兄',
+                            text: '新郎居然是你失散多年的师兄！',
+                            conflict: '他以为你是来破坏他入赘豪门的！',
+                            great: '相认之后他偷偷塞给你一个大红包，还说以后罩着你！你获得了XXX香火钱！',
+                            good: '他把你当成贵客招待，还给了你见面礼！你获得了XXX香火钱！',
+                            normal: '解释清楚后，他让你吃了顿饱饭还给了一些钱！你获得了XXX香火钱！',
+                            fair: '他虽然没认你，但还是让你吃了顿饭！你获得了XXX香火钱！',
+                            bad: '新娘以为你是他外面的女人，把你暴打一顿！净损失XXX香火钱！',
+                            terrible: '新娘家把你当成骗子，让家丁把你扔进了河里！损失XXX香火钱！'
+                        },
+                        {
+                            name: '新娘',
+                            text: '新娘突然掀了盖头！',
+                            conflict: '她以为你是她前任派来闹事的，哭得稀里哗啦！',
+                            great: '她看你长得老实，给了你喜钱还说要给你介绍对象！你获得了XXX香火钱！',
+                            good: '误会解除后，她不好意思地给了你红包！你获得了XXX香火钱！',
+                            normal: '她让你吃了喜酒还打包了一些剩菜！你获得了XXX香火钱！',
+                            fair: '她虽然没怪你，但也没给你什么好处！你获得了XXX香火钱！',
+                            bad: '她让娘家兄弟把你扔了出去，你摔伤了！净损失XXX香火钱！',
+                            terrible: '她气得当场逃婚，所有人追着你打要赔偿！损失XXX香火钱！'
+                        }
+                    ]
+                },
+                {
+                    scene: '🎋 你在庙门口帮人解签',
+                    characters: [
+                        {
+                            name: '真高僧',
+                            text: '信徒中混着个真的高僧！',
+                            conflict: '他一眼看穿你是个骗子，要当众揭穿你！',
+                            great: '他觉得你解得比他还准，请你做寺庙住持！你获得了XXX香火钱！',
+                            good: '他觉得你有慧根，收你做俗家弟子还给了香油钱！你获得了XXX香火钱！',
+                            normal: '你诚恳认错，他原谅了你还给了你改过自新的机会！你获得了XXX香火钱！',
+                            fair: '他把你赶走了，但信徒已经给的钱你不用退！你获得了XXX香火钱！',
+                            bad: '他让信徒把你当成骗子打了一顿，还抢回了钱！净损失XXX香火钱！',
+                            terrible: '他把你绑在寺门口示众三天，你还被罚款！损失XXX香火钱！'
+                        },
+                        {
+                            name: '算命先生',
+                            text: '旁边摆摊的算命先生过来了！',
+                            conflict: '他说你抢了他的生意，要跟你斗法！',
+                            great: '你赢了斗法，他按照规矩把所有家当都给了你！你获得了XXX香火钱！',
+                            good: '你们合作演出，收入平分，赚得盆满钵满！你获得了XXX香火钱！',
+                            normal: '你们各算各的，互不干扰，都有收入！你获得了XXX香火钱！',
+                            fair: '他抢了好的位置，你只能在角落里算，收入很少！你获得了XXX香火钱！',
+                            bad: '他诅咒你，你真的开始走霉运还丢了钱！净损失XXX香火钱！',
+                            terrible: '他用了邪术害你，你大病一场还丢了所有钱！损失XXX香火钱！'
+                        }
+                    ]
+                },
+                {
+                    scene: '👨‍🦲 你假装是云游高僧',
+                    characters: [
+                        {
+                            name: '真皇族',
+                            text: '旁边真的有个皇族在微服私访！',
+                            conflict: '他觉得你在侮辱佛门，要治你的罪！',
+                            great: '他觉得你有佛性，请你去宫里做国师！你获得了XXX香火钱！',
+                            good: '他觉得你演技好，请你去做戏班教头！你获得了XXX香火钱！',
+                            normal: '你诚恳认错，他看在佛祖面上放了你一马！你获得了XXX香火钱！',
+                            fair: '他骂了你一顿，但也没把你怎么样！你获得了XXX香火钱！',
+                            bad: '他让侍卫把你打进大牢，你花钱才出来！净损失XXX香火钱！',
+                            terrible: '他以欺君之罪要斩你，你花了所有家产才买通狱卒逃跑！损失XXX香火钱！'
+                        },
+                        {
+                            name: '山贼',
+                            text: '一群山贼跪在你面前！',
+                            conflict: '他们以为你会武功，想让你入伙当军师！',
+                            great: '他们把你当成活神仙供奉，把所有赃物都献给你！你获得了XXX香火钱！',
+                            good: '他们给了你一大笔孝敬钱，还请你喝酒吃肉！你获得了XXX香火钱！',
+                            normal: '你告诉他们你不是高手，但他们还是给了你一些路费！你获得了XXX香火钱！',
+                            fair: '他们发现你不会武功，失望地把你赶走了！你获得了XXX香火钱！',
+                            bad: '他们发现你骗他们，把你吊起来打了一顿！净损失XXX香火钱！',
+                            terrible: '他们把你当成官府卧底，要把你活埋了！你逃出来但丢了所有钱！损失XXX香火钱！'
+                        }
+                    ]
+                },
+                {
+                    scene: '🐒 你开始街头卖艺耍猴',
+                    characters: [
+                        {
+                            name: '假猴子',
+                            text: '猴子其实是人扮的！',
+                            conflict: '他想跟你分账，你不肯！',
+                            great: '你们合作演出大获成功，成为了黄金搭档！你获得了XXX香火钱！',
+                            good: '你们达成协议，收入五五分，赚得比之前多！你获得了XXX香火钱！',
+                            normal: '你说服他继续当猴，多给了他一些分成！你获得了XXX香火钱！',
+                            fair: '你们吵了一架，观众跑了一半，收入减少！你获得了XXX香火钱！',
+                            bad: '他揭发你，观众要求退钱，你还被打了一顿！净损失XXX香火钱！',
+                            terrible: '他带着真猴子来咬你，你逃跑时丢光了所有钱！损失XXX香火钱！'
+                        },
+                        {
+                            name: '猴主人',
+                            text: '真正的猴主人出现了！',
+                            conflict: '他说你偷了他的猴，要报官抓你！',
+                            great: '猴子喜欢你，主人请你当专业驯兽师，给高工资！你获得了XXX香火钱！',
+                            good: '你赔偿了一些钱，但猴主人让你继续演，收入不错！你获得了XXX香火钱！',
+                            normal: '你赔了猴子租金，但演出收入还不错！你获得了XXX香火钱！',
+                            fair: '他抢走了猴子，你只赚到了一点钱！你获得了XXX香火钱！',
+                            bad: '他告你偷窃，你花钱私了还丢了名声！净损失XXX香火钱！',
+                            terrible: '他把你送进大牢，你花了所有家产才出来！损失XXX香火钱！'
+                        }
+                    ]
+                },
+                {
+                    scene: '🐕 你试图给一只狗算命',
+                    characters: [
+                        {
+                            name: '疯书生',
+                            text: '狗主人是个疯书生！',
+                            conflict: '他说这只狗是他死去的未婚妻转世！',
+                            great: '你说这只狗有皇后命，他高兴地把所有家产都给了你！你获得了XXX香火钱！',
+                            good: '你说这只狗有福相，他给了你赏钱！你获得了XXX香火钱！',
+                            normal: '你随便说了几句，他没听懂但觉得高深莫测，给了一些钱！你获得了XXX香火钱！',
+                            fair: '他说你算得不准，只给了你几个铜板！你获得了XXX香火钱！',
+                            bad: '你说这只狗命不好，他放狗咬你还让你赔精神损失！净损失XXX香火钱！',
+                            terrible: '他以为你在诅咒他的未婚妻，把你打得半死还抢了钱！损失XXX香火钱！'
+                        },
+                        {
+                            name: '狗',
+                            text: '狗突然开口说话了！',
+                            conflict: '它说你算得不准，损你招牌，还让你赔偿名誉损失！',
+                            great: '它其实是财神变的，赏识你的勇气，赏了你金子！你获得了XXX香火钱！',
+                            good: '它其实是仙人坐骑，觉得你有趣，给了你仙缘！你获得了XXX香火钱！',
+                            normal: '你吓晕过去，醒来时发现它留了金牙给你！你获得了XXX香火钱！',
+                            fair: '你吓得逃跑，但狗主人觉得好笑给了你一些钱！你获得了XXX香火钱！',
+                            bad: '它召唤了一群野狗追你，你跑丢了鞋子还受了伤！净损失XXX香火钱！',
+                            terrible: '它其实是妖狗，吸了你的阳气还抢了你的钱！损失XXX香火钱！'
+                        }
+                    ]
+                }
+            ],
+            
+            generate(regionRisk, baseReward) {
+                // 随机选故事模板
+                const template = this.storyTemplates[Math.floor(Math.random() * this.storyTemplates.length)];
+                const char = template.characters[Math.floor(Math.random() * template.characters.length)];
+                
+                // 决定事件类型
+                const rand = Math.random();
+                let eventType, multiplier, resultText;
+                
+                if (rand < regionRisk) {
+                    eventType = 'terrible';
+                    multiplier = 0;
+                    resultText = char.terrible;
+                } else if (rand < regionRisk + 0.10) {
+                    eventType = 'bad';
+                    multiplier = 0;
+                    resultText = char.bad;
+                } else if (rand < regionRisk + 0.25) {
+                    eventType = 'fair';
+                    multiplier = 0.5;
+                    resultText = char.fair;
+                } else if (rand < regionRisk + 0.55) {
+                    eventType = 'normal';
+                    multiplier = 1.0;
+                    resultText = char.normal;
+                } else if (rand < regionRisk + 0.80) {
+                    eventType = 'good';
+                    multiplier = 1.5;
+                    resultText = char.good;
+                } else {
+                    eventType = 'great';
+                    multiplier = 2.2;
+                    resultText = char.great;
+                }
+                
+                // 计算收益
+                let moneyChange = 0;
+                let isGain = true;
+                
+                if (eventType === 'terrible' || eventType === 'bad') {
+                    // 损失事件：计算损失金额
+                    moneyChange = Math.floor(gameData.incense_money * (eventType === 'terrible' ? 0.35 : 0.15));
+                    isGain = false;
+                } else {
+                    // 收益事件：计算收益金额
+                    moneyChange = Math.floor(baseReward * multiplier);
+                    isGain = true;
+                }
+                
+                // 替换结果中的XXX
+                const finalResult = resultText.replace('XXX', moneyChange);
+                
+                return {
+                    type: eventType,
+                    story: `${template.scene}，${char.text} ${char.conflict}`,
+                    ending: finalResult,
+                    moneyChange: moneyChange,
+                    isGain: isGain,
+                    character: char.name
+                };
+            }
+        };
+        
+        // ==================== 初始化 ====================
+        function init() {
+            renderGods();
+            updateUI();
+            setInterval(recoverMana, 1000);
+        }
+        
+        function renderGods() {
+            const container = document.getElementById('god-list');
+            container.innerHTML = gods.map((god, index) => {
+                const hasBuff = activeBuffs[god.id];
+                const unlocked = god.unlocked ? '' : '🔒';
+                return `
+                    <div class="god-item ${index === selectedGod ? 'selected' : ''} ${hasBuff ? 'has-buff' : ''} ${!god.unlocked ? 'disabled' : ''}" 
+                         onclick="${god.unlocked ? `selectGod(${index})` : ''}">
+                        <div class="god-name">${unlocked}${god.name}</div>
+                        <div class="god-effect">${god.effect}</div>
+                        ${hasBuff ? `<div class="god-buff-count">⏳${activeBuffs[god.id]}次</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function selectGod(index) {
+            selectedGod = index;
+            renderGods();
+        }
+        
+        function selectMaterial(mat) {
+            selectedMat = mat;
+            document.querySelectorAll('.material-btn').forEach(btn => btn.classList.remove('selected'));
+            document.getElementById('mat-' + mat).classList.add('selected');
+        }
+        
+        // ==================== 供奉（1-5级叠加，6级后刷新）====================
+        function worship() {
+            const god = gods[selectedGod];
+            if (!god.unlocked) {
+                log('temple-log', `🔒 ${god.name}尚未解锁！`, 'event-bad');
+                return;
+            }
+            
+            const mat = materials[selectedMat];
+            if (gameData[mat.item] < mat.cost) {
+                log('temple-log', `❌ ${mat.name}不足！`, 'event-bad');
+                return;
+            }
+            
+            gameData[mat.item] -= mat.cost;
+            
+            // 判断模式：1-5级叠加，6级后刷新
+            const isStackMode = gameData.level < 6;
+            
+            if (isStackMode) {
+                // 叠加模式
+                if (!activeBuffs[god.id]) activeBuffs[god.id] = 0;
+                activeBuffs[god.id] += mat.duration;
+            } else {
+                // 刷新模式
+                activeBuffs[god.id] = mat.duration;
+            }
+            
+            // 供奉奖励
+            let baseReward = { incense: 10, candle: 20, paper: 30, fruit: 50 }[selectedMat];
+            let meritGain = 1;
+            
+            // 土地公首供双倍
+            if (god.id === 'tudi' && !activeBuffs['tudi_first_done']) {
+                baseReward *= 2;
+                meritGain += 5;
+                activeBuffs['tudi_first_done'] = true;
+            }
+            
+            gameData.incense_money += baseReward;
+            gameData.merit += meritGain;
+            
+            const modeText = isStackMode ? '叠加' : '刷新';
+            log('temple-log', `🙏 ${modeText}供奉${god.name}(${mat.name}) +${baseReward}钱 +${meritGain}功德 ${isStackMode?'累计':'剩余'}${activeBuffs[god.id]}次`, 'event-good');
+            
+            renderGods();
+            updateBuffDisplay();
+            updateUI();
+        }
+        
+        // ==================== 化缘 ====================
+        function goAlms(region, risk, baseReward) {
+            if (gameData.mana < 5) {
+                log('alms-log', '❌ 法力不足！', 'event-bad');
+                return;
+            }
+            
+            gameData.mana -= 5;
+            
+            // 计算加成
+            let finalBase = baseReward;
+            let finalRisk = risk;
+            let critChance = 0;
+            
+            for (const id in activeBuffs) {
+                if (id === 'tudi_first_done') continue;
+                const god = gods.find(g => g.id === id);
+                if (!god) continue;
+                
+                if (god.type === 'alms') finalBase *= (1 + god.bonus);
+                if (god.type === 'alms_money') finalBase *= (1 + god.bonus);
+                if (god.type === 'regional' && god.region === region) finalBase *= (1 + god.bonus);
+                if (god.type === 'risk') finalRisk = Math.max(0.05, finalRisk + god.bonus);
+                if (god.type === 'crit') critChance = god.bonus;
+            }
+            
+            // 生成事件
+            const evt = EventGenerator.generate(finalRisk, finalBase);
+            
+            // 应用暴击
+            if (evt.isGain && Math.random() < critChance) {
+                evt.moneyChange *= 3;
+                evt.ending = '💥暴击！' + evt.ending;
+            }
+            
+            // 执行结果
+            if (evt.isGain) {
+                gameData.incense_money += evt.moneyChange;
+            } else {
+                gameData.incense_money = Math.max(0, gameData.incense_money - evt.moneyChange);
+            }
+            
+            // 显示结果
+            const typeClass = {
+                'great': 'event-great',
+                'good': 'event-good',
+                'normal': '',
+                'fair': '',
+                'bad': 'event-bad',
+                'terrible': 'event-terrible'
+            }[evt.type];
+            
+            const typeName = {
+                'great': '🎉大吉',
+                'good': '✨小吉',
+                'normal': '✅顺利',
+                'fair': '😐平淡',
+                'bad': '😰小凶',
+                'terrible': '💀大凶'
+            }[evt.type];
+            
+            log('alms-log', 
+                `<div class="story-box">` +
+                `<strong>${typeName} | 遇到：${evt.character}</strong><br>` +
+                `${evt.story}<br>` +
+                `<div class="result-text"><strong>${evt.ending}</strong></div>` +
+                `</div>`,
+                typeClass
+            );
+            
+            // 消耗BUFF
+            for (const id in activeBuffs) {
+                if (id === 'tudi_first_done') continue;
+                activeBuffs[id]--;
+                if (activeBuffs[id] <= 0) delete activeBuffs[id];
+            }
+            
+            renderGods();
+            updateBuffDisplay();
+            updateUI();
+        }
+        
+        function updateBuffDisplay() {
+            const buffList = document.getElementById('buff-list');
+            const buffCount = Object.keys(activeBuffs).filter(k => k !== 'tudi_first_done').length;
+            
+            if (buffCount === 0) {
+                buffList.innerHTML = '无';
+                return;
+            }
+            
+            let html = '';
+            for (const godId in activeBuffs) {
+                if (godId === 'tudi_first_done') continue;
+                const god = gods.find(g => g.id === godId);
+                if (god) html += `<span class="buff-item">${god.name}(${activeBuffs[godId]})</span>`;
+            }
+            buffList.innerHTML = html;
+        }
+        
+        function doUpgrade() {
+            const need = { merit: 100, money: 5000, incense: 50, candles: 20 };
+            
+            if (gameData.merit < need.merit || gameData.incense_money < need.money || 
+                gameData.incense_sticks < need.incense || gameData.candles < need.candles) {
+                log('upgrade-log', '❌ 资源不足！', 'event-bad');
+                return;
+            }
+            
+            gameData.incense_money -= need.money;
+            gameData.incense_sticks -= need.incense;
+            gameData.candles -= need.candles;
+            gameData.level += 5;
+            
+            if (gameData.level >= 6) {
+                gameData.stage = 'wood';
+                log('upgrade-log', `🎉 升到6级！供奉模式已切换为"刷新"！`, 'event-great');
+            }
+            
+            renderGods();
+            updateUI();
+        }
+        
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(section + '-section').classList.remove('hidden');
+            event.target.classList.add('active');
+            updateUI();
+        }
+        
+        function updateUI() {
+            document.getElementById('money').textContent = gameData.incense_money;
+            document.getElementById('merit').textContent = gameData.merit;
+            document.getElementById('mana').textContent = Math.floor(gameData.mana);
+            document.getElementById('level').textContent = gameData.level;
+            document.getElementById('stage').textContent = gameData.level < 6 ? '泥胎' : '木骨';
+            document.getElementById('yuanbao').textContent = gameData.yuanbao;
+            
+            document.getElementById('incense-sticks').textContent = gameData.incense_sticks;
+            document.getElementById('candles').textContent = gameData.candles;
+            document.getElementById('gold-paper').textContent = gameData.gold_paper;
+            document.getElementById('fruits').textContent = gameData.fruits;
+            
+            const need = { merit: 100, money: 5000, incense: 50, candles: 20 };
+            document.getElementById('need-resources').innerHTML = `
+                功德:${gameData.merit}/${need.merit} | 
+                钱:${gameData.incense_money}/${need.money} | 
+                香:${gameData.incense_sticks}/${need.incense} | 
+                蜡:${gameData.candles}/${need.candles}
+            `;
+        }
+        
+        function recoverMana() {
+            if (gameData.mana < 100) {
+                gameData.mana++;
+                updateUI();
+            }
+        }
+        
+        function log(containerId, html, className = '') {
+            const container = document.getElementById(containerId);
+            const item = document.createElement('div');
+            item.className = 'log-item ' + className;
+            item.innerHTML = html;
+            container.insertBefore(item, container.firstChild);
+            while (container.children.length > 10) container.removeChild(container.lastChild);
+        }
+        
+        init();
+    </script>
+</body>
+</html>

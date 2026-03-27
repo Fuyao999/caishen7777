@@ -1,0 +1,422 @@
+{
+  "b0e79484-c8d7-4a73-b3f7-8bab0d3a3581": {
+    "url": "db://assets/resources",
+    "value": {}
+  },
+  "7687e77c-cbfe-4b5b-b8e4-c7610fe19e63": {
+    "url": "db://assets/scripts",
+    "value": {}
+  },
+  "afbf4348-dcf5-45a9-88af-00c367353c1c": {
+    "url": "db://assets/resources/animation",
+    "value": {}
+  },
+  "36e516b3-2738-4664-8440-29321d9660fb": {
+    "url": "db://assets/resources/audio",
+    "value": {}
+  },
+  "ff77cf09-91a3-4e1f-b47c-5aa2a400c76d": {
+    "url": "db://assets/resources/images",
+    "value": {}
+  },
+  "b951769c-a9ce-47b4-a89a-18263e0e6c46": {
+    "url": "db://assets/resources/prefabs",
+    "value": {}
+  },
+  "0ceeed26-104f-4f89-ba80-2546a1f9f887": {
+    "url": "db://assets/scripts/Config",
+    "value": {}
+  },
+  "6714699a-22ee-4e35-9206-49ffb97c3efa": {
+    "url": "db://assets/scripts/Core",
+    "value": {}
+  },
+  "bbedd4ad-285c-4a1f-b723-5081f912b957": {
+    "url": "db://assets/scripts/UI",
+    "value": {}
+  },
+  "0c5d1609-572f-4bbe-8f1c-ed5750daa2ae": {
+    "url": "db://assets/scripts/Utils",
+    "value": {}
+  },
+  "866fc787-762d-4900-81ec-1078f3dc4f09": {
+    "url": "db://assets/resources/animation/characters",
+    "value": {}
+  },
+  "fdce5357-92e9-43b0-8fbb-475ed46f56be": {
+    "url": "db://assets/resources/audio/bgm",
+    "value": {}
+  },
+  "5b493da4-796e-430e-860d-1851156ddfbb": {
+    "url": "db://assets/resources/audio/sfx",
+    "value": {}
+  },
+  "067ee032-a198-4e17-b59c-b7e8a7f0d28b": {
+    "url": "db://assets/resources/images/backgrounds",
+    "value": {}
+  },
+  "6f63bac1-66c8-4b6e-971f-c45bcdf12276": {
+    "url": "db://assets/resources/images/characters",
+    "value": {}
+  },
+  "852a2b04-ada2-45cc-a69c-a5b23884fe85": {
+    "url": "db://assets/resources/images/equipment",
+    "value": {}
+  },
+  "5790d2aa-ea2b-4313-98cd-bbeaa5b99ac7": {
+    "url": "db://assets/resources/images/items",
+    "value": {}
+  },
+  "d7e7c16a-8d6e-44ce-a985-6d8cf4a6ac3d": {
+    "url": "db://assets/resources/images/ui",
+    "value": {}
+  },
+  "a76765b2-c70d-47a3-b619-5e7255635b6a": {
+    "url": "db://assets/resources/prefabs/effects",
+    "value": {}
+  },
+  "5cdefa9e-4db7-43d7-af72-5f7093945fbe": {
+    "url": "db://assets/resources/prefabs/ui",
+    "value": {}
+  },
+  "7d070741-afb6-43e1-a2ec-4b2779c01e97": {
+    "url": "db://assets/resources/images/characters/gods",
+    "value": {}
+  },
+  "a8cfd189-e741-4dc5-b061-c7b7f56132a8": {
+    "url": "db://assets/resources/images/characters/monsters",
+    "value": {}
+  },
+  "91c4aecc-5dd9-4cf9-8b43-c9de729b8015": {
+    "url": "db://assets/resources/images/characters/pets",
+    "value": {}
+  },
+  "8cc93fec-a5af-4fe4-a80a-cb40e0a4f19c": {
+    "url": "db://assets/resources/images/ui/buttons",
+    "value": {}
+  },
+  "f0871520-235f-46c5-a2e3-e1d8996f3306": {
+    "url": "db://assets/resources/images/ui/icons",
+    "value": {}
+  },
+  "7f0dffc2-4916-4baa-9a90-b59ecd2b7797": {
+    "url": "db://assets/resources/images/ui/panels",
+    "value": {}
+  },
+  "89568c70-1a89-4602-a51c-f3fea4546a2b": {
+    "url": "db://assets/scripts/Config/AdditionalDomainsConfig.ts",
+    "value": {}
+  },
+  "b237d4ee-ed02-416f-9b71-a8e90bd36e6d": {
+    "url": "db://assets/scripts/Config/AudioResources.ts",
+    "value": {}
+  },
+  "21bf2f63-514c-407f-bb94-8886c3137ab3": {
+    "url": "db://assets/scripts/Config/BattleBalanceConfig.ts",
+    "value": {}
+  },
+  "ec930941-afc1-49db-88d8-8029d62ca194": {
+    "url": "db://assets/scripts/Config/EquipmentConfig.ts",
+    "value": {}
+  },
+  "850f86a5-08c5-4c6d-98fe-8e2971c0fa4d": {
+    "url": "db://assets/scripts/Config/EquipmentStatsConfig.ts",
+    "value": {}
+  },
+  "f5b1d5aa-39d1-4994-bf0c-a17978f37c0b": {
+    "url": "db://assets/scripts/Config/GameConfig.ts",
+    "value": {}
+  },
+  "070677e4-b183-4693-b838-f7b483865957": {
+    "url": "db://assets/scripts/Config/LevelConfig.ts",
+    "value": {}
+  },
+  "914eb0f0-93c3-489e-8aaa-abec5272f997": {
+    "url": "db://assets/scripts/Config/PetConfig.ts",
+    "value": {}
+  },
+  "c55e8fc5-3382-4a3c-bb03-d812f61364f8": {
+    "url": "db://assets/scripts/Config/QuestConfig.ts",
+    "value": {}
+  },
+  "11c0cfbd-8e73-43d7-9fdb-7c65fd67402c": {
+    "url": "db://assets/scripts/Config/ResourceMapping.ts",
+    "value": {}
+  },
+  "ee83f7f0-3607-4748-b54f-0bb36a653d1e": {
+    "url": "db://assets/scripts/Config/SceneConfig.ts",
+    "value": {}
+  },
+  "40e5d22f-f7a6-4768-9e0c-26b37e17ed46": {
+    "url": "db://assets/scripts/Config/SceneNames.ts",
+    "value": {}
+  },
+  "85628441-066f-4c8c-be5c-5f7473ef5be9": {
+    "url": "db://assets/scripts/Config/SkillConfig.ts",
+    "value": {}
+  },
+  "fb8590e1-4bdc-48b1-a67b-7edc32c2a3f8": {
+    "url": "db://assets/scripts/Core/AudioManager.ts",
+    "value": {}
+  },
+  "dd4fa2fb-bc1c-41f0-ad64-9d47845b4887": {
+    "url": "db://assets/scripts/Core/GameManager.ts",
+    "value": {}
+  },
+  "fbb7069d-1410-4cde-a09a-29b0f60c60d6": {
+    "url": "db://assets/scripts/Core/NetworkManager.ts",
+    "value": {}
+  },
+  "842e2aae-b9c2-49c8-871d-75cfa314fe34": {
+    "url": "db://assets/scripts/Core/PlayerData.ts",
+    "value": {}
+  },
+  "e915507c-91a8-4f5c-b9ee-4904008b8b53": {
+    "url": "db://assets/scripts/UI/AlmsScene.ts",
+    "value": {}
+  },
+  "9b5cceab-e00d-4f55-92b4-e6fdbd318719": {
+    "url": "db://assets/scripts/UI/AuctionScene.ts",
+    "value": {}
+  },
+  "ef12dde6-2f1a-47ed-826d-d9eb7d993627": {
+    "url": "db://assets/scripts/UI/BagScene.ts",
+    "value": {}
+  },
+  "862fd9c0-631b-483b-a47c-e3c40c0bfa40": {
+    "url": "db://assets/scripts/UI/BattleScene.ts",
+    "value": {}
+  },
+  "9dfc568b-74f4-4311-8c96-249c7e104913": {
+    "url": "db://assets/scripts/UI/BlackMarketScene.ts",
+    "value": {}
+  },
+  "430068c1-6ff4-49ff-b873-b4736aad44c9": {
+    "url": "db://assets/scripts/UI/CultivateScene.ts",
+    "value": {}
+  },
+  "33568d46-d5d2-4f47-9feb-680dfb7d2295": {
+    "url": "db://assets/scripts/UI/DomainScene.ts",
+    "value": {}
+  },
+  "152de4ea-2041-4d50-bebc-6918b21faa86": {
+    "url": "db://assets/scripts/UI/EnhanceScene.ts",
+    "value": {}
+  },
+  "bf9ac670-fe52-4feb-823f-2ea98618b9a7": {
+    "url": "db://assets/scripts/UI/FarmScene.ts",
+    "value": {}
+  },
+  "c0a12182-e018-41a4-b020-a9070ef3c219": {
+    "url": "db://assets/scripts/UI/FriendScene.ts",
+    "value": {}
+  },
+  "661e6687-24f9-4f3e-8205-fd07f031c39a": {
+    "url": "db://assets/scripts/UI/GachaScene.ts",
+    "value": {}
+  },
+  "57edd693-1168-4081-ad4b-6485eb1786a3": {
+    "url": "db://assets/scripts/UI/GuideManager.ts",
+    "value": {}
+  },
+  "5e9a255c-75a8-4421-b54f-409d86ceeabe": {
+    "url": "db://assets/scripts/UI/GuildScene.ts",
+    "value": {}
+  },
+  "4ed9377a-dee9-4997-9b62-620b09127503": {
+    "url": "db://assets/scripts/UI/LoginScene.ts",
+    "value": {}
+  },
+  "90692a2c-f936-48a7-b5e4-b6529ecf27f1": {
+    "url": "db://assets/scripts/UI/MailScene.ts",
+    "value": {}
+  },
+  "64b52566-7f80-4957-a6b6-455118f05591": {
+    "url": "db://assets/scripts/UI/MainScene.ts",
+    "value": {}
+  },
+  "25c4952e-e87d-49b1-8c3b-6795ce7b4ef7": {
+    "url": "db://assets/scripts/UI/MapScene.ts",
+    "value": {}
+  },
+  "2e55069d-a366-4ec5-81d6-f43741cd738c": {
+    "url": "db://assets/scripts/UI/MentorScene.ts",
+    "value": {}
+  },
+  "633e7f95-3d3b-433e-94c2-6021e905327f": {
+    "url": "db://assets/scripts/UI/PVPScene.ts",
+    "value": {}
+  },
+  "1b48b1d8-546a-4859-9a99-12d45151f9a8": {
+    "url": "db://assets/scripts/UI/QuestScene.ts",
+    "value": {}
+  },
+  "a21bb39b-4aaa-4202-bad7-2207f69aeec9": {
+    "url": "db://assets/scripts/UI/RankScene.ts",
+    "value": {}
+  },
+  "33bc20b4-f25c-44f1-a5a6-d20c4397423d": {
+    "url": "db://assets/scripts/UI/SailingScene.ts",
+    "value": {}
+  },
+  "305bf084-099a-41b0-ad55-5dd0dcf527a3": {
+    "url": "db://assets/scripts/UI/SettingsScene.ts",
+    "value": {}
+  },
+  "ad6fafde-7f94-4803-9f7f-5cff62b04b11": {
+    "url": "db://assets/scripts/UI/ShopScene.ts",
+    "value": {}
+  },
+  "8109abba-203e-49ad-9279-bc84490ea181": {
+    "url": "db://assets/scripts/UI/StockScene.ts",
+    "value": {}
+  },
+  "cd26f991-932c-41c9-8079-c69e9b6ffe2e": {
+    "url": "db://assets/scripts/UI/TempleScene.ts",
+    "value": {}
+  },
+  "8aec1037-92c3-46b0-8f42-85d966da3739": {
+    "url": "db://assets/scripts/UI/ThunderScene.ts",
+    "value": {}
+  },
+  "671ac43f-baad-46e5-94ca-ccbbf468ef0e": {
+    "url": "db://assets/scripts/UI/TowerScene.ts",
+    "value": {}
+  },
+  "e4d82be6-a3d6-4bc4-b539-25692989371f": {
+    "url": "db://assets/scripts/UI/UpgradeScene.ts",
+    "value": {}
+  },
+  "6521ef51-a7ae-4dca-b41d-47339ab6d5a0": {
+    "url": "db://assets/scripts/UI/WorldBossScene.ts",
+    "value": {}
+  },
+  "fa2beedd-b923-441b-af89-a87a69fb573c": {
+    "url": "db://assets/scripts/Utils/Utils.ts",
+    "value": {}
+  },
+  "933de116-e0fa-4e4c-8914-3e2d250c31ed": {
+    "url": "db://assets/scenes",
+    "value": {}
+  },
+  "d38ae64d-48ff-48f9-ac05-7f68baf63036": {
+    "url": "db://assets/scenes/LoginScene.scene",
+    "value": {}
+  },
+  "14fb1bb0-ffb9-4a5e-8c95-54d0dc9bda3c": {
+    "url": "db://assets/scenes/scene.scene",
+    "value": {}
+  },
+  "758c821c-14d9-495e-98f2-66fe63cdf12e": {
+    "url": "db://assets/scene.scene",
+    "value": {
+      "depends": [
+        "758c821c-14d9-495e-98f2-66fe63cdf12e",
+        "20835ba4-6145-4fbc-a58a-051ce700aa3e@f9941",
+        "544e49d6-3f05-4fa8-9a9e-091f98fc2ce8@f9941",
+        "951249e0-9f16-456d-8b85-a6ca954da16b@f9941",
+        "d032ac98-05e1-4090-88bb-eb640dcb5fc1@b47c0",
+        "6f01cf7f-81bf-4a7e-bd5d-0afc19696480@b47c0"
+      ],
+      "dependScripts": [
+        "4ed9377a-dee9-4997-9b62-620b09127503"
+      ]
+    }
+  },
+  "a70d4961-6e6b-4930-af07-7534b9764c88": {
+    "url": "db://assets/scripts/UI/LoginSceneSimple.ts",
+    "value": {}
+  },
+  "d94d8991-6e3c-4672-9607-c7615c2ac835": {
+    "url": "db://assets/scripts/UI/TestScene.ts",
+    "value": {}
+  },
+  "37849424-e333-4167-8802-8b3eb7f16df7": {
+    "url": "db://assets/scenes/loginScene.scene",
+    "value": {
+      "depends": [
+        "37849424-e333-4167-8802-8b3eb7f16df7",
+        "20835ba4-6145-4fbc-a58a-051ce700aa3e@f9941",
+        "544e49d6-3f05-4fa8-9a9e-091f98fc2ce8@f9941",
+        "951249e0-9f16-456d-8b85-a6ca954da16b@f9941",
+        "d032ac98-05e1-4090-88bb-eb640dcb5fc1@b47c0",
+        "6f01cf7f-81bf-4a7e-bd5d-0afc19696480@b47c0"
+      ],
+      "dependScripts": [
+        "7f3b624d-4665-4128-a8ae-604be455d386"
+      ]
+    }
+  },
+  "7f3b624d-4665-4128-a8ae-604be455d386": {
+    "url": "db://assets/scripts/GameMain.ts",
+    "value": {}
+  },
+  "2ffd577b-b605-4e67-a1a0-d7cbd724a9b6": {
+    "url": "db://assets/scripts/Core/GameManager.ts",
+    "value": {}
+  },
+  "5ddfc2c1-1fdf-43ea-9c55-186c4deee51e": {
+    "url": "db://assets/scripts/UI/AlmsScene.ts",
+    "value": {}
+  },
+  "8cb4396e-72ba-49c0-9d9a-a163818a571b": {
+    "url": "db://assets/scripts/UI/MainScene.ts",
+    "value": {}
+  },
+  "2d850013-3304-43b0-8ea6-eea835648bc3": {
+    "url": "db://assets/scripts/UI/TempleScene.ts",
+    "value": {}
+  },
+  "30ac378e-bccd-42a5-a15b-2f78dab126a9": {
+    "url": "db://assets/scenes/MainScene.scene",
+    "value": {
+      "depends": [
+        "30ac378e-bccd-42a5-a15b-2f78dab126a9",
+        "20835ba4-6145-4fbc-a58a-051ce700aa3e@f9941",
+        "544e49d6-3f05-4fa8-9a9e-091f98fc2ce8@f9941",
+        "951249e0-9f16-456d-8b85-a6ca954da16b@f9941",
+        "d032ac98-05e1-4090-88bb-eb640dcb5fc1@b47c0",
+        "6f01cf7f-81bf-4a7e-bd5d-0afc19696480@b47c0"
+      ],
+      "dependScripts": [
+        "8cb4396e-72ba-49c0-9d9a-a163818a571b"
+      ]
+    }
+  },
+  "78ed7296-3b66-494b-a9c5-cd9bbc24ab64": {
+    "url": "db://assets/scenes/TempleScene.scene",
+    "value": {
+      "depends": [
+        "78ed7296-3b66-494b-a9c5-cd9bbc24ab64",
+        "20835ba4-6145-4fbc-a58a-051ce700aa3e@f9941",
+        "544e49d6-3f05-4fa8-9a9e-091f98fc2ce8@f9941",
+        "951249e0-9f16-456d-8b85-a6ca954da16b@f9941",
+        "d032ac98-05e1-4090-88bb-eb640dcb5fc1@b47c0",
+        "6f01cf7f-81bf-4a7e-bd5d-0afc19696480@b47c0"
+      ],
+      "dependScripts": [
+        "2d850013-3304-43b0-8ea6-eea835648bc3"
+      ]
+    }
+  },
+  "93eadaf5-df92-4c89-b6ff-fb179c14a1db": {
+    "url": "db://assets/scenes/AlmsScene.scene",
+    "value": {
+      "depends": [
+        "93eadaf5-df92-4c89-b6ff-fb179c14a1db",
+        "20835ba4-6145-4fbc-a58a-051ce700aa3e@f9941",
+        "544e49d6-3f05-4fa8-9a9e-091f98fc2ce8@f9941",
+        "951249e0-9f16-456d-8b85-a6ca954da16b@f9941",
+        "d032ac98-05e1-4090-88bb-eb640dcb5fc1@b47c0",
+        "6f01cf7f-81bf-4a7e-bd5d-0afc19696480@b47c0"
+      ],
+      "dependScripts": [
+        "5ddfc2c1-1fdf-43ea-9c55-186c4deee51e"
+      ]
+    }
+  },
+  "caa5cea8-fdeb-4db1-bf3e-729ac0f4e409": {
+    "url": "db://assets/scripts/Game.ts",
+    "value": {}
+  }
+}

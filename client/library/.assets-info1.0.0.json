@@ -1,0 +1,533 @@
+{
+  "version": "1.0.0",
+  "map": {
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources": {
+      "time": 1774232497854.6223,
+      "uuid": "b0e79484-c8d7-4a73-b3f7-8bab0d3a3581"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts": {
+      "time": 1774277561355.4414,
+      "uuid": "7687e77c-cbfe-4b5b-b8e4-c7610fe19e63"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/animation": {
+      "time": 1774232497855.3555,
+      "uuid": "afbf4348-dcf5-45a9-88af-00c367353c1c"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/audio": {
+      "time": 1774232497855.588,
+      "uuid": "36e516b3-2738-4664-8440-29321d9660fb"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images": {
+      "time": 1774232497856.067,
+      "uuid": "ff77cf09-91a3-4e1f-b47c-5aa2a400c76d"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/prefabs": {
+      "time": 1774232497856.2493,
+      "uuid": "b951769c-a9ce-47b4-a89a-18263e0e6c46"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config": {
+      "time": 1774237032638.1257,
+      "uuid": "0ceeed26-104f-4f89-ba80-2546a1f9f887"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Core": {
+      "time": 1774238235205.348,
+      "uuid": "6714699a-22ee-4e35-9206-49ffb97c3efa"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI": {
+      "time": 1774238235206.9636,
+      "uuid": "bbedd4ad-285c-4a1f-b723-5081f912b957"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Utils": {
+      "time": 1774237032638.3477,
+      "uuid": "0c5d1609-572f-4bbe-8f1c-ed5750daa2ae"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/animation/characters": {
+      "time": 1774229615045.3018,
+      "uuid": "866fc787-762d-4900-81ec-1078f3dc4f09"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/audio/bgm": {
+      "time": 1774229615044.1873,
+      "uuid": "fdce5357-92e9-43b0-8fbb-475ed46f56be"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/audio/sfx": {
+      "time": 1774229615044.4153,
+      "uuid": "5b493da4-796e-430e-860d-1851156ddfbb"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/backgrounds": {
+      "time": 1774229615041.487,
+      "uuid": "067ee032-a198-4e17-b59c-b7e8a7f0d28b"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/characters": {
+      "time": 1774232497856.5776,
+      "uuid": "6f63bac1-66c8-4b6e-971f-c45bcdf12276"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/equipment": {
+      "time": 1774229615042.7573,
+      "uuid": "852a2b04-ada2-45cc-a69c-a5b23884fe85"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/items": {
+      "time": 1774229615042.5496,
+      "uuid": "5790d2aa-ea2b-4313-98cd-bbeaa5b99ac7"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/ui": {
+      "time": 1774232497856.945,
+      "uuid": "d7e7c16a-8d6e-44ce-a985-6d8cf4a6ac3d"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/prefabs/effects": {
+      "time": 1774229615044.99,
+      "uuid": "a76765b2-c70d-47a3-b619-5e7255635b6a"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/prefabs/ui": {
+      "time": 1774229615044.811,
+      "uuid": "5cdefa9e-4db7-43d7-af72-5f7093945fbe"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/characters/gods": {
+      "time": 1774229615041.8987,
+      "uuid": "7d070741-afb6-43e1-a2ec-4b2779c01e97"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/characters/monsters": {
+      "time": 1774229615042.109,
+      "uuid": "a8cfd189-e741-4dc5-b061-c7b7f56132a8"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/characters/pets": {
+      "time": 1774229615042.3271,
+      "uuid": "91c4aecc-5dd9-4cf9-8b43-c9de729b8015"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/ui/buttons": {
+      "time": 1774229615043.2585,
+      "uuid": "8cc93fec-a5af-4fe4-a80a-cb40e0a4f19c"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/ui/icons": {
+      "time": 1774229615043.4883,
+      "uuid": "f0871520-235f-46c5-a2e3-e1d8996f3306"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/ui/panels": {
+      "time": 1774229615043.7263,
+      "uuid": "7f0dffc2-4916-4baa-9a90-b59ecd2b7797"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources.meta": {
+      "time": 1774232497862.7507
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts.meta": {
+      "time": 1774232497862.8538
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/animation.meta": {
+      "time": 1774232497862.9595
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/audio.meta": {
+      "time": 1774232497863.0442
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images.meta": {
+      "time": 1774232497863.1267
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/prefabs.meta": {
+      "time": 1774232497863.4558
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config.meta": {
+      "time": 1774232497863.6335
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Core.meta": {
+      "time": 1774232497863.8247
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI.meta": {
+      "time": 1774232497864.0044
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Utils.meta": {
+      "time": 1774232497864.203
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/animation/characters.meta": {
+      "time": 1774232497864.5986
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/audio/bgm.meta": {
+      "time": 1774232497864.809
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/audio/sfx.meta": {
+      "time": 1774232497864.9832
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/backgrounds.meta": {
+      "time": 1774232497865.1353
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/characters.meta": {
+      "time": 1774232497865.2832
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/equipment.meta": {
+      "time": 1774232497865.5842
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/items.meta": {
+      "time": 1774232497865.7393
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/ui.meta": {
+      "time": 1774232497865.8794
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/prefabs/effects.meta": {
+      "time": 1774232497866.0142
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/prefabs/ui.meta": {
+      "time": 1774232497866.1475
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/characters/gods.meta": {
+      "time": 1774232497866.3545
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/characters/monsters.meta": {
+      "time": 1774232497866.4878
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/characters/pets.meta": {
+      "time": 1774232497866.6265
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/ui/buttons.meta": {
+      "time": 1774232497866.7524
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/ui/icons.meta": {
+      "time": 1774232497866.8862
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/resources/images/ui/panels.meta": {
+      "time": 1774232497867.0881
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes.meta": {
+      "time": 1774233816072.5366
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes": {
+      "time": 1774239316308.3281,
+      "uuid": "933de116-e0fa-4e4c-8914-3e2d250c31ed"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scene.scene.meta": {
+      "time": 1774234758600.555
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scene.scene": {
+      "time": 1774236172609.9292,
+      "uuid": "758c821c-14d9-495e-98f2-66fe63cdf12e"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/loginScene.scene.meta": {
+      "time": 1774237042977.845
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/loginScene.scene": {
+      "time": 1774237768465.1128,
+      "uuid": "37849424-e333-4167-8802-8b3eb7f16df7"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/GameMain.ts.meta": {
+      "time": 1774237399319.4568
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/GameMain.ts": {
+      "time": 1774237044869.6846,
+      "uuid": "7f3b624d-4665-4128-a8ae-604be455d386"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Core/GameManager.ts.meta": {
+      "time": 1774238235211.9333
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/AlmsScene.ts.meta": {
+      "time": 1774238235212.2683
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/MainScene.ts.meta": {
+      "time": 1774238235212.7976
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/TempleScene.ts.meta": {
+      "time": 1774238235212.9807
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Core/GameManager.ts": {
+      "time": 1774237896684.5125,
+      "uuid": "2ffd577b-b605-4e67-a1a0-d7cbd724a9b6"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/AlmsScene.ts": {
+      "time": 1774237978062.6843,
+      "uuid": "5ddfc2c1-1fdf-43ea-9c55-186c4deee51e"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/MainScene.ts": {
+      "time": 1774237921385.0554,
+      "uuid": "8cb4396e-72ba-49c0-9d9a-a163818a571b"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/TempleScene.ts": {
+      "time": 1774237947947.5447,
+      "uuid": "2d850013-3304-43b0-8ea6-eea835648bc3"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/MainScene.scene.meta": {
+      "time": 1774238278392.0317
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/MainScene.scene": {
+      "time": 1774239019440.8574,
+      "uuid": "30ac378e-bccd-42a5-a15b-2f78dab126a9"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/TempleScene.scene.meta": {
+      "time": 1774238967778.361
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/TempleScene.scene": {
+      "time": 1774240001141.549,
+      "uuid": "78ed7296-3b66-494b-a9c5-cd9bbc24ab64"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/AlmsScene.scene.meta": {
+      "time": 1774239316311.9658
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/AlmsScene.scene": {
+      "time": 1774239591345.685,
+      "uuid": "93eadaf5-df92-4c89-b6ff-fb179c14a1db"
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Game.ts.meta": {
+      "time": 1774277561367.2173
+    },
+    "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Game.ts": {
+      "time": 1774240506660.6304,
+      "uuid": "caa5cea8-fdeb-4db1-bf3e-729ac0f4e409"
+    }
+  },
+  "missing": {
+    "14fb1bb0-ffb9-4a5e-8c95-54d0dc9bda3c": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/scene.scene",
+      "time": 1774233975823.989,
+      "removeTime": 1774233985243
+    },
+    "d38ae64d-48ff-48f9-ac05-7f68baf63036": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scenes/LoginScene.scene",
+      "time": 1774233816080.133,
+      "removeTime": 1774237023245
+    },
+    "89568c70-1a89-4602-a51c-f3fea4546a2b": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/AdditionalDomainsConfig.ts",
+      "time": 1774224902823.697,
+      "removeTime": 1774237399303
+    },
+    "b237d4ee-ed02-416f-9b71-a8e90bd36e6d": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/AudioResources.ts",
+      "time": 1774227545930.3782,
+      "removeTime": 1774237399303
+    },
+    "21bf2f63-514c-407f-bb94-8886c3137ab3": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/BattleBalanceConfig.ts",
+      "time": 1774224835863.6223,
+      "removeTime": 1774237399303
+    },
+    "ec930941-afc1-49db-88d8-8029d62ca194": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/EquipmentConfig.ts",
+      "time": 1774205362946.9006,
+      "removeTime": 1774237399303
+    },
+    "850f86a5-08c5-4c6d-98fe-8e2971c0fa4d": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/EquipmentStatsConfig.ts",
+      "time": 1774224835863.6196,
+      "removeTime": 1774237399303
+    },
+    "f5b1d5aa-39d1-4994-bf0c-a17978f37c0b": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/GameConfig.ts",
+      "time": 1774205311356.8342,
+      "removeTime": 1774237399303
+    },
+    "070677e4-b183-4693-b838-f7b483865957": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/LevelConfig.ts",
+      "time": 1774224723934.5176,
+      "removeTime": 1774237399303
+    },
+    "914eb0f0-93c3-489e-8aaa-abec5272f997": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/PetConfig.ts",
+      "time": 1774205436069.6682,
+      "removeTime": 1774237399303
+    },
+    "c55e8fc5-3382-4a3c-bb03-d812f61364f8": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/QuestConfig.ts",
+      "time": 1774205436069.6357,
+      "removeTime": 1774237399303
+    },
+    "11c0cfbd-8e73-43d7-9fdb-7c65fd67402c": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/ResourceMapping.ts",
+      "time": 1774232465270.8948,
+      "removeTime": 1774237399303
+    },
+    "ee83f7f0-3607-4748-b54f-0bb36a653d1e": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/SceneConfig.ts",
+      "time": 1774205362946.8933,
+      "removeTime": 1774237399303
+    },
+    "40e5d22f-f7a6-4768-9e0c-26b37e17ed46": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/SceneNames.ts",
+      "time": 1774205603656.618,
+      "removeTime": 1774237399303
+    },
+    "85628441-066f-4c8c-be5c-5f7473ef5be9": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Config/SkillConfig.ts",
+      "time": 1774205484467.8347,
+      "removeTime": 1774237399303
+    },
+    "fb8590e1-4bdc-48b1-a67b-7edc32c2a3f8": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Core/AudioManager.ts",
+      "time": 1774205189750.1504,
+      "removeTime": 1774237399303
+    },
+    "dd4fa2fb-bc1c-41f0-ad64-9d47845b4887": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Core/GameManager.ts",
+      "time": 1774200579473.1523,
+      "removeTime": 1774237399303
+    },
+    "fbb7069d-1410-4cde-a09a-29b0f60c60d6": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Core/NetworkManager.ts",
+      "time": 1774200579473.543,
+      "removeTime": 1774237399303
+    },
+    "842e2aae-b9c2-49c8-871d-75cfa314fe34": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Core/PlayerData.ts",
+      "time": 1774200579472.9727,
+      "removeTime": 1774237399303
+    },
+    "e915507c-91a8-4f5c-b9ee-4904008b8b53": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/AlmsScene.ts",
+      "time": 1774205121699.5513,
+      "removeTime": 1774237399303
+    },
+    "9b5cceab-e00d-4f55-92b4-e6fdbd318719": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/AuctionScene.ts",
+      "time": 1774226291261.7542,
+      "removeTime": 1774237399303
+    },
+    "ef12dde6-2f1a-47ed-826d-d9eb7d993627": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/BagScene.ts",
+      "time": 1774205149509.4888,
+      "removeTime": 1774237399303
+    },
+    "862fd9c0-631b-483b-a47c-e3c40c0bfa40": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/BattleScene.ts",
+      "time": 1774205484467.8374,
+      "removeTime": 1774237399303
+    },
+    "9dfc568b-74f4-4311-8c96-249c7e104913": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/BlackMarketScene.ts",
+      "time": 1774226526725.5647,
+      "removeTime": 1774237399303
+    },
+    "430068c1-6ff4-49ff-b873-b4736aad44c9": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/CultivateScene.ts",
+      "time": 1774205567666.5618,
+      "removeTime": 1774237399303
+    },
+    "33568d46-d5d2-4f47-9feb-680dfb7d2295": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/DomainScene.ts",
+      "time": 1774206212215.061,
+      "removeTime": 1774237399303
+    },
+    "152de4ea-2041-4d50-bebc-6918b21faa86": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/EnhanceScene.ts",
+      "time": 1774226425374.7458,
+      "removeTime": 1774237399303
+    },
+    "bf9ac670-fe52-4feb-823f-2ea98618b9a7": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/FarmScene.ts",
+      "time": 1774226291261.7424,
+      "removeTime": 1774237399303
+    },
+    "c0a12182-e018-41a4-b020-a9070ef3c219": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/FriendScene.ts",
+      "time": 1774206212215.061,
+      "removeTime": 1774237399303
+    },
+    "661e6687-24f9-4f3e-8205-fd07f031c39a": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/GachaScene.ts",
+      "time": 1774206300508.0244,
+      "removeTime": 1774237399303
+    },
+    "57edd693-1168-4081-ad4b-6485eb1786a3": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/GuideManager.ts",
+      "time": 1774205235769.9028,
+      "removeTime": 1774237399303
+    },
+    "5e9a255c-75a8-4421-b54f-409d86ceeabe": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/GuildScene.ts",
+      "time": 1774206257339.2314,
+      "removeTime": 1774237399303
+    },
+    "4ed9377a-dee9-4997-9b62-620b09127503": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/LoginScene.ts",
+      "time": 1774200579472.8276,
+      "removeTime": 1774237399303
+    },
+    "90692a2c-f936-48a7-b5e4-b6529ecf27f1": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/MailScene.ts",
+      "time": 1774206300508.0283,
+      "removeTime": 1774237399303
+    },
+    "64b52566-7f80-4957-a6b6-455118f05591": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/MainScene.ts",
+      "time": 1774205121699.5515,
+      "removeTime": 1774237399303
+    },
+    "25c4952e-e87d-49b1-8c3b-6795ce7b4ef7": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/MapScene.ts",
+      "time": 1774206212215.0637,
+      "removeTime": 1774237399303
+    },
+    "2e55069d-a366-4ec5-81d6-f43741cd738c": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/MentorScene.ts",
+      "time": 1774226526725.5444,
+      "removeTime": 1774237399303
+    },
+    "633e7f95-3d3b-433e-94c2-6021e905327f": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/PVPScene.ts",
+      "time": 1774226425374.7454,
+      "removeTime": 1774237399303
+    },
+    "1b48b1d8-546a-4859-9a99-12d45151f9a8": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/QuestScene.ts",
+      "time": 1774206339150.4922,
+      "removeTime": 1774237399303
+    },
+    "a21bb39b-4aaa-4202-bad7-2207f69aeec9": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/RankScene.ts",
+      "time": 1774206339150.4844,
+      "removeTime": 1774237399303
+    },
+    "33bc20b4-f25c-44f1-a5a6-d20c4397423d": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/SailingScene.ts",
+      "time": 1774226588730.4084,
+      "removeTime": 1774237399303
+    },
+    "305bf084-099a-41b0-ad55-5dd0dcf527a3": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/SettingsScene.ts",
+      "time": 1774205567666.5862,
+      "removeTime": 1774237399303
+    },
+    "ad6fafde-7f94-4803-9f7f-5cff62b04b11": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/ShopScene.ts",
+      "time": 1774206257339.2617,
+      "removeTime": 1774237399303
+    },
+    "8109abba-203e-49ad-9279-bc84490ea181": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/StockScene.ts",
+      "time": 1774226291261.7424,
+      "removeTime": 1774237399303
+    },
+    "cd26f991-932c-41c9-8079-c69e9b6ffe2e": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/TempleScene.ts",
+      "time": 1774205121699.5513,
+      "removeTime": 1774237399303
+    },
+    "8aec1037-92c3-46b0-8f42-85d966da3739": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/ThunderScene.ts",
+      "time": 1774226588730.3503,
+      "removeTime": 1774237399303
+    },
+    "671ac43f-baad-46e5-94ca-ccbbf468ef0e": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/TowerScene.ts",
+      "time": 1774226526725.523,
+      "removeTime": 1774237399303
+    },
+    "e4d82be6-a3d6-4bc4-b539-25692989371f": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/UpgradeScene.ts",
+      "time": 1774205149509.5056,
+      "removeTime": 1774237399303
+    },
+    "6521ef51-a7ae-4dca-b41d-47339ab6d5a0": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/WorldBossScene.ts",
+      "time": 1774226425374.7456,
+      "removeTime": 1774237399304
+    },
+    "fa2beedd-b923-441b-af89-a87a69fb573c": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/Utils/Utils.ts",
+      "time": 1774205362946.8933,
+      "removeTime": 1774237399304
+    },
+    "a70d4961-6e6b-4930-af07-7534b9764c88": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/LoginSceneSimple.ts",
+      "time": 1774235304618.007,
+      "removeTime": 1774237399304
+    },
+    "d94d8991-6e3c-4672-9607-c7615c2ac835": {
+      "path": "/Users/fuyao/Desktop/财神大陆-Cocos/client/assets/scripts/UI/TestScene.ts",
+      "time": 1774236237469.8962,
+      "removeTime": 1774237399304
+    }
+  }
+}
