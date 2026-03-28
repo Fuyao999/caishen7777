@@ -516,33 +516,199 @@
 
             <!-- 其他页面简略展示 -->
             <div id="sects" class="page" style="display:none;">
-                <div class="header"><h2>🏛️ 门派管理</h2></div>
-                <div class="panel"><div class="panel-body">门派管理内容</div></div>
+                <div class="header">
+                    <h2>🏛️ 门派管理</h2>
+                    <div>
+                        <button class="btn btn-primary" onclick="alert('创建门派')">创建门派</button>
+                        <button class="btn btn-success" onclick="alert('门派联赛')">发起联赛</button>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>总门派数</h3><div class="value">12</div><div class="change">已满编</div></div>
+                    <div class="stat-card"><h3>总成员</h3><div class="value">1,250</div><div class="change up">↑ 28 今日新增</div></div>
+                    <div class="stat-card"><h3>门派战</h3><div class="value">6</div><div class="change">本周场次</div></div>
+                    <div class="stat-card"><h3>门派资金总量</h3><div class="value">8,500万</div><div class="change up">↑ 5% 较上周</div></div>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><span class="panel-title">门派列表</span></div>
+                    <div class="panel-body">
+                        <table>
+                            <thead><tr><th>ID</th><th>门派名</th><th>掌门</th><th>成员数</th><th>门派等级</th><th>资金</th><th>状态</th><th>操作</th></tr></thead>
+                            <tbody>
+                                <tr><td>1</td><td>天机阁</td><td>玄机子(Lv.99)</td><td>120/150</td><td>10</td><td>1,200万</td><td><span class="badge badge-success">活跃</span></td><td><button class="btn btn-sm btn-primary">管理</button> <button class="btn btn-sm btn-danger">解散</button></td></tr>
+                                <tr><td>2</td><td>万宝楼</td><td>金算盘(Lv.95)</td><td>115/150</td><td>9</td><td>980万</td><td><span class="badge badge-success">活跃</span></td><td><button class="btn btn-sm btn-primary">管理</button> <button class="btn btn-sm btn-danger">解散</button></td></tr>
+                                <tr><td>3</td><td>聚宝盆</td><td>招财猫(Lv.88)</td><td>98/120</td><td>8</td><td>750万</td><td><span class="badge badge-success">活跃</span></td><td><button class="btn btn-sm btn-primary">管理</button> <button class="btn btn-sm btn-danger">解散</button></td></tr>
+                                <tr><td>4</td><td>如意坊</td><td>如意仙(Lv.82)</td><td>85/120</td><td>7</td><td>620万</td><td><span class="badge badge-warning">低活跃</span></td><td><button class="btn btn-sm btn-primary">管理</button> <button class="btn btn-sm btn-danger">解散</button></td></tr>
+                                <tr><td>5</td><td>摸鱼派</td><td>咸鱼王(Lv.45)</td><td>12/50</td><td>2</td><td>5万</td><td><span class="badge badge-danger">濒临解散</span></td><td><button class="btn btn-sm btn-primary">管理</button> <button class="btn btn-sm btn-danger">解散</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <div id="mentors" class="page" style="display:none;">
                 <div class="header"><h2>👨‍🏫 师徒管理</h2></div>
-                <div class="panel"><div class="panel-body">师徒管理内容</div></div>
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>师徒对数</h3><div class="value">580</div><div class="change up">↑ 12 今日新增</div></div>
+                    <div class="stat-card"><h3>今日出师</h3><div class="value">8</div><div class="change up">↑ 3 较昨日</div></div>
+                    <div class="stat-card"><h3>满意度</h3><div class="value">92%</div><div class="change up">↑ 1.5%</div></div>
+                    <div class="stat-card"><h3>平均传功</h3><div class="value">15次/天</div><div class="change">稳定</div></div>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="搜索师傅/徒弟ID或名称">
+                    <select><option value="">全部状态</option><option>学习中</option><option>已出师</option><option>已解除</option></select>
+                    <button class="btn btn-primary">搜索</button>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><span class="panel-title">师徒关系列表</span></div>
+                    <div class="panel-body">
+                        <table>
+                            <thead><tr><th>师傅</th><th>师傅等级</th><th>徒弟</th><th>徒弟等级</th><th>持续天数</th><th>传功次数</th><th>状态</th><th>操作</th></tr></thead>
+                            <tbody>
+                                <tr><td>玄机子</td><td>99</td><td>小明</td><td>35</td><td>30天</td><td>120</td><td><span class="badge badge-success">学习中</span></td><td><button class="btn btn-sm btn-primary">详情</button> <button class="btn btn-sm btn-danger">强制解除</button></td></tr>
+                                <tr><td>金算盘</td><td>95</td><td>旺财</td><td>52</td><td>45天</td><td>180</td><td><span class="badge badge-success">学习中</span></td><td><button class="btn btn-sm btn-primary">详情</button> <button class="btn btn-sm btn-danger">强制解除</button></td></tr>
+                                <tr><td>招财猫</td><td>88</td><td>阿福</td><td>60</td><td>60天</td><td>240</td><td><span class="badge badge-info">已出师</span></td><td><button class="btn btn-sm btn-primary">详情</button></td></tr>
+                                <tr><td>如意仙</td><td>82</td><td>小白</td><td>15</td><td>5天</td><td>20</td><td><span class="badge badge-warning">低活跃</span></td><td><button class="btn btn-sm btn-primary">详情</button> <button class="btn btn-sm btn-danger">强制解除</button></td></tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination"><button>上一页</button><button class="active">1</button><button>2</button><button>3</button><button>下一页</button></div>
+                    </div>
+                </div>
             </div>
 
             <div id="trades" class="page" style="display:none;">
-                <div class="header"><h2>💰 交易管理</h2></div>
-                <div class="panel"><div class="panel-body">交易管理内容</div></div>
+                <div class="header">
+                    <h2>💰 交易管理</h2>
+                    <div><button class="btn btn-primary" onclick="alert('导出报表')">导出报表</button></div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>今日交易额</h3><div class="value">¥85万</div><div class="change up">↑ 15% 较昨日</div></div>
+                    <div class="stat-card"><h3>活跃摊位</h3><div class="value">320</div><div class="change">占总摊位 64%</div></div>
+                    <div class="stat-card"><h3>拍卖进行中</h3><div class="value">28</div><div class="change up">↑ 5 较昨日</div></div>
+                    <div class="stat-card"><h3>今日税收</h3><div class="value">¥4.2万</div><div class="change up">↑ 8%</div></div>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="搜索交易ID/物品名/用户ID">
+                    <select><option value="">全部类型</option><option>摊位交易</option><option>拍卖交易</option><option>直接交易</option></select>
+                    <select><option value="">全部状态</option><option>进行中</option><option>已完成</option><option>已取消</option><option>有争议</option></select>
+                    <button class="btn btn-primary">搜索</button>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><span class="panel-title">交易记录</span></div>
+                    <div class="panel-body">
+                        <table>
+                            <thead><tr><th>交易ID</th><th>卖家</th><th>买家</th><th>物品</th><th>数量</th><th>单价</th><th>类型</th><th>状态</th><th>时间</th><th>操作</th></tr></thead>
+                            <tbody>
+                                <tr><td>T10001</td><td>玄机子</td><td>旺财</td><td>天机剑</td><td>1</td><td>50,000</td><td><span class="badge badge-info">摊位</span></td><td><span class="badge badge-success">已完成</span></td><td>10:30</td><td><button class="btn btn-sm btn-primary">详情</button></td></tr>
+                                <tr><td>T10002</td><td>金算盘</td><td>-</td><td>聚宝盆碎片</td><td>5</td><td>12,000</td><td><span class="badge badge-warning">拍卖</span></td><td><span class="badge badge-info">进行中</span></td><td>11:15</td><td><button class="btn btn-sm btn-primary">详情</button> <button class="btn btn-sm btn-danger">终止</button></td></tr>
+                                <tr><td>T10003</td><td>小白</td><td>阿福</td><td>回魂丹×10</td><td>10</td><td>500</td><td><span class="badge badge-info">直接</span></td><td><span class="badge badge-success">已完成</span></td><td>12:00</td><td><button class="btn btn-sm btn-primary">详情</button></td></tr>
+                                <tr><td>T10004</td><td>咸鱼王</td><td>招财猫</td><td>金蝉脱壳符</td><td>1</td><td>120,000</td><td><span class="badge badge-warning">拍卖</span></td><td><span class="badge badge-danger">有争议</span></td><td>14:20</td><td><button class="btn btn-sm btn-primary">详情</button> <button class="btn btn-sm btn-danger">仲裁</button></td></tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination"><button>上一页</button><button class="active">1</button><button>2</button><button>3</button><button>下一页</button></div>
+                    </div>
+                </div>
             </div>
 
             <div id="pvp" class="page" style="display:none;">
-                <div class="header"><h2>⚔️ PVP管理</h2></div>
-                <div class="panel"><div class="panel-body">PVP管理内容</div></div>
+                <div class="header">
+                    <h2>⚔️ PVP管理</h2>
+                    <div>
+                        <button class="btn btn-primary" onclick="alert('排行榜')">查看排行榜</button>
+                        <button class="btn btn-danger" onclick="alert('重置赛季')">重置赛季</button>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>今日对战</h3><div class="value">1,520</div><div class="change up">↑ 12% 较昨日</div></div>
+                    <div class="stat-card"><h3>同时在线</h3><div class="value">86</div><div class="change">匹配中</div></div>
+                    <div class="stat-card"><h3>排名赛</h3><div class="value">580</div><div class="change up">↑ 8%</div></div>
+                    <div class="stat-card"><h3>投诉/举报</h3><div class="value">3</div><div class="change down">待处理</div></div>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="搜索对战ID/玩家ID">
+                    <select><option value="">全部类型</option><option>排名赛</option><option>切磋赛</option><option>门派战</option><option>跨服赛</option></select>
+                    <button class="btn btn-primary">搜索</button>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><span class="panel-title">对战记录</span></div>
+                    <div class="panel-body">
+                        <table>
+                            <thead><tr><th>对战ID</th><th>玩家1</th><th>Lv</th><th>玩家2</th><th>Lv</th><th>胜者</th><th>类型</th><th>时长</th><th>时间</th><th>操作</th></tr></thead>
+                            <tbody>
+                                <tr><td>PVP5001</td><td>玄机子</td><td>99</td><td>金算盘</td><td>95</td><td><span class="badge badge-success">玄机子</span></td><td>排名赛</td><td>3m12s</td><td>10:30</td><td><button class="btn btn-sm btn-primary">回放</button></td></tr>
+                                <tr><td>PVP5002</td><td>招财猫</td><td>88</td><td>如意仙</td><td>82</td><td><span class="badge badge-success">如意仙</span></td><td>切磋赛</td><td>1m45s</td><td>11:00</td><td><button class="btn btn-sm btn-primary">回放</button></td></tr>
+                                <tr><td>PVP5003</td><td>旺财</td><td>52</td><td>阿福</td><td>60</td><td><span class="badge badge-danger">阿福(举报)</span></td><td>排名赛</td><td>0m30s</td><td>11:15</td><td><button class="btn btn-sm btn-primary">回放</button> <button class="btn btn-sm btn-danger">处理举报</button></td></tr>
+                                <tr><td>PVP5004</td><td>天机阁</td><td>-</td><td>万宝楼</td><td>-</td><td><span class="badge badge-info">进行中</span></td><td>门派战</td><td>-</td><td>14:00</td><td><button class="btn btn-sm btn-primary">观战</button></td></tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination"><button>上一页</button><button class="active">1</button><button>2</button><button>3</button><button>下一页</button></div>
+                    </div>
+                </div>
             </div>
 
             <div id="events" class="page" style="display:none;">
-                <div class="header"><h2>🎉 活动管理</h2></div>
-                <div class="panel"><div class="panel-body">活动管理内容</div></div>
+                <div class="header">
+                    <h2>🎉 活动管理</h2>
+                    <div><button class="btn btn-primary" onclick="alert('创建活动')">创建活动</button></div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>进行中活动</h3><div class="value">3</div><div class="change">本周</div></div>
+                    <div class="stat-card"><h3>参与人次</h3><div class="value">15,200</div><div class="change up">↑ 25% 较上周</div></div>
+                    <div class="stat-card"><h3>奖励发放</h3><div class="value">¥12万</div><div class="change">本周累计</div></div>
+                    <div class="stat-card"><h3>参与率</h3><div class="value">68%</div><div class="change up">↑ 5%</div></div>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><span class="panel-title">活动列表</span></div>
+                    <div class="panel-body">
+                        <table>
+                            <thead><tr><th>ID</th><th>活动名称</th><th>类型</th><th>开始时间</th><th>结束时间</th><th>参与数</th><th>状态</th><th>操作</th></tr></thead>
+                            <tbody>
+                                <tr><td>E001</td><td>财神诞·百万红包</td><td><span class="badge badge-warning">限时</span></td><td>03-25</td><td>03-31</td><td>5,000</td><td><span class="badge badge-success">进行中</span></td><td><button class="btn btn-sm btn-primary">管理</button> <button class="btn btn-sm btn-danger">终止</button></td></tr>
+                                <tr><td>E002</td><td>新手七日登录</td><td><span class="badge badge-info">常驻</span></td><td>常驻</td><td>常驻</td><td>8,200</td><td><span class="badge badge-success">进行中</span></td><td><button class="btn btn-sm btn-primary">管理</button></td></tr>
+                                <tr><td>E003</td><td>跨服争霸赛·S2</td><td><span class="badge badge-danger">竞技</span></td><td>03-28</td><td>04-03</td><td>2,000</td><td><span class="badge badge-success">进行中</span></td><td><button class="btn btn-sm btn-primary">管理</button> <button class="btn btn-sm btn-danger">终止</button></td></tr>
+                                <tr><td>E004</td><td>清明祭祖</td><td><span class="badge badge-warning">限时</span></td><td>04-04</td><td>04-06</td><td>-</td><td><span class="badge badge-info">未开始</span></td><td><button class="btn btn-sm btn-primary">编辑</button> <button class="btn btn-sm btn-danger">删除</button></td></tr>
+                                <tr><td>E005</td><td>春节红包大战</td><td><span class="badge badge-warning">限时</span></td><td>01-28</td><td>02-12</td><td>12,500</td><td><span class="badge badge-danger">已结束</span></td><td><button class="btn btn-sm btn-primary">数据</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <div id="anticheat" class="page" style="display:none;">
-                <div class="header"><h2>🛡️ 反作弊</h2></div>
-                <div class="panel"><div class="panel-body">反作弊内容</div></div>
+                <div class="header">
+                    <h2>🛡️ 反作弊</h2>
+                    <div>
+                        <button class="btn btn-primary" onclick="alert('全服扫描')">全服扫描</button>
+                        <button class="btn btn-success" onclick="alert('导出报告')">导出报告</button>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>今日扫描</h3><div class="value">12,580</div><div class="change">全部用户</div></div>
+                    <div class="stat-card"><h3>可疑行为</h3><div class="value">2</div><div class="change down">待处理</div></div>
+                    <div class="stat-card"><h3>本月封禁</h3><div class="value">15</div><div class="change down">↓ 3 较上月</div></div>
+                    <div class="stat-card"><h3>误报率</h3><div class="value">0.8%</div><div class="change up">↓ 优化中</div></div>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="搜索用户ID/检测ID">
+                    <select><option value="">全部类型</option><option>速度异常</option><option>金币异常</option><option>数据篡改</option><option>自动化脚本</option><option>多开检测</option></select>
+                    <select><option value="">全部状态</option><option>待审核</option><option>已确认</option><option>已封禁</option><option>误报</option></select>
+                    <button class="btn btn-primary">搜索</button>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><span class="panel-title">异常检测记录</span></div>
+                    <div class="panel-body">
+                        <table>
+                            <thead><tr><th>检测ID</th><th>用户</th><th>Lv</th><th>异常类型</th><th>严重度</th><th>详情</th><th>时间</th><th>状态</th><th>操作</th></tr></thead>
+                            <tbody>
+                                <tr><td>AC001</td><td>可疑玩家A</td><td>78</td><td>金币异常</td><td><span class="badge badge-danger">高</span></td><td>1小时内获得500万香火钱</td><td>14:20</td><td><span class="badge badge-warning">待审核</span></td><td><button class="btn btn-sm btn-primary">审查</button> <button class="btn btn-sm btn-danger">封禁</button> <button class="btn btn-sm btn-success">放行</button></td></tr>
+                                <tr><td>AC002</td><td>可疑玩家B</td><td>45</td><td>自动化脚本</td><td><span class="badge badge-warning">中</span></td><td>化缘操作间隔固定0.5秒</td><td>15:10</td><td><span class="badge badge-warning">待审核</span></td><td><button class="btn btn-sm btn-primary">审查</button> <button class="btn btn-sm btn-danger">封禁</button> <button class="btn btn-sm btn-success">放行</button></td></tr>
+                                <tr><td>AC003</td><td>无辜路人C</td><td>32</td><td>速度异常</td><td><span class="badge badge-info">低</span></td><td>网络波动导致数据延迟</td><td>12:30</td><td><span class="badge badge-success">误报</span></td><td><button class="btn btn-sm btn-primary">详情</button></td></tr>
+                                <tr><td>AC004</td><td>外挂玩家D</td><td>99</td><td>数据篡改</td><td><span class="badge badge-danger">高</span></td><td>修改客户端内存数据</td><td>昨日</td><td><span class="badge badge-danger">已封禁</span></td><td><button class="btn btn-sm btn-primary">详情</button> <button class="btn btn-sm btn-success">解封</button></td></tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination"><button>上一页</button><button class="active">1</button><button>2</button><button>下一页</button></div>
+                    </div>
+                </div>
             </div>
 
             <!-- 机器人管理 -->
@@ -767,13 +933,85 @@
             </div>
 
             <div id="logs" class="page" style="display:none;">
-                <div class="header"><h2>📝 系统日志</h2></div>
-                <div class="panel"><div class="panel-body">系统日志内容</div></div>
+                <div class="header">
+                    <h2>📝 系统日志</h2>
+                    <div>
+                        <button class="btn btn-primary" onclick="alert('导出日志')">导出日志</button>
+                        <button class="btn btn-danger" onclick="alert('清空日志')">清空日志</button>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="搜索日志内容">
+                    <select><option value="">全部级别</option><option>INFO</option><option>WARN</option><option>ERROR</option><option>FATAL</option></select>
+                    <select><option value="">全部模块</option><option>用户系统</option><option>交易系统</option><option>PVP系统</option><option>充值系统</option><option>反作弊</option><option>活动系统</option></select>
+                    <input type="date" style="width:auto">
+                    <button class="btn btn-primary">搜索</button>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><span class="panel-title">实时日志（最近100条）</span><span class="badge badge-success">实时监控中</span></div>
+                    <div class="panel-body" style="max-height:500px;overflow-y:auto;font-family:monospace;font-size:13px;line-height:1.8;">
+                        <div style="color:#4ade80">[2026-03-28 19:28:01] [INFO] [用户系统] 用户 玄机子(1001) 登录成功，IP: 192.168.1.100</div>
+                        <div style="color:#4ade80">[2026-03-28 19:27:55] [INFO] [交易系统] 摊位交易完成 T10001: 天机剑 50,000金</div>
+                        <div style="color:#fbbf24">[2026-03-28 19:27:30] [WARN] [PVP系统] 匹配超时: 玩家 小白(1005) 等待超过60秒</div>
+                        <div style="color:#4ade80">[2026-03-28 19:27:15] [INFO] [活动系统] 财神诞活动: 新增参与者 旺财(1003)</div>
+                        <div style="color:#f87171">[2026-03-28 19:26:50] [ERROR] [充值系统] 支付回调异常: 订单 ORD123460 状态不一致</div>
+                        <div style="color:#4ade80">[2026-03-28 19:26:30] [INFO] [反作弊] 全服扫描完成: 12,580用户, 2个可疑</div>
+                        <div style="color:#fbbf24">[2026-03-28 19:26:00] [WARN] [用户系统] 用户 可疑玩家A(2001) 短时间内大量操作</div>
+                        <div style="color:#4ade80">[2026-03-28 19:25:45] [INFO] [门派系统] 门派战开始: 天机阁 vs 万宝楼</div>
+                        <div style="color:#4ade80">[2026-03-28 19:25:30] [INFO] [师徒系统] 阿福(1004) 出师成功，师傅 招财猫(1003)</div>
+                        <div style="color:#f87171">[2026-03-28 19:25:00] [ERROR] [数据库] 连接池使用率达到85%，请关注</div>
+                        <div style="color:#4ade80">[2026-03-28 19:24:30] [INFO] [用户系统] 新用户注册: 新手小陈(5001)</div>
+                        <div style="color:#fbbf24">[2026-03-28 19:24:00] [WARN] [交易系统] 拍卖物品 金蝉脱壳符 收到争议举报</div>
+                        <div style="color:#4ade80">[2026-03-28 19:23:30] [INFO] [充值系统] 订单 ORD123456 支付成功: ¥648</div>
+                        <div style="color:#ff6b6b">[2026-03-28 19:23:00] [FATAL] [服务器] 内存使用率达到90%！已触发GC</div>
+                        <div style="color:#4ade80">[2026-03-28 19:22:30] [INFO] [PVP系统] 排名赛 PVP5001 结束: 玄机子 胜</div>
+                    </div>
+                </div>
             </div>
 
             <div id="settings" class="page" style="display:none;">
-                <div class="header"><h2>⚙️ 系统设置</h2></div>
-                <div class="panel"><div class="panel-body">系统设置内容</div></div>
+                <div class="header">
+                    <h2>⚙️ 系统设置</h2>
+                    <div><button class="btn btn-primary" onclick="alert('保存所有设置')">保存设置</button></div>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><span class="panel-title">🎮 游戏参数</span></div>
+                    <div class="panel-body">
+                        <table>
+                            <thead><tr><th>参数名</th><th>当前值</th><th>说明</th><th>操作</th></tr></thead>
+                            <tbody>
+                                <tr><td>经验倍率</td><td><input type="number" value="1.0" step="0.1" style="width:80px;padding:4px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"></td><td>全服经验获取倍率</td><td><button class="btn btn-sm btn-primary">修改</button></td></tr>
+                                <tr><td>金币掉率</td><td><input type="number" value="1.0" step="0.1" style="width:80px;padding:4px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"></td><td>全服金币掉落倍率</td><td><button class="btn btn-sm btn-primary">修改</button></td></tr>
+                                <tr><td>化缘次数/日</td><td><input type="number" value="20" style="width:80px;padding:4px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"></td><td>每日化缘上限</td><td><button class="btn btn-sm btn-primary">修改</button></td></tr>
+                                <tr><td>PVP匹配范围</td><td><input type="number" value="10" style="width:80px;padding:4px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"> 级</td><td>匹配等级差范围</td><td><button class="btn btn-sm btn-primary">修改</button></td></tr>
+                                <tr><td>交易税率</td><td><input type="number" value="5" step="1" style="width:80px;padding:4px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"> %</td><td>摊位/拍卖交易税</td><td><button class="btn btn-sm btn-primary">修改</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><span class="panel-title">🖥️ 服务器状态</span></div>
+                    <div class="panel-body">
+                        <table>
+                            <thead><tr><th>服务器</th><th>状态</th><th>CPU</th><th>内存</th><th>在线数</th><th>操作</th></tr></thead>
+                            <tbody>
+                                <tr><td>游戏服 #1</td><td><span class="badge badge-success">运行中</span></td><td>35%</td><td>62%</td><td>450</td><td><button class="btn btn-sm btn-danger">重启</button></td></tr>
+                                <tr><td>游戏服 #2</td><td><span class="badge badge-success">运行中</span></td><td>28%</td><td>55%</td><td>406</td><td><button class="btn btn-sm btn-danger">重启</button></td></tr>
+                                <tr><td>数据库主库</td><td><span class="badge badge-success">运行中</span></td><td>45%</td><td>78%</td><td>-</td><td><button class="btn btn-sm btn-danger">重启</button></td></tr>
+                                <tr><td>数据库从库</td><td><span class="badge badge-success">运行中</span></td><td>20%</td><td>45%</td><td>-</td><td><button class="btn btn-sm btn-danger">重启</button></td></tr>
+                                <tr><td>缓存服务</td><td><span class="badge badge-warning">高负载</span></td><td>72%</td><td>85%</td><td>-</td><td><button class="btn btn-sm btn-danger">重启</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><span class="panel-title">📢 维护公告</span><button class="btn btn-sm btn-primary" onclick="alert('发布公告')">发布公告</button></div>
+                    <div class="panel-body">
+                        <div style="margin-bottom:10px"><label style="color:#888;margin-right:10px">标题</label><input type="text" placeholder="输入公告标题" style="width:60%;padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"></div>
+                        <div style="margin-bottom:10px"><label style="color:#888;margin-right:10px">内容</label><textarea placeholder="输入公告内容..." style="width:60%;height:100px;padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px;resize:vertical"></textarea></div>
+                        <div><label style="color:#888;margin-right:10px">类型</label><select style="padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"><option>维护公告</option><option>更新公告</option><option>活动公告</option><option>紧急通知</option></select></div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
