@@ -1,0 +1,3303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>财神大陆 V19</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100vh; color: #fff; padding: 10px; font-size: 13px; }
+        .container { max-width: 480px; margin: 0 auto; }
+        h1 { text-align: center; font-size: 22px; margin-bottom: 10px; color: #FFD700; text-shadow: 0 0 20px rgba(255,215,0,0.5); animation: titleShine 3s infinite; }
+        @keyframes titleShine { 0%, 100% { text-shadow: 0 0 20px rgba(255,215,0,0.5); } 50% { text-shadow: 0 0 30px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.4); } }
+        .resources { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 10px; }
+        .res-item { background: rgba(0,0,0,0.3); padding: 8px 5px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,215,0,0.2); transition: all 0.2s; }
+        .res-item:hover { border-color: rgba(255,215,0,0.5); transform: scale(1.05); }
+        .res-value { color: #FFD700; font-weight: bold; font-size: 14px; display: block; }
+        .res-label { font-size: 10px; color: #aaa; }
+        .buff-bar { background: linear-gradient(90deg, rgba(255,215,0,0.2), rgba(255,215,0,0.05)); border-radius: 20px; padding: 8px 12px; margin-bottom: 10px; font-size: 12px; border: 1px solid rgba(255,215,0,0.3); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+        .buff-item { display: inline-block; background: rgba(255,215,0,0.2); padding: 2px 8px; border-radius: 10px; margin: 2px; font-size: 11px; animation: glow 1.5s ease-in-out infinite alternate; }
+        @keyframes glow { from { box-shadow: 0 0 5px rgba(255,215,0,0.3); } to { box-shadow: 0 0 15px rgba(255,215,0,0.6); } }
+        .nav { display: flex; gap: 5px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 5px; }
+        .nav-btn { flex: 1; min-width: 60px; background: rgba(255,255,255,0.1); border: none; border-radius: 8px; padding: 10px 5px; color: #fff; font-size: 12px; cursor: pointer !important; transition: all 0.2s; }
+        .nav-btn:hover { background: rgba(255,215,0,0.3); transform: translateY(-2px); cursor: pointer !important; }
+        .nav-btn.active { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; font-weight: bold; }
+        .section { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.1); animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .section-title { color: #FFD700; font-size: 16px; margin-bottom: 12px; font-weight: bold; }
+        .btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; padding: 10px 15px; border-radius: 8px; cursor: pointer !important; font-size: 13px; margin: 3px; transition: all 0.2s; position: relative; overflow: hidden; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); cursor: pointer !important; }
+        .btn:active { transform: translateY(0) scale(0.98); }
+        .btn-gold { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #1a1a2e; font-weight: bold; }
+        .btn-gold:hover { box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4); }
+        .btn-green { background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); }
+        .hidden { display: none !important; }
+        .materials { display: flex; gap: 8px; margin: 10px 0; flex-wrap: wrap; }
+        .mat-btn { background: rgba(0,0,0,0.3); border: 2px solid transparent; padding: 10px 15px; border-radius: 8px; cursor: pointer !important; text-align: center; font-size: 12px; }
+        .mat-btn.selected { border-color: #FFD700; background: rgba(255,215,0,0.2); }
+        .list-item { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin: 8px 0; cursor: pointer !important; border-left: 4px solid transparent; }
+        .list-item.selected { border-left-color: #FFD700; background: rgba(255,215,0,0.1); }
+        .list-item.locked { opacity: 0.6; cursor: not-allowed; }
+        .log { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 10px; margin-top: 10px; min-height: 80px; max-height: 200px; overflow-y: auto; font-size: 11px; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 25px; border-radius: 16px; max-width: 90%; border: 2px solid #FFD700; }
+        .modal-title { color: #FFD700; font-size: 20px; margin-bottom: 15px; text-align: center; }
+
+        /* V19 八卦化缘 */
+        .bagua-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0; }
+        .bagua-area { background: rgba(0,0,0,0.3); padding: 12px 6px; border-radius: 10px; cursor: pointer; text-align: center; border: 2px solid transparent; transition: all 0.3s; position: relative; }
+        .bagua-area:hover { border-color: #FFD700; transform: translateY(-2px); box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+        .bagua-area.locked { opacity: 0.4; cursor: not-allowed; }
+        .bagua-area.locked:hover { border-color: transparent; transform: none; box-shadow: none; }
+        .bagua-trigram { font-size: 24px; margin-bottom: 3px; }
+        .bagua-name { font-size: 13px; font-weight: bold; color: #FFD700; }
+        .bagua-threshold { font-size: 10px; color: #aaa; margin-top: 2px; }
+        .bagua-tag { font-size: 9px; background: rgba(255,0,0,0.4); padding: 1px 5px; border-radius: 4px; position: absolute; top: 3px; right: 3px; }
+        .v19-desc { font-size: 14px; line-height: 1.8; margin: 15px 0; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; text-align: left; }
+        .v19-choices { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+        .v19-ch { flex: 1; padding: 12px 8px; border-radius: 10px; cursor: pointer; border: 2px solid transparent; text-align: center; transition: all 0.3s; color: white; }
+        .v19-ch:hover { transform: translateY(-2px); border-color: #fff; }
+        .v19-safe { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+        .v19-risk { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏮 财神大陆 V19</h1>
+        
+        <div class="resources">
+            <div class="res-item"><span class="res-value" id="res-money">2400</span><span class="res-label">👛钱兜兜</span></div>
+            <div class="res-item"><span class="res-value" id="res-merit">0</span><span class="res-label">⭐功德</span></div>
+            <div class="res-item"><span class="res-value" id="res-fragments">0</span><span class="res-label">🔷碎片</span></div>
+            <div class="res-item"><span class="res-value" id="res-banners">0</span><span class="res-label">🎏招财幡</span></div>
+            <div class="res-item"><span class="res-value" id="res-mana">100</span><span class="res-label">💧法力</span></div>
+            <div class="res-item"><span class="res-value" id="res-level">1</span><span class="res-label">🏛️等级</span></div>
+            <div class="res-item"><span class="res-value" id="res-faith">0</span><span class="res-label">👥善缘</span></div>
+            <div class="res-item"><span class="res-value" id="res-reputation">0</span><span class="res-label">👑声望</span></div>
+        </div>
+
+        <div class="buff-bar"><strong>🙏 财神庇佑：</strong><span id="buff-list">无</span></div>
+        
+        <!-- 快速功能入口 -->
+        <div style="display: flex; justify-content: center; gap: 15px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 10px;">
+            <div style="text-align: center; cursor: pointer !important; padding: 5px 10px; border-radius: 8px; transition: all 0.2s;" title="每日签到" onmouseover="this.style.background='rgba(255,215,0,0.2)'" onmouseout="this.style.background='transparent'" onclick="showSignInCalendar()">
+                <div style="font-size: 20px;">📅</div>
+                <div style="font-size: 10px; color: #888;">签到</div>
+            </div>
+            <div style="text-align: center; cursor: pointer !important; padding: 5px 10px; border-radius: 8px; transition: all 0.2s; position: relative;" title="查看公告" onmouseover="this.style.background='rgba(255,215,0,0.2)'" onmouseout="this.style.background='transparent'" onclick="showAnnouncements()">
+                <div style="font-size: 20px;">📢</div>
+                <div style="font-size: 10px; color: #888;">公告</div>
+                <span id="announcement-badge" style="position: absolute; top: 0; right: 5px; background: #ff4444; color: white; font-size: 10px; padding: 2px 5px; border-radius: 10px; display: none;">0</span>
+            </div>
+            <div style="text-align: center; cursor: pointer !important; padding: 5px 10px; border-radius: 8px; transition: all 0.2s; position: relative;" title="查看消息" onmouseover="this.style.background='rgba(255,215,0,0.2)'" onmouseout="this.style.background='transparent'" onclick="showMailbox()">
+                <div style="font-size: 20px;">📧</div>
+                <div style="font-size: 10px; color: #888;">消息</div>
+                <span id="mail-badge" style="position: absolute; top: 0; right: 5px; background: #ff4444; color: white; font-size: 10px; padding: 2px 5px; border-radius: 10px; display: none;">0</span>
+            </div>
+        </div>
+
+        <div class="nav">
+            <button class="nav-btn active" title="庙宇管理" onclick="showTab('temple')">庙宇</button>
+            <button class="nav-btn" title="外出化缘" onclick="showTab('alms')">化缘</button>
+            <button class="nav-btn" title="购买道具" onclick="showTab('shop')">商城</button>
+            <button class="nav-btn" title="每日任务" onclick="showTab('task')">任务</button>
+            <button class="nav-btn" title="称号系统" onclick="showTab('achievement')">成就</button>
+            <button class="nav-btn" title="行善积德" onclick="showTab('bushu')">布施</button>
+            <button class="nav-btn" title="好友互动" onclick="showTab('friend')">好友</button>
+            <button class="nav-btn" title="升级庙宇" onclick="showTab('upgrade')">升级</button>
+            <button class="nav-btn" title="功德排行" onclick="showTab('rank')">排行</button>
+            <button class="nav-btn" title="数据统计" onclick="showTab('data')">数据</button>
+            <button class="nav-btn" title="系统设置" onclick="showTab('settings')">设置</button>
+            <button class="nav-btn" title="GM测试面板" onclick="showTab('gm')" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">GM</button>
+        </div>
+
+        <!-- 庙宇页面 -->
+        <div id="tab-temple" class="section hidden">
+            <!-- 顶部信息栏 -->
+            <div style="background: linear-gradient(135deg, #1a1a2e, #0f3460); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 2px solid #FFD700;">
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <div style="font-size: 14px; color: #FFD700; font-weight: bold;">🏛️ 庙宇 <span id="temple-stage">泥胎</span> Lv.<span id="temple-level">1</span> | 护盾: <span id="shield-status">无</span></div>
+                    <div style="font-size: 11px; color: #888;">24h产出 <span id="temple-output">2400</span> | 上限 <span id="temple-cap">5000</span> | 修缮 -<span id="temple-repair">10</span>/h</div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="text-align: center; flex: 1;">
+                        <div style="font-size: 11px; color: #aaa;">🏛️ 庙宇存储</div>
+                        <div style="font-size: 18px; color: #FFD700; font-weight: bold;"><span id="temple-storage">0</span></div>
+                    </div>
+                    <div style="padding: 0 10px;">
+                        <button class="btn btn-gold" onclick="collectTempleMoney()" style="font-size: 11px; padding: 6px 12px;">⬇️ 收取</button>
+                    </div>
+                    <div style="text-align: center; flex: 1;">
+                        <div style="font-size: 11px; color: #aaa;">👛 钱兜兜</div>
+                        <div style="font-size: 18px; color: #FFD700; font-weight: bold;"><span id="pocket-money">2400</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 香火状态 -->
+            <div style="background: rgba(231, 76, 60, 0.2); padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #e74c3c;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 13px; color: #e74c3c; font-weight: bold;">⏱️ 香火状态: <span id="auto-incense">已熄灭</span></div>
+                        <div style="font-size: 11px; color: #888; margin-top: 3px;">剩余: <span id="incense-time">--</span> (无香火则不产出)</div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn" onclick="renewIncense('incense')" style="font-size: 11px; padding: 5px 10px;">📿 线香+2h</button>
+                        <button class="btn" onclick="renewIncense('candle')" style="font-size: 11px; padding: 5px 10px;">🕯️ 红烛+4h</button>
+                        <button class="btn" onclick="renewIncense('paper')" style="font-size: 11px; padding: 5px 10px;">📜 金纸+6h</button>
+                        <button class="btn" onclick="renewIncense('fruit')" style="font-size: 11px; padding: 5px 10px;">🍎 供果+8h</button>
+                    </div>
+                </div>
+                <div style="font-size: 10px; color: #666; margin-top: 5px; text-align: center;">线香 <span id="renew-incense">3</span>个 | 红烛 <span id="renew-candle">1</span>个 | 金纸 <span id="renew-paper">0</span>个 | 供果 <span id="renew-fruit">0</span>个</div>
+            </div>
+
+            <!-- 供奉区域 -->
+            <div class="section-title">🙏 供奉财神</div>
+            <div id="god-list"></div>
+            
+            <div class="materials" style="margin: 10px 0;">
+                <div class="mat-btn selected" id="mat-incense" onclick="selectMaterial('incense')">📿 线香<br><span id="inv-incense">3</span><br><span style="font-size:9px;color:#FFD700;">庇佑+1次</span></div>
+                <div class="mat-btn" id="mat-candle" onclick="selectMaterial('candle')">🕯️ 红烛<br><span id="inv-candle">1</span><br><span style="font-size:9px;color:#FFD700;">庇佑+3次</span></div>
+                <div class="mat-btn" id="mat-paper" onclick="selectMaterial('paper')">📜 金纸<br><span id="inv-paper">0</span><br><span style="font-size:9px;color:#FFD700;">庇佑+5次</span></div>
+                <div class="mat-btn" id="mat-fruit" onclick="selectMaterial('fruit')">🍎 供果<br><span id="inv-fruit">0</span><br><span style="font-size:9px;color:#FFD700;">庇佑+10次</span></div>
+            </div>
+
+            <div style="text-align: center; margin: 15px 0;">
+                <button class="btn" onclick="worship()" style="padding: 10px 20px;">供奉</button>
+                <button class="btn btn-gold" onclick="composeBanner()" style="margin: 0 5px;">🔨 合成</button>
+                <button class="btn btn-green" onclick="incenseForFriend()" style="padding: 10px 15px;">🎁 代点香</button>
+            </div>
+            
+            <div class="log" id="temple-log"></div>
+        </div>
+
+        <!-- 其他页面 -->
+        <div id="tab-alms" class="section hidden">
+            <div class="section-title">☯️ 八卦化缘 (<span id="alms-count">0</span>/20) | 连续MISS:<span id="miss-streak">0</span></div>
+            <div style="font-size:11px;color:#888;margin-bottom:8px;">点击八卦区域 → 触发事件 → 选择修行方式 → 开奖结算</div>
+            <div class="bagua-grid" id="bagua-grid"></div>
+            <div class="log" id="alms-log"></div>
+        </div>
+        <div id="tab-shop" class="section hidden"><div class="section-title">🛒 商城</div><div id="shop-list"></div></div>
+        <div id="tab-task" class="section hidden"><div class="section-title">📜 任务</div><div id="task-list"></div></div>
+        <div id="tab-achievement" class="section hidden">
+            <div class="section-title">🏆 成就 | 称号: <span id="current-title">无</span></div>
+            <div id="title-list"></div>
+            <div class="section-title" style="margin-top: 15px;">成就列表</div>
+            <div id="achievement-list"></div>
+        </div>
+        
+        <div id="tab-bushu" class="section hidden">
+            <div class="section-title">🙏 功德布施</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0;">
+                <div class="btn" onclick="doBushu('small')">小布施<br>1000钱<br>+10功德<br>每日10次</div>
+                <div class="btn" onclick="doBushu('medium')">中布施<br>5000钱<br>+50功德<br>每日3次</div>
+                <div class="btn" onclick="doBushu('large')">大布施<br>30000钱<br>+300功德<br>每日1次</div>
+            </div>
+            <div style="text-align: center; font-size: 12px;">今日: 小<span id="bushu-small">0</span>/10 | 中<span id="bushu-medium">0</span>/3 | 大<span id="bushu-large">0</span>/1</div>
+            <div class="log" id="bushu-log"></div>
+        </div>
+        
+        <div id="tab-friend" class="section hidden">
+            <div class="section-title">👥 好友系统 (今日拜访: <span id="visit-count">0</span>/20)</div>
+            
+            <!-- 邀请系统 -->
+            <div id="invitation-system"></div>
+            
+            <div style="margin-bottom: 10px;"><button class="btn" onclick="addRandomFriend()">随机添加好友</button></div>
+            <div id="friend-list"></div>
+        </div>
+        
+        <div id="tab-upgrade" class="section hidden">
+            <div class="section-title">⬆️ 升级</div>
+            <div id="upgrade-info" style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px; margin: 15px 0; min-height: 100px;"></div>
+            <div style="text-align: center;">
+                <button class="btn" id="btn-upgrade" onclick="doUpgrade()">升级</button>
+                <button class="btn btn-gold hidden" id="btn-tianmen" onclick="openHeavenGate()">🌟 开天门(50万)</button>
+            </div>
+            <div class="log" id="upgrade-log"></div>
+        </div>
+        
+        <!-- 排行页面 -->
+        <div id="tab-rank" class="section hidden">
+            <div class="section-title">🏆 排行榜</div>
+            <div id="leaderboard-container"></div>
+        </div>
+        
+        <!-- 数据页面 -->
+        <div id="tab-data" class="section hidden">
+            <div class="section-title">📊 数据统计</div>
+            <div id="statistics-container"></div>
+        </div>
+        
+        <!-- 设置页面 -->
+        <div id="tab-settings" class="section hidden">
+            <div class="section-title">⚙️ 设置</div>
+            
+            <!-- 音效设置 -->
+            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin: 10px 0;">
+                <div style="font-size: 14px; color: #FFD700; margin-bottom: 10px;">🔊 音效设置</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+                    <span style="font-size: 12px;">背景音乐</span>
+                    <button class="btn" id="btn-bgm" onclick="toggleBGM()">开启</button>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+                    <span style="font-size: 12px;">点击音效</span>
+                    <button class="btn" id="btn-sfx" onclick="toggleSFX()">开启</button>
+                </div>
+            </div>
+            
+            <!-- 通知设置 -->
+            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin: 10px 0;">
+                <div style="font-size: 14px; color: #FFD700; margin-bottom: 10px;">🔔 通知设置</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+                    <span style="font-size: 12px;">每日登录提醒</span>
+                    <button class="btn" id="btn-notify-login" onclick="toggleNotification('login')">开启</button>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+                    <span style="font-size: 12px;">活动提醒</span>
+                    <button class="btn" id="btn-notify-event" onclick="toggleNotification('event')">开启</button>
+                </div>
+            </div>
+            
+            <!-- 其他设置 -->
+            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin: 10px 0;">
+                <div style="font-size: 14px; color: #FFD700; margin-bottom: 10px;">📱 其他</div>
+                <button class="btn" onclick="showFAQ()" style="width: 100%; margin: 5px 0;">📖 帮助与FAQ</button>
+                <button class="btn" onclick="showContact()" style="width: 100%; margin: 5px 0;">💬 联系客服</button>
+                <button class="btn" onclick="showPrivacy()" style="width: 100%; margin: 5px 0;">🔒 隐私政策</button>
+                <button class="btn" onclick="clearCache()" style="width: 100%; margin: 5px 0;">🗑️ 清除缓存</button>
+            </div>
+            
+            <!-- 版本信息 -->
+            <div style="text-align: center; margin-top: 20px; font-size: 11px; color: #888;">
+                <div>财神大陆 V19</div>
+                <div>版本号: 1.0.0</div>
+            </div>
+        </div>
+        
+        <!-- GM页面（测试用） -->
+        <div id="tab-gm" class="section hidden">
+            <div class="section-title">🛠️ GM测试面板</div>
+            
+            <div style="background: rgba(231, 76, 60, 0.2); padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #e74c3c;">
+                <div style="font-size: 12px; color: #e74c3c; margin-bottom: 10px;">⚠️ 仅用于测试，正式版删除</div>
+                
+                <!-- 加钱 -->
+                <div style="margin-bottom: 15px;">
+                    <div style="font-size: 12px; color: #FFD700; margin-bottom: 5px;">💰 加钱兜兜</div>
+                    <div style="display: flex; gap: 5px;">
+                        <button class="btn" onclick="gmAddMoney(1000)">+1000</button>
+                        <button class="btn" onclick="gmAddMoney(10000)">+10000</button>
+                        <button class="btn" onclick="gmAddMoney(100000)">+100000</button>
+                        <button class="btn" onclick="gmAddMoney(1000000)">+100万</button>
+                    </div>
+                </div>
+                
+                <!-- 加材料 -->
+                <div style="margin-bottom: 15px;">
+                    <div style="font-size: 12px; color: #FFD700; margin-bottom: 5px;">📦 加材料</div>
+                    <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                        <button class="btn" onclick="gmAddItem('incense', 10)">线香+10</button>
+                        <button class="btn" onclick="gmAddItem('candle', 10)">红烛+10</button>
+                        <button class="btn" onclick="gmAddItem('paper', 10)">金纸+10</button>
+                        <button class="btn" onclick="gmAddItem('fruit', 10)">供果+10</button>
+                    </div>
+                </div>
+                
+                <!-- 加资源 -->
+                <div style="margin-bottom: 15px;">
+                    <div style="font-size: 12px; color: #FFD700; margin-bottom: 5px;">💎 加资源</div>
+                    <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                        <button class="btn" onclick="gmAddResource('fragments', 100)">碎片+100</button>
+                        <button class="btn" onclick="gmAddResource('merit', 1000)">功德+1000</button>
+                        <button class="btn" onclick="gmAddResource('banners', 10)">招财幡+10</button>
+                        <button class="btn" onclick="gmAddResource('mana', 100)">法力+100</button>
+                    </div>
+                </div>
+                
+                <!-- 重置每日限制 -->
+                <div style="margin-bottom: 15px;">
+                    <div style="font-size: 12px; color: #FFD700; margin-bottom: 5px;">🔄 重置每日限制</div>
+                    <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                        <button class="btn" onclick="gmResetDaily()">重置所有</button>
+                        <button class="btn" onclick="gmResetAlms()">化缘次数</button>
+                        <button class="btn" onclick="gmResetVisit()">拜访次数</button>
+                        <button class="btn" onclick="gmResetBushu()">布施次数</button>
+                    </div>
+                </div>
+                
+                <!-- 测试功能 -->
+                <div style="margin-bottom: 15px;">
+                    <div style="font-size: 12px; color: #FFD700; margin-bottom: 5px;">🧪 测试功能</div>
+                    <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                        <button class="btn" onclick="gmSendTestMail()">📧 发测试消息</button>
+                        <button class="btn" onclick="gmUnlockAllGods()">解锁全部财神</button>
+                        <button class="btn" onclick="gmCompleteAllTitles()">解锁全部称号</button>
+                    </div>
+                </div>
+                
+                <!-- 解锁财神 -->
+                <div style="margin-bottom: 15px;">
+                    <div style="font-size: 12px; color: #FFD700; margin-bottom: 5px;">✨ 解锁财神</div>
+                    <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                        <button class="btn" onclick="gmUnlockGod('guanyu')">关羽</button>
+                        <button class="btn" onclick="gmUnlockGod('yaoshaosi')">姚少司</button>
+                        <button class="btn" onclick="gmUnlockGod('chenjiugong')">陈九公</button>
+                        <button class="btn" onclick="gmUnlockGod('fanli')">范蠡</button>
+                        <button class="btn" onclick="gmUnlockGod('caobao')">曹宝</button>
+                        <button class="btn" onclick="gmUnlockGod('liuhai')">刘海</button>
+                        <button class="btn" onclick="gmUnlockGod('xiaosheng')">萧升</button>
+                        <button class="btn btn-gold" onclick="gmUnlockAllGods()">解锁全部</button>
+                    </div>
+                </div>
+                
+                <!-- 庙宇操作 -->
+                <div style="margin-bottom: 15px;">
+                    <div style="font-size: 12px; color: #FFD700; margin-bottom: 5px;">🏛️ 庙宇操作</div>
+                    <div style="display: flex; gap: 5px;">
+                        <button class="btn" onclick="gmLevelUp()">升1级</button>
+                        <button class="btn" onclick="gmMaxLevel()">满级(6级)</button>
+                        <button class="btn btn-gold" onclick="gmOpenHeavenGate()">开天门</button>
+                    </div>
+                </div>
+                
+                <!-- 称号操作 -->
+                <div style="margin-bottom: 15px;">
+                    <div style="font-size: 12px; color: #FFD700; margin-bottom: 5px;">🏆 称号操作</div>
+                    <div style="display: flex; gap: 5px;">
+                        <button class="btn" onclick="gmCompleteAllTitles()">完成所有称号任务</button>
+                        <button class="btn" onclick="gmResetTitles()">重置称号</button>
+                    </div>
+                </div>
+                
+                <!-- 危险操作 -->
+                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px;">
+                    <div style="font-size: 12px; color: #e74c3c; margin-bottom: 5px;">⚠️ 危险操作</div>
+                    <div style="display: flex; gap: 5px;">
+                        <button class="btn" onclick="gmClearLocalStorage()" style="background: #c0392b;">清空存档</button>
+                        <button class="btn" onclick="gmResetAll()" style="background: #c0392b;">重置所有数据</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="log" id="gm-log"></div>
+        </div>
+    </div>
+
+    <div id="modal-container"></div>
+    <div id="v19-evt" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width:420px;">
+            <div class="modal-title" id="v19-area-name">☰ 天禄</div>
+            <div class="v19-desc" id="v19-desc-text"></div>
+            <div class="v19-choices">
+                <div class="v19-ch v19-safe" onclick="v19Choose('safe')">
+                    <div style="font-size:14px;font-weight:bold;">🙏 虔诚礼拜</div>
+                    <div style="font-size:10px;opacity:0.8;">稳中求福</div>
+                </div>
+                <div class="v19-ch v19-risk" onclick="v19Choose('risk')">
+                    <div style="font-size:14px;font-weight:bold;">🎲 孤注一掷</div>
+                    <div style="font-size:10px;opacity:0.8;">逆天改命</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="v19-res" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width:380px;">
+            <div style="font-size:50px;text-align:center;" id="v19-res-icon">🎉</div>
+            <div style="font-size:22px;font-weight:bold;text-align:center;" id="v19-res-title">大吉大利</div>
+            <div id="v19-res-story" style="font-size:12px;line-height:1.6;margin:10px 0;padding:8px;background:rgba(0,0,0,0.2);border-radius:8px;text-align:left;"></div>
+            <div style="font-size:18px;text-align:center;" id="v19-res-amount">+900</div>
+            <div style="font-size:11px;color:#888;margin:5px 0;text-align:center;" id="v19-res-bal"></div>
+            <div style="text-align:center;margin-top:10px;"><button class="btn btn-gold" onclick="v19Close()">确定</button></div>
+        </div>
+    </div>
+
+<script>
+// 游戏数据
+const gameData = {
+    level: 1, stage: 'clay', 
+    // 用户钱兜兜里的钱（可消费）
+    money: 2400, 
+    // 庙宇存储的钱（需要收取到钱兜兜）
+    templeStorage: 0,
+    yuanbao: 0, merit: 0, fragments: 0, mana: 100, banners: 0, faith: 0, reputation: 0,
+    incense_sticks: 3, candles: 1, gold_paper: 0, fruits: 0,
+    almsCount: 0, almsCritCount: 0, worshipCount: 0, greatCount: 0,
+    almsToday: 0, missStreak: 0, areaFirstVisit: {}, totalJackpot: 0, areaVisited: {},
+    firstWorshipDone: false, hasGreatLuck: false,
+    lastLoginTime: null, loginDays: 1, consecutiveDays: 1, todayLogin: false, lastLoginDate: null,
+    shengxiao: null, shengxiaoBonus: false,
+    beAlmsCount: 0, shieldActive: false, shieldEndTime: null,
+    bushuSmall: 0, bushuMedium: 0, bushuLarge: 0,
+    visitCount: 0, // 每日拜访好友次数
+    invitationCode: null, // 我的邀请码
+    invitedBy: null, // 谁邀请了我
+    invitedFriends: [], // 我邀请的好友列表
+    newPlayerRewardClaimed: false, // 新玩家奖励是否已领取
+    tutorialCompleted: false, // 新手引导是否完成
+    // 称号系统
+    unlockedTitles: [], // 已解锁的称号列表
+    currentTitle: null, // 当前装备的称号
+    titleRewards: {}, // 已领取的任务奖励
+    // 消息系统
+    mails: [], // 消息列表
+    readAnnouncements: [], // 已读公告ID列表
+    announcementShown: false, // 今日是否已显示公告
+    // 签到系统
+    signedDays: [], // 已签到日期列表
+    consecutiveSignInDays: 0, // 连续签到天数
+    // 客服系统
+    supportTickets: [], // 客服工单列表
+    // 设置
+    settings: {}, // 用户设置
+    // 统计
+    totalSpent: 0, // 累计消费
+    totalRecharge: 0, // 累计充值
+    lastUpdateTime: Date.now(), accumulatedMoney: 0,
+    // 初始有一支线香在燃烧（2小时）
+    currentIncense: { type: 'incense', endTime: Date.now() + 2 * 3600 * 1000 }
+};
+
+const gods = [
+    { id: 'tudigong', name: '土地公', title: '福德正神', effect: '香火钱+10%', type: 'money', bonus: 0.10, unlocked: true, icon: '🏠' },
+    { id: 'guanyu', name: '关羽', title: '武财神', effect: '化缘收益+15%', type: 'alms', bonus: 0.15, unlocked: false, unlockLevel: 3, icon: '⚔️' },
+    { id: 'yaoshaosi', name: '姚少司', title: '北路利市仙官', effect: '暴击率+5%', type: 'crit', bonus: 0.05, unlocked: false, unlockAlms: 30, icon: '🎯' },
+    { id: 'chenjiugong', name: '陈九公', title: '东路招财使者', effect: '香火钱上限+500', type: 'cap', bonus: 500, unlocked: false, unlockMoney: 5000, icon: '💰' },
+    { id: 'fanli', name: '范蠡', title: '东南财神', effect: '碎片获取+20%', type: 'fragment', bonus: 0.20, unlocked: false, unlockMerit: 100, icon: '🔮' },
+    { id: 'caobao', name: '曹宝', title: '南路招宝天尊', effect: '化缘风险-10%', type: 'risk', bonus: -0.10, unlocked: false, unlockGreatNum: 3, unlockWorshipTotal: 100, unlockMeritReq: 500, icon: '🛡️' },
+    { id: 'liuhai', name: '刘海', title: '偏财神', effect: '每日首供双倍', type: 'daily', bonus: 0, unlocked: false, unlockGreat: true, icon: '🐸' },
+    { id: 'xiaosheng', name: '萧升', title: '西路纳珍天尊', effect: '供奉功德+10%', type: 'merit', bonus: 0.10, unlocked: false, unlockWorship: 50, icon: '📿' },
+    { id: 'zhaogongming', name: '赵公明', title: '正财神', effect: '香火钱+25%', type: 'money', bonus: 0.25, unlocked: false, unlockAll: true, unlockMoneyCost: 500000, icon: '👑' }
+];
+
+const templeData = {
+    1: { output: 2400, storage: 5000, repair: 10, stage: '泥胎' },
+    2: { output: 4320, storage: 10000, repair: 20, stage: '泥胎' },
+    3: { output: 6000, storage: 18000, repair: 30, stage: '木骨' },
+    4: { output: 8000, storage: 30000, repair: 40, stage: '铜身' },
+    5: { output: 10000, storage: 50000, repair: 50, stage: '金身' },
+    6: { output: 20000, storage: 100000, repair: 100, stage: '金身·开天门' }
+};
+
+const materials = {
+    incense: { name: '线香', cost: 1, duration: 1, price: 100, burnTime: 2 * 3600 * 1000 },
+    candle: { name: '红烛', cost: 1, duration: 3, price: 300, burnTime: 4 * 3600 * 1000 },
+    paper: { name: '金纸', cost: 1, duration: 5, price: 500, burnTime: 6 * 3600 * 1000 },
+    fruit: { name: '供果', cost: 1, duration: 10, price: 1000, burnTime: 8 * 3600 * 1000 }
+};
+
+// V19 八卦配置
+var BAGUA_AREAS = [
+    { id: 'tianlu',   name: '天禄', trigram: '☰', dir: '乾·北',   threshold: 100,    type: '5r' },
+    { id: 'zhenyue',  name: '镇岳', trigram: '☶', dir: '艮·东北', threshold: 500,    type: '5r' },
+    { id: 'longyin',  name: '龙吟', trigram: '☳', dir: '震·东',   threshold: 1000,   type: '5r' },
+    { id: 'fuyao',    name: '扶摇', trigram: '☴', dir: '巽·东南', threshold: 5000,   type: '5r' },
+    { id: 'nanming',  name: '南明', trigram: '☲', dir: '离·南',   threshold: 10000,  type: '5r' },
+    { id: 'dibao',    name: '地宝', trigram: '☷', dir: '坤·西南', threshold: 50000,  type: '5r' },
+    { id: 'ganze',    name: '甘泽', trigram: '☱', dir: '兑·西',   threshold: 77777,  type: '2r' },
+    { id: 'liquan',   name: '流泉', trigram: '☵', dir: '坎·西北', threshold: 99999,  type: '2r' }
+];
+var AREA_PROBS = {
+    tianlu:  {JP:0.02,BW:0.10,NM:0.50,SW:0.30,MS:0.08},
+    zhenyue: {JP:0.03,BW:0.12,NM:0.40,SW:0.30,MS:0.15},
+    longyin: {JP:0.04,BW:0.14,NM:0.32,SW:0.25,MS:0.25},
+    fuyao:   {JP:0.05,BW:0.15,NM:0.25,SW:0.20,MS:0.35},
+    nanming: {JP:0.06,BW:0.16,NM:0.18,SW:0.15,MS:0.45},
+    dibao:   {JP:0.07,BW:0.18,NM:0.10,SW:0.15,MS:0.50}
+};
+var AREA_MULT = {JP:9.0,BW:2.0,NM:0.0,SW:-0.7,MS:-1.0};
+var V19_DISP = {
+    JP:{icon:'🐉',title:'大吉大利',color:'#FFD700'},
+    BW:{icon:'🎉',title:'欧皇降临',color:'#FFD700'},
+    NM:{icon:'☯️',title:'平安顺遂',color:'#f39c12'},
+    SW:{icon:'💸',title:'破财消灾',color:'#aaa'},
+    MS:{icon:'💀',title:'非酋本酋',color:'#e74c3c'},
+    W2:{icon:'🎊',title:'吉',color:'#FFD700'},
+    L2:{icon:'☠️',title:'凶',color:'#e74c3c'}
+};
+var V19_LIB = {
+    "tianlu":{"玩梗搞笑":{s:["拼夕夕砍一刀页面","直播间小黄车旁","微信群发红包现场","抖音打赏排行榜前","淘宝双十一零点大厅"],c:["喊321上链接的老财神","让你砍一刀的金袍童子","疯狂发红包的土豪哥","直播间刷火箭的大佬","双十一抢购的剁手党"],t:["递来二维码让你扫码领红包","让你帮忙砍一刀助力提现","疯狂往你账户转香火钱","一口气刷了99个火箭","购物车塞满供品点了结算"]},"温情治愈":{s:["夕阳下的财神殿台阶","飘着茶香的偏厅","月光下的许愿池边","老槐树下的石凳上","炊烟袅袅的小庙旁"],c:["慈祥笑着的老财神","端着热茶的老奶奶","给你系红绳的小姑娘","默默扫地的老和尚","递来馒头的善心大婶"],t:["递来一杯热茶说辛苦了","温柔地拍拍你的肩膀","把最后一个馒头给了你","帮你系上祈福红绳","默默在你功德箱里放了钱"]},"悬疑神秘":{s:["黑得看不见五指的密室","闪着磷光的古井边","月黑风高的破庙中","迷雾弥漫的竹林深处","烛光摇曳的地下室"],c:["黑袍遮面的神秘人","眼神深不见底的老者","手持拂尘的白衣道人","独眼的算命先生","背着药箱的游方郎中"],t:["黑袍一甩消失不见","深不可测地盯着你看","在你手心写了一个字","塞给你一张黄符","神秘地说三日后再来"]}},
+    "zhenyue":{"玩梗搞笑":{s:["网红打卡的石头旁","直播爬山的小平台","景区拍照收费点","山顶外卖送餐现场","缆车上直播带货"],c:["举着自拍杆直播的老农","喊着双击666的放羊娃","景区强卖纪念品的大妈","山顶送外卖的骑手小哥","缆车上卖烤肠的大爷"],t:["让你帮忙双击点个小心心","递来二维码说关注送鸡蛋","强行给你戴花环要50块","山顶送达外卖还要好评","缆车上烤肠香味飘满车厢"]},"温情治愈":{s:["夕阳下的老槐树旁","山泉叮咚的小溪边","云雾缭绕的山腰凉亭","野花盛开的山间小路","鸟鸣清脆的竹林中"],c:["憨厚笑着的老农","背着柴火的小姑娘","山间采茶的阿婆","石头上打坐的老道","溪边洗衣的大婶"],t:["递来一碗山泉水说解渴","笑着邀请你去家里吃饭","把刚采的新茶分你一包","指点你一条近路下山","帮你缝补了破了的衣服"]},"悬疑神秘":{s:["黑雾笼罩的山谷","传来怪声的洞穴","枯树成林的阴暗山坳","石碑林立的无名墓地","终年不见阳光的峡谷"],c:["黑袍遮面的守山人","眼神阴森的采药人","浑身泥土的挖坟人","背着骨灰坛的老妇","手持铜铃的瞎眼道士"],t:["阴森森地说你不该来","在你面前挖出一块玉","铜铃响了三声突然停了","指着山谷深处说那里有宝","递来一颗黑色药丸说吃了保命"]}},
+    "longyin":{"玩梗搞笑":{s:["雷电交加的游戏厅","闪着霓虹灯的电竞馆","暴雨中的广场舞现场","打雷时还在钓鱼的河边","闪电击中避雷针的楼顶"],c:["浑身肌肉的健身教练","喊着奥利给的热血青年","雷雨天跳广场舞的大妈","打雷都不收杆的钓鱼佬","被闪电劈了还说好刺激的玩家"],t:["一声怒吼燃起来了","在雷雨中做了一百个俯卧撑","顶着雷跳完了整支舞","钓上来一条金色的鱼","被电了一下头发全炸了还在笑"]},"温情治愈":{s:["雨过天晴的彩虹下","雷雨后清新的山谷","暴风雨中的避雨亭","闪电照亮的回家路","雨后初晴的荷塘边"],c:["雷声后给你披衣服的老者","闪电时护着你的大哥哥","雨中为你撑伞的陌生人","暴风雨后送你热汤的阿姨","彩虹下对你微笑的小女孩"],t:["温柔地给你披上外套","护着你说别怕有我在","默默走了半路都淋湿了自己","端来一碗姜汤说暖暖身子","指着彩虹说这是好兆头"]},"悬疑神秘":{s:["雷电击中古树的荒野","闪电照出人影的废墟","暴风雨中的古战场","雷声不断的黑暗山洞","电闪雷鸣的祭坛上"],c:["雷电中现身的黑袍巫师","闪电照出的无面人","暴风雨中行走自如的白衣人","雷声中低语的幽灵","祭坛上盘坐的骷髅"],t:["闪电中黑袍猎猎作响","每次闪电都离你更近","在暴风雨中如同散步","雷声中低语越来越清晰","骷髅的眼窝突然亮了"]}},
+    "fuyao":{"玩梗搞笑":{s:["风力发电机的叶片上","吹得头发乱飞的天台","台风天还在送外卖的街上","被风吹翻伞的十字路口","风筝节断线的广场"],c:["被风吹成爆炸头的青年","抓着风筝线不放的顽童","台风天送外卖的骑手","被风吹走假发追着跑的大叔","风中凌乱的天气预报员"],t:["头发被吹成鸡窝还在自拍","假发飞出去追了三条街","台风中送达外卖还要好评","风筝线缠到电线杆上下不来","预报说微风结果差点被吹走"]},"温情治愈":{s:["春风拂面的桃花林","微风轻拂的柳树下","风铃叮当的走廊","秋风送爽的稻田边","晚风习习的河堤上"],c:["笑着给你扇风的姐姐","帮你追回帽子的少年","风中起舞的白衣女子","在风中放风筝的爷孙","迎风奔跑的小狗"],t:["笑着给你轻轻扇风","追了好远把帽子递回来","裙摆在风中像蝴蝶一样","爷爷教孙子放风筝笑声不断","小狗叼着树枝跑来蹭你"]},"悬疑神秘":{s:["阴风阵阵的古墓入口","怪风呼啸的废弃城堡","无风自动的风车磨坊","狂风中飘来纸钱的荒路","风声如哭的峡谷"],c:["阴风中飘来的白衣女鬼","顶着狂风纹丝不动的老道","被风吹来的一封血书","风中传来声音看不见的人","狂风中撑着油纸伞的女子"],t:["阴风吹灭了所有灯","在狂风中站得像座山","血书上写着你的名字","风中的声音叫着你的名字","油纸伞突然合上露出一张脸"]}},
+    "nanming":{"玩梗搞笑":{s:["火焰特效满屏的直播间","烤串着火了的烧烤摊","火锅店辣到喷火的餐桌","消防演习现场","烟花爆竹齐放的除夕夜"],c:["喊着热死了的胖子","被辣得喷火的食客","烤串烤糊了的烧烤师傅","消防演习中真着火的倒霉蛋","放烟花炸到自己的熊孩子"],t:["大喊热死了热死了","被辣得直吐舌头灌了三瓶水","烤串全糊了还说这是烟熏风味","演习变实战全场懵了","烟花在手里炸了头发烧焦了"]},"温情治愈":{s:["壁炉烧得暖暖的冬夜","篝火噼啪的露营夜","灶台前忙碌的厨房","烛光摇曳的生日聚会","暖阳下的晒谷场"],c:["笑着给你烤红薯的奶奶","围着篝火唱歌的朋友们","灶台前炒菜的妈妈","给你点生日蜡烛的爱人","晒谷场上翻晒稻子的老农"],t:["笑着递来烤红薯说趁热吃","大家围着篝火唱起了歌","炒了你最爱吃的菜","蜡烛的光映着温柔的脸","阳光下稻谷金灿灿的"]},"悬疑神秘":{s:["鬼火飘荡的乱葬岗","自燃的古籍书房","火焰变色的炼丹炉前","三昧真火焚烧的法阵中","地火涌出的裂缝边"],c:["火焰中走出的火灵","自燃的书页飘来文字","炼丹炉前的白发老道","法阵中的火焰巨人","地火中浮现的远古图腾"],t:["火焰变成了青色直冲天际","飘来的文字组成一个预言","炼丹炉突然炸开飞出一颗丹","火焰巨人低头看着你","图腾的眼睛睁开了"]}},
+    "dibao":{"玩梗搞笑":{s:["泥巴地里拔不出鞋的稻田","牛粪比人多的放牧区","挖地道挖到下水道的工地","盗墓盗到自家祖坟的山坡","种地种出文物的菜园"],c:["裤脚全是泥的老农","手里攥着粪勺的大爷","挖到下水管的包工头","盗墓盗到族谱的摸金校尉","种菜种出青铜器的大妈"],t:["拔鞋拔了半天只拔出袜子","踩到牛粪滑了个劈叉","挖到下水管喷了一脸","打开棺材发现是自家太爷爷","拿着青铜器问值多少钱"]},"温情治愈":{s:["夕阳下的金黄麦田","炊烟袅袅的黄昏村","春耕时节的水田","丰收季的果园","落叶铺地的老院子"],c:["笑着给你递玉米的老农","叫你去吃饭的阿婆","教你插秧的农家少年","摘果子给你尝的果农","扫落叶的慈祥老人"],t:["笑着递来刚摘的玉米","慈祥地说来家吃饭别客气","手把手教你怎么插秧","挑了最甜的果子给你","扫完落叶泡了一壶好茶"]},"悬疑神秘":{s:["地下传来声响的古墓","塌方后露出的密室","地震后裂开的祠堂地板","深夜发光的矿洞","枯井底部的暗道"],c:["地底爬出的土行孙","密室中醒来的千年僵尸","地板下伸出手的冤魂","矿洞深处的发光体","暗道尽头等待的守墓人"],t:["地面开始震动脚下裂开","僵尸睁开眼看了你一眼","地板下的手抓住了你的脚","发光体越来越近越来越亮","守墓人说等你很久了"]}},
+    "ganze":{"玩梗搞笑":{s:["水管爆裂喷水的街道","漏水滴到头上的桥洞","洗车时突然下暴雨的停车场","水上乐园人挤人的滑道","钓鱼被鱼拉下水的河边"],c:["被水喷一脸的倒霉蛋","漏水滴到头上的苦主","刚洗完车就下雨的车主","滑道上叠罗汉的游客","被鱼拉下水的钓鱼佬"],t:["被水喷了一脸还在打电话","水滴到头上以为在下雨","刚擦干就又下雨了气到笑","滑道上撞成一堆人球","被鱼拉进水里还不松手"]},"温情治愈":{s:["雨滴轻敲屋檐的廊下","水雾弥漫的温泉边","溪水潺潺的竹桥上","露珠晶莹的清晨花园","细雨中的江南水乡"],c:["温柔递伞的江南女子","溪边教你折纸船的孩子","温泉旁递热毛巾的老板娘","花园里浇花的老爷爷","雨中撑船的渔家姑娘"],t:["温柔地说下雨了带上伞","折了一只纸船写上你的愿望","递来热毛巾说泡完喝杯茶","浇花时说这朵最好送你","撑船唱着小曲穿过烟雨"]},"悬疑神秘":{s:["黑水深不见底的寒潭","水中浮起人脸的古井","暴雨中逆流而上的血水","深海中发光的沉船","水底传来钟声的湖"],c:["黑水中浮起的水鬼","古井中传声的女鬼","血水中行走的红衣人","沉船上坐着的骷髅船长","湖底敲钟的和尚"],t:["黑水中浮起一张脸","井中传来哭声越来越响","血水淹过了你的脚踝","骷髅船长转过头看你","钟声每响一次水位涨一寸"]}},
+    "liquan":{"玩梗搞笑":{s:["深到扔石头听不到响的井","黑得看不见底的下水道","马里亚纳海沟的潜水艇里","深渊旁自拍的网红打卡点","无底洞旁的收费拍照点"],c:["扔石头听半天的好奇宝宝","下水道探险的up主","潜水艇里晕船的船员","深渊自拍差点掉下去的网红","收费拍照的黑心老板"],t:["扔石头等了十分钟没听到响","直播下水道被老鼠追着跑","在潜水艇里吐得天昏地暗","自拍杆掉进深渊了","拍一张照收你一百块不给退"]},"温情治愈":{s:["星光倒映的深潭","月影摇曳的古井水面","萤火虫飞舞的山涧","银河倒挂的高山湖","清泉映月的寺院池塘"],c:["陪你数星星的老者","给你讲传说的爷爷","帮你捉萤火虫的少女","湖边弹琴的隐士","池塘边念经的老僧"],t:["指着星星说那颗最亮是你的","讲了一个关于深渊的古老传说","捉到的萤火虫在你掌心发光","琴声在湖面上荡漾开来","念经声让你心中无比平静"]},"悬疑神秘":{s:["看不见底的深渊","传来低语的万丈深井","黑暗中有东西在游动的地下河","深不见底的天坑","虚空中漂浮的碎片空间"],c:["深渊中升起的巨大眼睛","井底传来的千年怨灵","地下河中的远古巨兽","天坑深处的上古遗民","虚空中的时间碎片"],t:["一只巨大的眼睛在深渊中睁开","千年怨灵的声音在你脑中回响","水下有巨大的影子掠过","天坑深处传来文明的光芒","时间碎片拼出了一段未来"]}}
+};
+var V19_STYLES = ['玩梗搞笑','温情治愈','悬疑神秘'];
+
+let selectedGod = 0, selectedMat = 'incense', activeBuffs = {}, lastBeAlmsTime = 0;
+
+function init() {
+    // 强制清除localStorage，重新开始（测试用）
+    localStorage.removeItem('caishen_v19');
+    
+    // 强制设置初始值
+    gameData.incense_sticks = 3;
+    gameData.candles = 1;
+    gameData.money = 2400;
+    gameData.mana = 100;
+    gameData.fragments = 0;
+    gameData.banners = 0;
+    gameData.merit = 0;
+    gameData.faith = 0;
+    gameData.reputation = 0;
+    gameData.templeStorage = 0;
+    gameData.almsCount = 0;
+    gameData.greatCount = 0;
+    gameData.worshipCount = 0;
+    gameData.bushuSmall = 0;
+    gameData.bushuMedium = 0;
+    gameData.bushuLarge = 0;
+    gameData.gold_paper = 0;
+    gameData.fruits = 0;
+    gameData.level = 1;
+    
+    // 生成邀请码（如果没有）
+    if (!gameData.invitationCode) {
+        gameData.invitationCode = 'CS' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    }
+    
+    checkFirstLogin();
+    renderGods();
+    renderShop();
+    renderRegions();
+    renderTasks();
+    renderAchievements();
+    renderInvitationSystem(); // 渲染邀请系统
+    // 默认显示庙宇页面
+    document.getElementById('tab-temple').classList.remove('hidden');
+    startGameLoop();
+    updateUI();
+    
+    // 显示新手引导（首次登录）- 延迟3秒，确保时辰选择先显示
+    if (!gameData.tutorialCompleted && gameData.shengxiao) {
+        setTimeout(showTutorial, 1000);
+    }
+    
+    // 显示公告（非首次登录）
+    if (gameData.shengxiao && !gameData.announcementShown) {
+        setTimeout(showAnnouncements, 2000);
+    }
+    
+    // 加载设置
+    loadSettings();
+    
+    console.log('初始化完成:', gameData);
+}
+
+function loadGame() {
+    const saved = localStorage.getItem('caishen_v19');
+    if (saved) Object.assign(gameData, JSON.parse(saved));
+}
+
+function saveGame() {
+    localStorage.setItem('caishen_v19', JSON.stringify(gameData));
+}
+
+function checkFirstLogin() {
+    const today = new Date().toDateString();
+    if (gameData.lastLoginDate !== today) {
+        const lastDate = gameData.lastLoginDate ? new Date(gameData.lastLoginDate) : null;
+        if (lastDate) {
+            const diffDays = Math.floor((new Date() - lastDate) / 86400000);
+            if (diffDays === 1) {
+                gameData.consecutiveDays++;
+                if (gameData.consecutiveDays === 3) {
+                    gameData.fragments += 20; gameData.money += 2000;
+                    showModal('连续登录3天', '🎁 碎片+20 香火钱+2000');
+                } else if (gameData.consecutiveDays === 7) {
+                    gameData.banners += 5; gameData.yuanbao += 10;
+                    showModal('连续登录7天', '🎁 招财幡+5 元宝+10');
+                }
+            } else if (diffDays > 1) gameData.consecutiveDays = 1;
+        }
+        gameData.lastLoginDate = today;
+        gameData.todayLogin = false;
+        resetDaily();
+    }
+    // 优先显示时辰选择器（必须先选时辰才能开财门）
+    if (!gameData.shengxiao) {
+        showShengxiaoSelector();
+    } else if (!gameData.todayLogin) {
+        showKaimen();
+    }
+}
+
+function resetDaily() {
+    gameData.almsCount = 0; gameData.almsToday = 0; gameData.missStreak = 0; gameData.bushuSmall = 0; gameData.bushuMedium = 0; gameData.bushuLarge = 0;
+    gameData.beAlmsCount = 0; gameData.shieldActive = false; gameData.shieldEndTime = null;
+    gameData.visitCount = 0; // 重置拜访次数
+    // 每日首次登录送2线香+2红烛
+    gameData.incense_sticks += 2;
+    gameData.candles += 2;
+    log('temple-log', '🎁 每日登录奖励：线香+2 红烛+2');
+}
+
+function showKaimen() {
+    gameData.todayLogin = true;
+    
+    // 每日首次登录送线香和红烛
+    const dailyIncense = 2;
+    const dailyCandles = 2;
+    gameData.incense_sticks = (gameData.incense_sticks || 0) + dailyIncense;
+    gameData.candles = (gameData.candles || 0) + dailyCandles;
+    
+    let reward = { money: 500, fragments: 3, merit: 1 };
+    let bonusText = '';
+    if (gameData.shengxiaoBonus) { 
+        reward.money = Math.floor(reward.money * 1.2); 
+        reward.fragments = Math.floor(reward.fragments * 1.2); 
+        reward.merit = Math.floor(reward.merit * 1.2);
+        bonusText = '\n✨ 时辰契合+20%收益！';
+    }
+    // 开财门奖励进入庙宇存储
+    gameData.templeStorage += reward.money; 
+    gameData.fragments += reward.fragments; 
+    gameData.merit += reward.merit;
+    showModal(gameData.shengxiaoBonus ? '🌟 时辰契合！开财门' : '🚪 开财门', 
+        `朱红大门开启，财神赐福！\n💰 庙宇香火钱+${reward.money}\n🔷 碎片+${reward.fragments}\n⭐ 功德+${reward.merit}\n🕯️ 线香+${dailyIncense} 红烛+${dailyCandles}${bonusText}\n\n请到庙宇页面收取香火钱`);
+    saveGame();
+}
+
+function showShengxiaoSelector() {
+    let html = '<div class="modal" id="shengxiao-modal"><div class="modal-content"><div class="modal-title">选择生辰时辰</div>' +
+        '<p style="margin-bottom:10px;font-size:12px;">✨ 顺应天时：此时辰内修炼全属性+20%</p>' +
+        '<p style="margin-bottom:15px;font-size:13px;color:#FFD700;font-weight:bold;">✨ 生辰既定，天命难移</p>' +
+        '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">';;
+    
+    const names = ['子时','丑时','寅时','卯时','辰时','巳时','午时','未时','申时','酉时','戌时','亥时'];
+    const times = ['23:00-01:00','01:00-03:00','03:00-05:00','05:00-07:00','07:00-09:00','09:00-11:00','11:00-13:00','13:00-15:00','15:00-17:00','17:00-19:00','19:00-21:00','21:00-23:00'];
+    for (let i = 0; i < 12; i++) {
+        const isSelected = gameData.shengxiao === i;
+        if (isSelected) {
+            html += '<div class="btn btn-gold" onclick="selectShengxiao(' + i + ')" style="font-size:11px;border:2px solid #fff;">✓ ' + names[i] + '<br><span style="font-size:9px;opacity:0.7;">' + times[i] + '</span></div>';
+        } else {
+            html += '<div class="btn" onclick="selectShengxiao(' + i + ')" style="font-size:11px;">' + names[i] + '<br><span style="font-size:9px;opacity:0.7;">' + times[i] + '</span></div>';
+        }
+    }
+    
+    html += '</div>';
+    
+    // 如果有已选中的，显示确认按钮
+    if (gameData.shengxiao !== null && gameData.shengxiao !== undefined) {
+        html += '<div style="margin-top:15px;text-align:center;"><button class="btn btn-gold" onclick="confirmShengxiao()">确认选择</button></div>';
+    }
+    
+    html += '</div></div>';
+    document.getElementById('modal-container').innerHTML = html;
+}
+
+function confirmShengxiao() {
+    const names = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+    const selectedName = names[gameData.shengxiao];
+    
+    // 移除原有时辰选择弹窗
+    document.getElementById('shengxiao-modal').remove();
+    
+    showModalCustom('天命确认', 
+        '<div style="text-align: center; padding: 20px;">' +
+        '<p style="font-size: 18px; color: #FFD700; margin-bottom: 15px;">✨ 子丑寅卯，择一而定</p>' +
+        '<p style="font-size: 14px; line-height: 1.8; margin-bottom: 20px;">此<span style="color: #FFD700; font-weight: bold;">' + selectedName + '时</span>八字将随你踏遍九重天、历劫三千界</p>' +
+        '<p style="font-size: 13px; color: #888; margin-bottom: 20px;">当真确认无误？</p>' +
+        '<div style="display: flex; gap: 15px; justify-content: center;">' +
+        '<button class="btn" onclick="rescheduleShengxiao()">再想想</button>' +
+        '<button class="btn btn-gold" onclick="finalizeShengxiao()">确认天命</button>' +
+        '</div>' +
+        '</div>'
+    );
+}
+
+function rescheduleShengxiao() {
+    // 关闭确认弹窗
+    document.querySelector('.modal').remove();
+    // 重新显示时辰选择
+    gameData.shengxiao = null;
+    showShengxiaoSelector();
+}
+
+function finalizeShengxiao() {
+    document.querySelector('.modal').remove();
+    checkShengxiaoBonus();
+    showKaimen();
+}
+
+function selectShengxiao(id) {
+    gameData.shengxiao = id;
+    // 重新渲染选择器，显示高亮
+    showShengxiaoSelector();
+}
+
+function checkShengxiaoBonus() {
+    if (!gameData.shengxiao) return;
+    const hour = new Date().getHours();
+    const sxHours = [[23,0],[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,18],[19,20],[21,22]];
+    gameData.shengxiaoBonus = (hour === sxHours[gameData.shengxiao][0] || hour === sxHours[gameData.shengxiao][1]);
+}
+
+function startGameLoop() {
+    setInterval(() => {
+        updateTempleOutput(); checkShieldStatus(); checkBeAlms(); checkUnlocks(); updateUI(); saveGame();
+    }, 1000);
+}
+
+function updateTempleOutput() {
+    // 计算实际庙宇上限（包含财神加成）
+    let actualStorage = templeData[gameData.level].storage;
+    const chenjiugong = gods.find(g => g.id === 'chenjiugong');
+    if (chenjiugong && chenjiugong.unlocked) actualStorage += chenjiugong.bonus;
+    
+    const temple = { ...templeData[gameData.level], storage: actualStorage };
+    const now = Date.now();
+    const elapsed = (now - gameData.lastUpdateTime) / 1000;
+    
+    // 修缮金从庙宇存储扣除
+    const repairCost = temple.repair * (elapsed / 3600);
+    gameData.templeStorage = Math.max(0, gameData.templeStorage - repairCost);
+    
+    // 香火产出进入庙宇存储
+    if (hasIncense()) {
+        let output = temple.output / 86400 * elapsed;
+        if (gameData.shengxiaoBonus) output *= 1.2;
+        gameData.accumulatedMoney += output;
+        if (gameData.accumulatedMoney >= 1) {
+            const add = Math.floor(gameData.accumulatedMoney);
+            gameData.templeStorage = Math.min(gameData.templeStorage + add, temple.storage);
+            gameData.accumulatedMoney -= add;
+        }
+    }
+    
+    // 信徒贡献（善缘）从产出计算
+    gameData.faith += (temple.output / 86400 * elapsed) / 100;
+    
+    // 法力恢复
+    if (gameData.mana < 100) gameData.mana = Math.min(100, gameData.mana + 10 * (elapsed / 10));
+    
+    gameData.lastUpdateTime = now;
+}
+
+function hasIncense() {
+    return gameData.currentIncense.endTime && Date.now() < gameData.currentIncense.endTime;
+}
+
+function checkBeAlms() {
+    if (gameData.shieldActive) {
+        if (Date.now() > gameData.shieldEndTime) { gameData.shieldActive = false; gameData.beAlmsCount = 0; }
+        return;
+    }
+    const now = Date.now();
+    if (now - lastBeAlmsTime > (5 + Math.random() * 10) * 60 * 1000) {
+        lastBeAlmsTime = now; doBeAlms();
+    }
+}
+
+function doBeAlms() {
+    gameData.beAlmsCount++; gameData.merit += 3; gameData.faith += 1;
+    if (gameData.beAlmsCount >= 3) {
+        gameData.shieldActive = true; gameData.shieldEndTime = Date.now() + 6 * 3600 * 1000;
+        log('temple-log', '🛡️ 被化缘3次，护盾开启6小时！功德+9');
+    } else {
+        log('temple-log', `👥 被化缘第${gameData.beAlmsCount}次！功德+3 信徒+1`);
+    }
+}
+
+function checkShieldStatus() {
+    if (gameData.shieldActive && Date.now() > gameData.shieldEndTime) {
+        gameData.shieldActive = false; gameData.beAlmsCount = 0;
+    }
+}
+
+function selectMaterial(type) {
+    selectedMat = type;
+    document.querySelectorAll('.mat-btn').forEach(btn => btn.classList.remove('selected'));
+    document.getElementById('mat-' + type).classList.add('selected');
+}
+
+function worship() {
+    const god = gods[selectedGod];
+    if (!god.unlocked) { log('temple-log', '🔒 ' + god.name + '未解锁'); return; }
+    const mat = materials[selectedMat];
+    // 修正材料库存key
+    const invMap = { 'incense': 'incense_sticks', 'candle': 'candles', 'paper': 'gold_paper', 'fruit': 'fruits' };
+    const invKey = invMap[selectedMat];
+    if (gameData[invKey] < mat.cost) { 
+        showModal('材料不足', `${mat.name}不足，需要${mat.cost}个`);
+        return; 
+    }
+    gameData[invKey] -= mat.cost; 
+    gameData.worshipCount++;
+    let isFirst = !gameData.firstWorshipDone; 
+    if (isFirst) gameData.firstWorshipDone = true;
+    let reward = 10 + mat.duration * 5, merit = isFirst ? 6 : 1;
+    if (gods.find(g=>g.id==='xiaosheng').unlocked) merit = Math.floor(merit * 1.1);
+    gameData.money += reward; 
+    gameData.merit += merit;
+    if (gameData.level < 6) {
+        if (!activeBuffs[god.id]) activeBuffs[god.id] = 0;
+        activeBuffs[god.id] += mat.duration;
+        log('temple-log', `🙏 供奉${god.name}(${mat.name}) +${reward}钱 +${merit}功德 BUFF${activeBuffs[god.id]}次`);
+    } else {
+        activeBuffs[god.id] = mat.duration;
+        log('temple-log', `🙏 供奉${god.name}(${mat.name}) +${reward}钱 +${merit}功德 BUFF刷新${mat.duration}次`);
+    }
+    checkUnlocks(); 
+    updateUI();
+    renderTasks(); // 刷新任务列表，让供奉任务可以领取
+    saveGame();
+}
+
+function incenseForFriend() {
+    if (gameData.money < 500) { log('temple-log', '❌ 香火钱不足500'); return; }
+    gameData.money -= 500; 
+    // 代点香获得善缘值（这里用faith字段表示善缘）
+    gameData.faith += 10;
+    log('temple-log', '🎁 代点香 -500钱 +10善缘');
+    updateUI();
+    saveGame();
+}
+
+function composeBanner() {
+    if (gameData.fragments < 4) { showModal('碎片不足', '需要4个碎片'); return; }
+    gameData.fragments -= 4; gameData.banners++;
+    log('temple-log', '🔨 合成招财幡成功！'); 
+    updateUI();
+    saveGame();
+}
+
+// 续香功能
+function renewIncense(type) {
+    const burnTimes = { 'incense': 2 * 3600 * 1000, 'candle': 4 * 3600 * 1000, 'paper': 6 * 3600 * 1000, 'fruit': 8 * 3600 * 1000 };
+    const names = { 'incense': '线香', 'candle': '红烛', 'paper': '金纸', 'fruit': '供果' };
+    const invKeys = { 'incense': 'incense_sticks', 'candle': 'candles', 'paper': 'gold_paper', 'fruit': 'fruits' };
+    
+    const invKey = invKeys[type];
+    const currentStock = gameData[invKey] || 0;
+    
+    // 调试信息
+    console.log('续香检查:', type, '库存:', currentStock, '数据:', gameData[invKey]);
+    
+    if (currentStock <= 0) {
+        showModal('材料不足', `${names[type]}库存不足(当前:${currentStock})`);
+        return;
+    }
+    
+    gameData[invKey]--;
+    
+    // 延长香火时间
+    const now = Date.now();
+    if (!gameData.currentIncense.endTime || gameData.currentIncense.endTime < now) {
+        // 如果香火已灭，重新点燃
+        gameData.currentIncense = { type: type, endTime: now + burnTimes[type] };
+    } else {
+        // 如果香火还在燃烧，延长时间
+        gameData.currentIncense.endTime += burnTimes[type];
+    }
+    
+    const remainingHours = Math.ceil((gameData.currentIncense.endTime - now) / 3600000);
+    log('temple-log', `🔥 续香成功！使用${names[type]}，香火剩余${remainingHours}小时`);
+    updateUI();
+    saveGame();
+}
+
+function renderRegions() {
+    var grid = document.getElementById('bagua-grid');
+    var rl = document.getElementById('region-list');
+    if (!grid && !rl) return;
+    var target = grid || rl;
+    var money = gameData.money || 0;
+    var h = '';
+    for (var i = 0; i < BAGUA_AREAS.length; i++) {
+        var a = BAGUA_AREAS[i];
+        var locked = money < a.threshold;
+        h += '<div class="bagua-area' + (locked ? ' locked' : '') + '" onclick="' + (locked ? '' : "v19Click('" + a.id + "')") + '">';
+        h += '<div class="bagua-trigram">' + a.trigram + '</div>';
+        h += '<div class="bagua-name">' + a.name + '</div>';
+        h += '<div style="font-size:10px;color:#aaa;">' + a.dir + '</div>';
+        h += '<div class="bagua-threshold">' + (locked ? '🔒 ' : '') + a.threshold.toLocaleString() + '</div>';
+        if (a.type === '2r') h += '<div class="bagua-tag">红黑</div>';
+        h += '</div>';
+    }
+    target.innerHTML = h;
+}
+
+var _v19area = null, _v19char = '';
+
+function v19GenEvent(areaId) {
+    var lib = V19_LIB[areaId];
+    if (!lib) return '你来到了一个神秘的地方...';
+    var sn = V19_STYLES[Math.floor(Math.random() * V19_STYLES.length)];
+    var st = lib[sn];
+    if (!st) return '你来到了一个神秘的地方...';
+    var scene = st.s[Math.floor(Math.random() * st.s.length)];
+    var ch = st.c[Math.floor(Math.random() * st.c.length)];
+    var sit = st.t[Math.floor(Math.random() * st.t.length)];
+    _v19char = ch;
+    return '你在' + scene + '，遇到' + ch + '，' + sit + '...';
+}
+
+function v19AdjProbs(areaId, choice) {
+    var b = AREA_PROBS[areaId];
+    if (!b) return {JP:0.05,BW:0.15,NM:0.30,SW:0.25,MS:0.25};
+    var lm = choice === 'safe' ? 0.10 : -0.10;
+    var a = {};
+    for (var k in b) a[k] = k === 'MS' ? b[k]*(1-lm) : b[k]*(1+lm);
+    var streak = gameData.missStreak || 0;
+    if (streak >= 5) { a.MS = 0; a.NM += 0.15; }
+    else if (streak >= 3) { a.MS *= 0.5; }
+    if (!gameData.areaFirstVisit[areaId]) { a.MS = 0; a.SW = 0; }
+    var tot = 0; for (var k in a) tot += a[k];
+    for (var k in a) a[k] = Math.max(0.001, a[k] / tot);
+    return a;
+}
+
+function v19Draw(probs) {
+    var r = Math.random(), c = 0;
+    for (var k in probs) { c += probs[k]; if (r <= c) return k; }
+    return 'MS';
+}
+
+function v19Click(areaId) {
+    var area = null;
+    for (var i = 0; i < BAGUA_AREAS.length; i++) { if (BAGUA_AREAS[i].id === areaId) { area = BAGUA_AREAS[i]; break; } }
+    if (!area) return;
+    if ((gameData.almsCount || 0) >= 20) { log('alms-log', '❌ 今日化缘次数已用完(20/20)'); return; }
+    if ((gameData.money || 0) < area.threshold) { log('alms-log', '❌ 钱兜兜不足！' + area.name + '需要至少' + area.threshold.toLocaleString()); return; }
+    _v19area = area;
+    document.getElementById('v19-area-name').textContent = area.trigram + ' ' + area.name;
+    document.getElementById('v19-desc-text').textContent = v19GenEvent(areaId);
+    document.getElementById('v19-evt').style.display = 'flex';
+}
+
+function v19Choose(choice) {
+    document.getElementById('v19-evt').style.display = 'none';
+    var area = _v19area; if (!area) return;
+    var outcome, profit;
+    if (area.type === '2r') {
+        outcome = Math.random() < 0.45 ? 'W2' : 'L2';
+        profit = Math.floor(area.threshold * (outcome === 'W2' ? 1.98 : -1.0));
+    } else {
+        var probs = v19AdjProbs(area.id, choice);
+        outcome = v19Draw(probs);
+        var mm = choice === 'safe' ? -0.30 : 0.50;
+        var mult = AREA_MULT[outcome] * (1 + mm);
+        profit = Math.floor(area.threshold * mult);
+    }
+    gameData.money = Math.max(0, (gameData.money || 0) + profit);
+    gameData.almsCount = (gameData.almsCount || 0) + 1;
+    gameData.almsToday = (gameData.almsToday || 0) + 1;
+    gameData.merit = (gameData.merit || 0) + 5;
+    gameData.reputation = (gameData.reputation || 0) + 1;
+    if (outcome === 'MS' || outcome === 'L2') { gameData.missStreak = (gameData.missStreak || 0) + 1; }
+    else { gameData.missStreak = 0; }
+    if (!gameData.areaFirstVisit) gameData.areaFirstVisit = {};
+    if (!gameData.areaFirstVisit[area.id]) gameData.areaFirstVisit[area.id] = true;
+    if (!gameData.areaVisited) gameData.areaVisited = {};
+    gameData.areaVisited[area.id] = true;
+    if (outcome === 'JP') { gameData.totalJackpot = (gameData.totalJackpot || 0) + 1; gameData.greatCount = (gameData.greatCount || 0) + 1; gameData.hasGreatLuck = true; }
+    if (outcome === 'BW') { gameData.greatCount = (gameData.greatCount || 0) + 1; }
+    var d = V19_DISP[outcome] || {icon:'❓',title:'未知',color:'#fff'};
+    document.getElementById('v19-res-icon').textContent = d.icon;
+    var te = document.getElementById('v19-res-title');
+    te.textContent = d.title; te.style.color = d.color;
+    var storyTxt = (outcome==='JP'||outcome==='W2') ? '大喜过望，赏赐丰厚！' : (outcome==='MS'||outcome==='L2') ? '摇了摇头，你损失了一些钱财...' : (outcome==='BW') ? '喜笑颜开，财运亨通！' : '点了点头，一切如常。';
+    document.getElementById('v19-res-story').textContent = _v19char + storyTxt;
+    var ae = document.getElementById('v19-res-amount');
+    ae.textContent = (profit >= 0 ? '+' : '') + profit.toLocaleString() + ' 香火钱';
+    ae.style.color = profit >= 0 ? '#2ecc71' : '#e74c3c';
+    document.getElementById('v19-res-bal').textContent = '当前余额：' + Math.floor(gameData.money).toLocaleString();
+    document.getElementById('v19-res').style.display = 'flex';
+    var tn = {JP:'🐉大吉',BW:'🎉小吉',NM:'☯️顺利',SW:'💸破财',MS:'💀大凶',W2:'🎊吉',L2:'☠️凶'};
+    log('alms-log', (tn[outcome]||outcome) + ' | ' + area.trigram + area.name + ' | ' + (profit>=0?'+':'') + profit.toLocaleString() + '钱');
+    if (area.type === '2r' && typeof addMarquee === 'function') {
+        addMarquee('玩家在' + area.name + '化缘，' + (outcome==='W2'?'大吉！':'大凶...'));
+    }
+    checkUnlocks(); updateUI(); if(typeof renderTasks==='function') renderTasks(); saveGame();
+}
+
+function v19Close() {
+    document.getElementById('v19-res').style.display = 'none';
+    renderRegions();
+}
+
+// 旧goAlms兼容（防止其他地方调用报错）
+function goAlms() { log('alms-log', '请使用八卦化缘区域'); }
+
+function renderShop() {
+    const items = [
+        { id: 'incense', name: '📿 线香', price: 100 }, { id: 'candle', name: '🕯️ 红烛', price: 300 },
+        { id: 'paper', name: '📜 金纸', price: 500 }, { id: 'fruit', name: '🍎 供果', price: 1000 },
+        { id: 'mana', name: '💊 法力丹', price: 20, type: 'yuanbao' }, { id: 'shield', name: '🛡️ 保护符', price: 30, type: 'yuanbao' }
+    ];
+    document.getElementById('shop-list').innerHTML = items.map(item=>`
+        <div class="list-item">${item.name} - ${item.price}${item.type==='yuanbao'?'元宝':'香火钱'}
+        <button class="btn btn-green" style="float:right;" onclick="buyItem('${item.id}',${item.price},'${item.type||'money'}')">买</button></div>
+    `).join('');
+}
+
+function buyItem(id, price, type) {
+    if (type === 'yuanbao') {
+        if (gameData.yuanbao < price) { showModal('元宝不足', `需要${price}元宝`); return; }
+        gameData.yuanbao -= price;
+    } else {
+        if (gameData.money < price) { showModal('香火钱不足', `需要${price}`); return; }
+        gameData.money -= price;
+    }
+    if (id === 'incense') gameData.incense_sticks++;
+    else if (id === 'candle') gameData.candles++;
+    else if (id === 'paper') gameData.gold_paper++;
+    else if (id === 'fruit') gameData.fruits++;
+    else if (id === 'mana') gameData.mana = Math.min(100, gameData.mana + 50);
+    else if (id === 'shield') { gameData.shieldActive = true; gameData.shieldEndTime = Date.now() + 24 * 3600 * 1000; }
+    updateUI();
+    saveGame();
+}
+
+function renderTasks() {
+    // 确保taskClaimed已初始化
+    if (!gameData.taskClaimed) gameData.taskClaimed = {};
+    
+    const tasks = [
+        { id: 'login', name: '每日登录', done: gameData.todayLogin, claimed: gameData.taskClaimed.login, reward: '香火钱+500 碎片+3' },
+        { id: 'alms3', name: '化缘3次', done: gameData.almsCount >= 3, claimed: gameData.taskClaimed.alms3, reward: '香火钱+300 碎片+2' },
+        { id: 'worship1', name: '供奉1次', done: gameData.worshipCount > 0, claimed: gameData.taskClaimed.worship1, reward: '功德+5' },
+        { id: 'bushu1', name: '布施1次', done: (gameData.bushuSmall+gameData.bushuMedium+gameData.bushuLarge) > 0, claimed: gameData.taskClaimed.bushu1, reward: '功德+10' }
+    ];
+    
+    document.getElementById('task-list').innerHTML = tasks.map(t=>`
+        <div class="list-item ${t.done?'selected':''} ${t.claimed?'locked':''}" onclick="${t.done && !t.claimed ? `claimTask('${t.id}')` : ''}">
+            ${t.name} ${t.done?(t.claimed?'✅已领':'🎁点击领取'):'⏳'}<br><small style="color:#FFD700">${t.reward}</small>
+        </div>
+    `).join('');
+}
+
+function claimTask(taskId) {
+    if (gameData.taskClaimed[taskId]) return;
+    gameData.taskClaimed[taskId] = true;
+    
+    // 获取按钮位置用于飘字
+    const btn = document.querySelector(`[onclick="claimTask('${taskId}')"]`);
+    const rect = btn ? btn.getBoundingClientRect() : { left: window.innerWidth/2, top: window.innerHeight/2 };
+    const x = rect.left + (btn ? btn.offsetWidth/2 : 0);
+    const y = rect.top;
+    
+    const rewards = {
+        login: () => { 
+            gameData.money += 500; 
+            gameData.fragments += 3; 
+            showFloatingText('+500钱', x, y, '#FFD700');
+            setTimeout(() => showFloatingText('+3碎片', x, y - 30, '#3498db'), 200);
+            showModal('领取成功', '香火钱+500 碎片+3'); 
+        },
+        alms3: () => { 
+            gameData.money += 300; 
+            gameData.fragments += 2; 
+            showFloatingText('+300钱', x, y, '#FFD700');
+            setTimeout(() => showFloatingText('+2碎片', x, y - 30, '#3498db'), 200);
+            showModal('领取成功', '香火钱+300 碎片+2'); 
+        },
+        worship1: () => { 
+            gameData.merit += 5; 
+            showFloatingText('+5功德', x, y, '#e74c3c');
+            showModal('领取成功', '功德+5'); 
+        },
+        bushu1: () => { 
+            gameData.merit += 10; 
+            showFloatingText('+10功德', x, y, '#e74c3c');
+            showModal('领取成功', '功德+10'); 
+        }
+    };
+    if (rewards[taskId]) rewards[taskId]();
+    renderTasks(); updateUI(); saveGame();
+}
+
+// ==================== 12称号系统（对应12财域）====================
+
+const titlesData = [
+    {
+        id: 'yingcaishen',
+        name: '迎财神',
+        desc: '初来乍到，喜迎财神',
+        bonus: '香火钱产出+5%',
+        tasks: [
+            { id: 'ying1', name: '初次见面', target: 1, unit: '天', reward: '200钱' },
+            { id: 'ying2', name: '渐入佳境', target: 3, unit: '天', reward: '500钱+2碎片' },
+            { id: 'ying3', name: '持之以恒', target: 7, unit: '天', reward: '1000钱+5碎片' },
+            { id: 'ying4', name: '日积月累', target: 15, unit: '天', reward: '3000钱+10碎片+30功德' },
+            { id: 'ying5', name: '虔诚之心', target: 30, unit: '天', reward: '10000钱+20碎片+100功德' }
+        ]
+    },
+    {
+        id: 'sancaizinv',
+        name: '散财童子',
+        desc: '广结善缘，散财积福',
+        bonus: '善缘获取+20%',
+        tasks: [
+            { id: 'san1', name: '小有施舍', target: 10000, unit: '钱', reward: '200钱' },
+            { id: 'san2', name: '慷慨解囊', target: 50000, unit: '钱', reward: '500钱+2碎片' },
+            { id: 'san3', name: '仗义疏财', target: 200000, unit: '钱', reward: '1000钱+5碎片' },
+            { id: 'san4', name: '财散人聚', target: 500000, unit: '钱', reward: '3000钱+10碎片+30功德' },
+            { id: 'san5', name: '散财积德', target: 1000000, unit: '钱', reward: '10000钱+20碎片+100功德' }
+        ]
+    },
+    {
+        id: 'zhaocaitongzinv',
+        name: '招财童子',
+        desc: '招朋引伴，财气双收',
+        bonus: '化缘收益+15%',
+        tasks: [
+            { id: 'zhao1', name: '初次邀请', target: 1, unit: '人', reward: '200钱' },
+            { id: 'zhao2', name: '一呼百应', target: 3, unit: '人', reward: '500钱+2碎片' },
+            { id: 'zhao3', name: '好友渐多', target: 5, unit: '人', reward: '1000钱+5碎片' },
+            { id: 'zhao4', name: '人脉广布', target: 15, unit: '人', reward: '3000钱+10碎片+30功德' },
+            { id: 'zhao5', name: '招财进宝', target: 30, unit: '人', reward: '10000钱+20碎片+100功德' }
+        ]
+    },
+    {
+        id: 'nazhentianshen',
+        name: '纳珍天尊',
+        desc: '虔诚供奉，珍宝纳福',
+        bonus: '碎片获取+20%',
+        tasks: [
+            { id: 'na1', name: '初次供奉', target: 20, unit: '次', reward: '200钱' },
+            { id: 'na2', name: '香火渐旺', target: 50, unit: '次', reward: '500钱+2碎片' },
+            { id: 'na3', name: '虔诚之心', target: 100, unit: '次', reward: '1000钱+5碎片' },
+            { id: 'na4', name: '持之以恒', target: 200, unit: '次', reward: '3000钱+10碎片+30功德' },
+            { id: 'na5', name: '纳珍聚宝', target: 300, unit: '次', reward: '10000钱+20碎片+100功德' }
+        ]
+    },
+    {
+        id: 'lishixianguan',
+        name: '利市仙官',
+        desc: '鸿运当头，利市三倍',
+        bonus: '暴击率+5%',
+        tasks: [
+            { id: 'li1', name: '初识仙缘', target: 6, unit: '元', reward: '200钱' },
+            { id: 'li2', name: '小试牛刀', target: 30, unit: '元', reward: '500钱+2碎片' },
+            { id: 'li3', name: '渐入佳境', target: 68, unit: '元', reward: '1000钱+5碎片' },
+            { id: 'li4', name: '财缘深厚', target: 128, unit: '元', reward: '3000钱+10碎片+30功德' },
+            { id: 'li5', name: '利市三倍', target: 358, unit: '元', reward: '10000钱+20碎片+100功德' }
+        ]
+    },
+    {
+        id: 'jinbaotianshen',
+        name: '进宝天尊',
+        desc: '积德行善，福报进宝',
+        bonus: '功德获取+15%',
+        tasks: [
+            { id: 'jin1', name: '初积功德', target: 500, unit: '功德', reward: '200钱' },
+            { id: 'jin2', name: '善行渐多', target: 1500, unit: '功德', reward: '500钱+2碎片' },
+            { id: 'jin3', name: '功德无量', target: 3000, unit: '功德', reward: '1000钱+5碎片' },
+            { id: 'jin4', name: '福报深厚', target: 6000, unit: '功德', reward: '3000钱+10碎片+30功德' },
+            { id: 'jin5', name: '进宝天尊', target: 12000, unit: '功德', reward: '10000钱+20碎片+100功德' }
+        ]
+    },
+    {
+        id: 'wucaishen',
+        name: '武财神',
+        desc: '威震八方，财运亨通',
+        bonus: '全资源产出+8%',
+        tasks: [
+            { id: 'wu1', name: '初见庙宇', target: 2, unit: '级', reward: '200钱' },
+            { id: 'wu2', name: '庙宇渐兴', target: 3, unit: '级', reward: '500钱+2碎片' },
+            { id: 'wu3', name: '香火鼎盛', target: 4, unit: '级', reward: '1000钱+5碎片' },
+            { id: 'wu4', name: '金身初现', target: 5, unit: '级', reward: '3000钱+10碎片+30功德' },
+            { id: 'wu5', name: '财神降临', target: 6, unit: '级', reward: '10000钱+20碎片+100功德' }
+        ]
+    },
+    {
+        id: 'piancaishen',
+        name: '偏财神',
+        desc: '偏财入库，意外之喜',
+        bonus: '暴击伤害+25%',
+        tasks: [
+            { id: 'pian1', name: '初次暴击', target: 10, unit: '次', reward: '200钱' },
+            { id: 'pian2', name: '好运连连', target: 30, unit: '次', reward: '500钱+2碎片' },
+            { id: 'pian3', name: '偏财运旺', target: 80, unit: '次', reward: '1000钱+5碎片' },
+            { id: 'pian4', name: '意外之喜', target: 150, unit: '次', reward: '3000钱+10碎片+30功德' },
+            { id: 'pian5', name: '偏财入库', target: 200, unit: '次', reward: '10000钱+20碎片+100功德' }
+        ]
+    },
+    {
+        id: 'zhengcaishen',
+        name: '正财神',
+        desc: '正财稳固，基业长青',
+        bonus: '香火钱上限+1000',
+        tasks: [
+            { id: 'zheng1', name: '小有积蓄', target: 100000, unit: '钱', reward: '200钱' },
+            { id: 'zheng2', name: '家财渐丰', target: 500000, unit: '钱', reward: '500钱+2碎片' },
+            { id: 'zheng3', name: '百万富翁', target: 1000000, unit: '钱', reward: '1000钱+5碎片' },
+            { id: 'zheng4', name: '家财万贯', target: 2000000, unit: '钱', reward: '3000钱+10碎片+30功德' },
+            { id: 'zheng5', name: '正财稳固', target: 3000000, unit: '钱', reward: '10000钱+20碎片+100功德' }
+        ]
+    },
+    {
+        id: 'wencaishen',
+        name: '文财神',
+        desc: '智慧生财，谋略过人',
+        bonus: '每日首次供奉双倍',
+        tasks: [
+            { id: 'wen1', name: '初次拜访', target: 20, unit: '次', reward: '200钱' },
+            { id: 'wen2', name: '礼尚往来', target: 60, unit: '次', reward: '500钱+2碎片' },
+            { id: 'wen3', name: '好友如云', target: 150, unit: '次', reward: '1000钱+5碎片' },
+            { id: 'wen4', name: '人脉广布', target: 280, unit: '次', reward: '3000钱+10碎片+30功德' },
+            { id: 'wen5', name: '智慧生财', target: 400, unit: '次', reward: '10000钱+20碎片+100功德' }
+        ]
+    },
+    {
+        id: 'jubaotiangong',
+        name: '聚宝天官',
+        desc: '聚宝盆满，财神归位',
+        bonus: '全属性+10%',
+        tasks: [
+            { id: 'ju1', name: '初识财神', target: 2, unit: '座', reward: '200钱' },
+            { id: 'ju2', name: '财神渐聚', target: 4, unit: '座', reward: '500钱+2碎片' },
+            { id: 'ju3', name: '聚宝盆满', target: 6, unit: '座', reward: '1000钱+5碎片' },
+            { id: 'ju4', name: '众神归位', target: 8, unit: '座', reward: '3000钱+10碎片+30功德' },
+            { id: 'ju5', name: '聚宝天官', target: 10, unit: '座', reward: '10000钱+20碎片+100功德' }
+        ]
+    },
+    {
+        id: 'caishenye',
+        name: '财神爷',
+        desc: '万神之主，财源之主',
+        bonus: '全属性+25%',
+        tasks: [
+            { id: 'ye1', name: '初露锋芒', target: 1, unit: '个称号', reward: '200钱' },
+            { id: 'ye2', name: '渐入佳境', target: 3, unit: '个称号', reward: '500钱+2碎片' },
+            { id: 'ye3', name: '声名鹊起', target: 5, unit: '个称号', reward: '1000钱+5碎片' },
+            { id: 'ye4', name: '威震八方', target: 7, unit: '个称号', reward: '3000钱+10碎片+30功德' },
+            { id: 'ye5', name: '万神之主', target: 10, unit: '个称号', reward: '10000钱+20碎片+100功德' }
+        ]
+    }
+];
+
+// 获取称号当前进度
+function getTitleProgress(title) {
+    switch(title.id) {
+        case 'yingcaishen': return gameData.loginDays || 1;
+        case 'sancaizinv': return gameData.totalSpent || 0;
+        case 'zhaocaitongzinv': return gameData.invitedFriends?.length || 0;
+        case 'nazhentianshen': return gameData.worshipCount || 0;
+        case 'lishixianguan': return gameData.totalRecharge || 0;
+        case 'jinbaotianshen': return gameData.merit || 0;
+        case 'wucaishen': return gameData.level || 1;
+        case 'piancaishen': return gameData.almsCritCount || 0;
+        case 'zhengcaishen': return gameData.money || 0;
+        case 'wencaishen': return gameData.visitCount || 0;
+        case 'jubaotiangong': return gods.filter(g => g.unlocked).length;
+        case 'caishenye': return titlesData.filter(t => gameData.unlockedTitles?.includes(t.id)).length;
+        default: return 0;
+    }
+}
+
+// 检查称号是否已解锁
+function isTitleUnlocked(titleId) {
+    if (!gameData.unlockedTitles) gameData.unlockedTitles = [];
+    return gameData.unlockedTitles.includes(titleId);
+}
+
+// 检查称号任务是否已完成
+function isTaskCompleted(titleId, taskId, target) {
+    const progress = getTitleProgress(titlesData.find(t => t.id === titleId));
+    return progress >= target;
+}
+
+// 检查任务奖励是否已领取
+function isTaskRewardClaimed(titleId, taskId) {
+    if (!gameData.titleRewards) gameData.titleRewards = {};
+    return gameData.titleRewards[`${titleId}_${taskId}`] === true;
+}
+
+// 领取任务奖励
+function claimTitleTask(titleId, taskId) {
+    const title = titlesData.find(t => t.id === titleId);
+    const task = title.tasks.find(t => t.id === taskId);
+    
+    if (!task || isTaskRewardClaimed(titleId, taskId)) return;
+    
+    // 检查任务是否完成
+    const progress = getTitleProgress(title);
+    if (progress < task.target) {
+        showModal('任务未完成', `还需努力！当前进度：${progress}/${task.target}`);
+        return;
+    }
+    
+    // 发放奖励
+    const reward = task.reward;
+    if (reward.includes('钱')) {
+        const amount = parseInt(reward.match(/\d+/)[0]);
+        gameData.money += amount;
+    }
+    if (reward.includes('碎片')) {
+        const matches = reward.match(/(\d+)碎片/);
+        if (matches) gameData.fragments += parseInt(matches[1]);
+    }
+    if (reward.includes('功德')) {
+        const matches = reward.match(/(\d+)功德/);
+        if (matches) gameData.merit += parseInt(matches[1]);
+    }
+    
+    // 标记已领取
+    if (!gameData.titleRewards) gameData.titleRewards = {};
+    gameData.titleRewards[`${titleId}_${taskId}`] = true;
+    
+    // 检查是否完成所有任务解锁称号
+    const allTasksCompleted = title.tasks.every(t => 
+        isTaskCompleted(titleId, t.id, t.target) && isTaskRewardClaimed(titleId, t.id)
+    );
+    
+    if (allTasksCompleted && !isTitleUnlocked(titleId)) {
+        gameData.unlockedTitles.push(titleId);
+        showModal('称号解锁！', `🎉 恭喜解锁称号：${title.name}\n\n属性加成：${title.bonus}`);
+    } else {
+        showModal('领取成功', `获得奖励：${reward}`);
+    }
+    
+    renderAchievements();
+    updateUI();
+    saveGame();
+}
+
+// 装备称号
+function equipTitle(titleId, titleName) {
+    if (!isTitleUnlocked(titleId)) return;
+    gameData.currentTitle = titleId;
+    document.getElementById('current-title').textContent = titleName;
+    showModal('称号装备', `已装备称号：${titleName}`);
+    renderAchievements();
+}
+
+function renderAchievements() {
+    // 初始化数据
+    if (!gameData.unlockedTitles) gameData.unlockedTitles = [];
+    if (!gameData.titleRewards) gameData.titleRewards = {};
+    
+    let html = '';
+    let unlockedCount = 0;
+    
+    titlesData.forEach((title, index) => {
+        const progress = getTitleProgress(title);
+        const isUnlocked = isTitleUnlocked(title.id);
+        const isEquipped = gameData.currentTitle === title.id;
+        
+        if (isUnlocked) unlockedCount++;
+        
+        // 计算任务完成进度
+        let completedTasks = 0;
+        title.tasks.forEach(task => {
+            if (isTaskCompleted(title.id, task.id, task.target)) completedTasks++;
+        });
+        
+        html += `
+            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin: 10px 0; border: 1px solid ${isUnlocked ? '#FFD700' : '#555'};">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div>
+                        <div style="font-size: 14px; color: ${isUnlocked ? '#FFD700' : '#888'}; font-weight: bold;">
+                            ${isUnlocked ? '✨' : '🔒'} ${index + 1}. ${title.name}
+                        </div>
+                        <div style="font-size: 11px; color: #aaa;">${title.desc}</div>
+                        ${isUnlocked ? `<div style="font-size: 11px; color: #2ecc71; margin-top: 3px;">属性：${title.bonus}</div>` : ''}
+                    </div>
+                    <div style="text-align: right;">
+                        ${isUnlocked 
+                            ? `<button class="btn ${isEquipped ? 'btn-gold' : ''}" onclick="equipTitle('${title.id}', '${title.name}')" style="font-size: 11px; padding: 5px 10px;">${isEquipped ? '✅已装备' : '👆装备'}</button>`
+                            : `<div style="font-size: 12px; color: #888;">${completedTasks}/5</div>`
+                        }
+                    </div>
+                </div>
+                
+                <!-- 任务列表 -->
+                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px;">
+                    ${title.tasks.map((task, idx) => {
+                        const taskCompleted = isTaskCompleted(title.id, task.id, task.target);
+                        const rewardClaimed = isTaskRewardClaimed(title.id, task.id);
+                        const canClaim = taskCompleted && !rewardClaimed;
+                        
+                        return `
+                            <div style="background: ${rewardClaimed ? 'rgba(46,204,113,0.2)' : (taskCompleted ? 'rgba(255,215,0,0.2)' : 'rgba(255,255,255,0.05)')}; 
+                                        padding: 8px; border-radius: 5px; text-align: center; font-size: 10px;
+                                        border: 1px solid ${rewardClaimed ? '#2ecc71' : (taskCompleted ? '#FFD700' : '#444')};
+                                        ${canClaim ? 'cursor: pointer;' : ''}"
+                                 ${canClaim ? `onclick="claimTitleTask('${title.id}', '${task.id}')"` : ''}>
+                                <div style="color: ${rewardClaimed ? '#2ecc71' : (taskCompleted ? '#FFD700' : '#888')}; font-weight: bold;">
+                                    ${rewardClaimed ? '✅' : (taskCompleted ? '🎁' : idx + 1)}
+                                </div>
+                                <div style="color: #aaa; margin: 3px 0;">${task.target}${task.unit}</div>
+                                ${canClaim ? '<div style="color: #2ecc71;">点击领取</div>' : ''}
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+        `;
+    });
+    
+    // 财神爷（集齐10个称号解锁）
+    const caishenyeUnlocked = unlockedCount >= 10;
+    html += `
+        <div style="background: ${caishenyeUnlocked ? 'linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,165,0,0.2))' : 'rgba(0,0,0,0.2)'}; 
+                    padding: 20px; border-radius: 8px; margin: 15px 0; text-align: center;
+                    border: 2px solid ${caishenyeUnlocked ? '#FFD700' : '#555'};">
+            <div style="font-size: 20px; color: ${caishenyeUnlocked ? '#FFD700' : '#888'}; font-weight: bold;">
+                ${caishenyeUnlocked ? '✨' : '👑'} 财神爷
+            </div>
+            <div style="font-size: 12px; color: #aaa; margin: 5px 0;">万神之主，财源之主</div>
+            <div style="font-size: 11px; color: ${caishenyeUnlocked ? '#2ecc71' : '#888'};">
+                ${caishenyeUnlocked ? '属性：全属性+25%' : `进度：${unlockedCount}/10 个称号`}
+            </div>
+            ${caishenyeUnlocked && gameData.currentTitle !== 'caishenye' 
+                ? `<button class="btn btn-gold" onclick="equipTitle('caishenye', '财神爷')" style="margin-top: 10px;">👆装备财神爷</button>` 
+                : ''}
+            ${gameData.currentTitle === 'caishenye' 
+                ? '<div style="color: #FFD700; margin-top: 10px;">✅ 已装备</div>' 
+                : ''}
+        </div>
+    `;
+    
+    document.getElementById('achievement-list').innerHTML = html;
+    document.getElementById('current-title').textContent = 
+        gameData.currentTitle 
+            ? titlesData.find(t => t.id === gameData.currentTitle)?.name || '财神爷'
+            : '无';
+}
+const upgradeNeeds = {
+    1: { money: 5000, banners: 3, merit: 100, stage: '泥胎' },
+    2: { money: 15000, banners: 6, merit: 500, stage: '泥胎' },
+    3: { money: 50000, banners: 10, merit: 1500, stage: '木骨' },
+    4: { money: 150000, banners: 15, merit: 3300, stage: '铜身' }
+};
+
+function doUpgrade() {
+    if (gameData.level >= 5) return;
+    const need = upgradeNeeds[gameData.level];
+    if (gameData.merit < need.merit || gameData.money < need.money || gameData.banners < need.banners) {
+        log('upgrade-log', '❌ 资源不足'); return;
+    }
+    gameData.money -= need.money; gameData.banners -= need.banners; gameData.level++;
+    log('upgrade-log', `🎉 升级成功！Lv.${gameData.level}`); updateUI();
+}
+
+function openHeavenGate() {
+    if (gameData.level < 5) return;
+    const others = gods.filter(g=>g.id!=='zhaogongming');
+    if (!others.every(g=>g.unlocked)) { log('upgrade-log', '❌ 还有财神未解锁'); return; }
+    if (gameData.money < 500000) { log('upgrade-log', '❌ 香火钱不足50万'); return; }
+    
+    // 扣除50万请赵公明
+    gameData.money -= 500000;
+    
+    // 解锁赵公明
+    const zhaogongming = gods.find(g=>g.id==='zhaogongming');
+    zhaogongming.unlocked = true;
+    
+    // 自动升到6级
+    gameData.level = 6;
+    
+    // 显示开天门动画
+    showModal('🌟 开天门，迎财神！', 
+        '天门开启，霞光万道！\n\n' +
+        '👑 正财神赵公明降临！\n' +
+        '🏛️ 庙宇自动升至6级！\n' +
+        '🌌 进入12财域！\n\n' +
+        '恭喜大人，财源广进！'
+    );
+    
+    log('upgrade-log', '🎊 开天门，迎财神！赵公明降临！庙宇升至6级！进入12财域！');
+    renderGods();
+    updateUI();
+}
+
+function checkUnlocks() {
+    gods.forEach(god=>{
+        if (god.unlocked) return;
+        let unlock = false;
+        if (god.unlockLevel && gameData.level >= god.unlockLevel) unlock = true;
+        if (god.unlockAlms && gameData.almsCount >= god.unlockAlms) unlock = true;
+        if (god.unlockWorship && gameData.worshipCount >= god.unlockWorship) unlock = true;
+        if (god.unlockMoney && gameData.money >= god.unlockMoney) unlock = true;
+        if (god.unlockMerit && gameData.merit >= god.unlockMerit) unlock = true;
+        if (god.unlockGreat && gameData.hasGreatLuck) unlock = true;
+        if (god.unlockGreatNum && god.unlockWorshipTotal && god.unlockMeritReq) {
+            if (gameData.greatCount >= god.unlockGreatNum && gameData.worshipCount >= god.unlockWorshipTotal && gameData.merit >= god.unlockMeritReq) unlock = true;
+        }
+        if (god.unlockAll) {
+            const o = gods.filter(g=>g.id!=='zhaogongming');
+            if (o.every(g=>g.unlocked) && gameData.money >= god.unlockMoneyCost) unlock = true;
+        }
+        if (unlock) { god.unlocked = true; log('temple-log', `🎉 解锁${god.name}！`); renderGods(); }
+    });
+}
+
+function renderGods() {
+    document.getElementById('god-list').innerHTML = gods.map((god,i)=>{
+        let unlockHint = '';
+        if (!god.unlocked) {
+            if (god.unlockLevel) unlockHint = ` (需庙宇${god.unlockLevel}级)`;
+            else if (god.unlockAlms) unlockHint = ` (需化缘${god.unlockAlms}次)`;
+            else if (god.unlockMoney) unlockHint = ` (需${god.unlockMoney}钱)`;
+            else if (god.unlockMerit) unlockHint = ` (需${god.unlockMerit}功德)`;
+            else if (god.unlockWorship) unlockHint = ` (需供奉${god.unlockWorship}次)`;
+            else if (god.unlockGreat) unlockHint = ` (需1次大吉)`;
+            else if (god.unlockGreatNum) unlockHint = ` (需3次大吉+100供奉+500功德)`;
+            else if (god.unlockAll) unlockHint = ` (需解锁其他8位+50万钱)`;
+        }
+        return `
+        <div class="list-item ${i===selectedGod?'selected':''} ${god.unlocked?'':'locked'}" onclick="selectGod(${i})">
+            ${god.unlocked?'':'🔒'} ${god.icon} ${god.name} - ${god.effect}${unlockHint}
+        </div>`;
+    }).join('');
+}
+
+function selectGod(i) { if (!gods[i].unlocked) return; selectedGod = i; renderGods(); }
+
+// 布施功能
+function doBushu(type) {
+    const costs = { small: 1000, medium: 5000, large: 30000 };
+    const merits = { small: 10, medium: 50, large: 300 };
+    const limits = { small: 10, medium: 3, large: 1 };
+    const counts = { small: 'bushuSmall', medium: 'bushuMedium', large: 'bushuLarge' };
+    
+    const config = { cost: costs[type], merit: merits[type], limit: limits[type], count: counts[type] };
+    
+    if (gameData[config.count] >= config.limit) {
+        showModal('次数用完', '今日布施次数已达上限');
+        return;
+    }
+    // 布施使用钱兜兜里的钱
+    if (gameData.money < config.cost) {
+        showModal('钱兜兜不足', `需要${config.cost}香火钱，请先从庙宇收取`);
+        return;
+    }
+    
+    gameData.money -= config.cost;
+    gameData.merit += config.merit;
+    const reputationGain = type === 'small' ? 1 : type === 'medium' ? 5 : 20;
+    gameData.reputation += reputationGain;
+    gameData[config.count]++;
+    
+    log('bushu-log', `🙏 ${type === 'small' ? '小' : type === 'medium' ? '中' : '大'}布施 -${config.cost}钱 +${config.merit}功德 +${reputationGain}声望`);
+    
+    // 刷新布施页面显示
+    const bushuSmallEl = document.getElementById('bushu-small');
+    const bushuMediumEl = document.getElementById('bushu-medium');
+    const bushuLargeEl = document.getElementById('bushu-large');
+    if (bushuSmallEl) bushuSmallEl.textContent = gameData.bushuSmall;
+    if (bushuMediumEl) bushuMediumEl.textContent = gameData.bushuMedium;
+    if (bushuLargeEl) bushuLargeEl.textContent = gameData.bushuLarge;
+    
+    updateUI();
+    renderTasks(); // 刷新任务列表，让布施任务可以领取
+    saveGame();
+}
+
+// 好友系统（简化版）
+let friends = [];
+
+function addRandomFriend() {
+    if (friends.length >= 20) {
+        showModal('好友已满', '最多20位好友');
+        return;
+    }
+    const names = ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十'];
+    const randomName = names[Math.floor(Math.random() * names.length)] + Math.floor(Math.random() * 100);
+    friends.push({ name: randomName, level: Math.floor(Math.random() * 5) + 1 });
+    renderFriends();
+    gameData.faith += 10;
+    log('temple-log', `👥 添加好友 ${randomName}！善缘+10`);
+    updateUI();
+}
+
+function renderFriends() {
+    const container = document.getElementById('friend-list');
+    if (!container) return;
+    container.innerHTML = friends.map(f => `
+        <div class="list-item">
+            👤 ${f.name} - Lv.${f.level}
+            <button class="btn btn-green" style="float:right;" onclick="visitFriend('${f.name}')">拜访</button>
+        </div>
+    `).join('');
+}
+
+function visitFriend(name) {
+    if (gameData.visitCount >= 20) {
+        showModal('已达上限', '今日拜访次数已达20次上限');
+        return;
+    }
+    gameData.visitCount++;
+    gameData.faith += 2;
+    gameData.reputation += 1;
+    log('temple-log', `👥 拜访${name}！善缘+2 声望+1 (${gameData.visitCount}/20)`);
+    updateUI();
+    saveGame();
+}
+
+// 收取庙宇香火钱到钱兜兜
+function collectTempleMoney() {
+    if (gameData.templeStorage <= 0) {
+        showModal('无可收取', '庙宇存储为0，请等待产出');
+        return;
+    }
+    const amount = Math.floor(gameData.templeStorage);
+    gameData.money += amount;
+    gameData.templeStorage = 0;
+    
+    // 飘字效果
+    const btn = document.querySelector('[onclick="collectTempleMoney()"]');
+    if (btn) {
+        const rect = btn.getBoundingClientRect();
+        showFloatingText(`+${amount.toLocaleString()}钱`, rect.left + rect.width/2, rect.top, '#FFD700');
+    }
+    
+    showModal('收取成功', `已将${amount.toLocaleString()}香火钱收入钱兜兜！`);
+    updateUI();
+}
+
+// ==================== 邀请系统 ====================
+
+// 复制邀请码
+function copyInvitationCode() {
+    const code = gameData.invitationCode;
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(code).then(() => {
+            showModal('复制成功', `邀请码 ${code} 已复制到剪贴板！\n\n分享给好友，双方都可获得奖励！`);
+        });
+    } else {
+        showModal('邀请码', `您的邀请码：${code}\n\n请手动复制分享给好友！`);
+    }
+}
+
+// 输入邀请码（被邀请方）
+function submitInvitationCode() {
+    const inputCode = document.getElementById('invite-input').value.trim().toUpperCase();
+    if (!inputCode) {
+        showModal('错误', '请输入邀请码');
+        return;
+    }
+    if (inputCode === gameData.invitationCode) {
+        showModal('错误', '不能输入自己的邀请码！');
+        return;
+    }
+    if (gameData.invitedBy) {
+        showModal('错误', '您已经接受过邀请了！');
+        return;
+    }
+    
+    // 验证邀请码格式
+    if (!inputCode.startsWith('CS')) {
+        showModal('错误', '邀请码格式不正确！');
+        return;
+    }
+    
+    // 记录谁邀请了我（但奖励要等邀请人确认或好友真正加入后才发放）
+    gameData.invitedBy = inputCode;
+    
+    showModal('绑定成功！', 
+        `🎉 成功绑定邀请关系！\n\n` +
+        `邀请码：${inputCode}\n\n` +
+        `💡 您的新手奖励将在完成新手任务后发放！`
+    );
+    renderInvitationSystem();
+    updateUI();
+    saveGame();
+}
+
+// 领取邀请好友奖励（邀请发起方）
+function claimInvitationReward() {
+    if (gameData.invitedFriends.length === 0) {
+        showModal('暂无奖励', '您还没有成功邀请好友！');
+        return;
+    }
+    
+    // 计算未领取的邀请奖励
+    const unclaimedFriends = gameData.invitedFriends.filter(f => !f.rewardClaimed);
+    if (unclaimedFriends.length === 0) {
+        showModal('已领取', '所有邀请奖励已领取完毕！');
+        return;
+    }
+    
+    // 发放奖励
+    let totalMoney = 0;
+    let totalFragments = 0;
+    let totalMerit = 0;
+    
+    unclaimedFriends.forEach(f => {
+        f.rewardClaimed = true;
+        totalMoney += 500;
+        totalFragments += 5;
+        totalMerit += 50; // 邀请发起方+50功德
+    });
+    
+    gameData.money += totalMoney;
+    gameData.fragments += totalFragments;
+    gameData.merit += totalMerit;
+    
+    showModal('领取成功！', 
+        `🎉 成功邀请 ${unclaimedFriends.length} 位好友！\n\n` +
+        `💰 香火钱 +${totalMoney}\n` +
+        `🔷 碎片 +${totalFragments}\n` +
+        `⭐ 功德 +${totalMerit}\n\n` +
+        `每邀请1位好友：500钱+5碎片+50功德`
+    );
+    renderInvitationSystem();
+    updateUI();
+    saveGame();
+}
+
+// 新玩家完成注册后的奖励（被邀请方）
+function claimNewPlayerReward() {
+    if (!gameData.invitedBy || gameData.newPlayerRewardClaimed) return;
+    
+    gameData.newPlayerRewardClaimed = true;
+    gameData.money += 1000;
+    gameData.fragments += 10;
+    gameData.merit += 50;
+    
+    showModal('新手奖励！', 
+        `🎉 恭喜完成注册！\n\n` +
+        `💰 香火钱 +1000\n` +
+        `🔷 碎片 +10\n` +
+        `⭐ 功德 +50\n\n` +
+        `邀请人奖励将在稍后发放！`
+    );
+    updateUI();
+    saveGame();
+}
+
+// 模拟好友通过邀请码注册加入（实际应该由服务器触发）
+function simulateInvitedFriend() {
+    const mockNames = ['小明', '小红', '张三', '李四', '王五'];
+    const randomName = mockNames[Math.floor(Math.random() * mockNames.length)];
+    
+    gameData.invitedFriends.push({
+        name: randomName,
+        time: new Date().toLocaleDateString(),
+        rewardClaimed: false // 标记奖励是否已领取
+    });
+    
+    renderInvitationSystem();
+    updateUI();
+    saveGame();
+    
+    showModal('新好友加入！', 
+        `${randomName} 通过您的邀请码注册加入了游戏！\n\n` +
+        `您可以领取邀请奖励了！`
+    );
+}
+
+// 渲染邀请系统
+function renderInvitationSystem() {
+    const container = document.getElementById('invitation-system');
+    if (!container) return;
+    
+    let invitedListHtml = '';
+    if (gameData.invitedFriends.length > 0) {
+        const unclaimedCount = gameData.invitedFriends.filter(f => !f.rewardClaimed).length;
+        invitedListHtml = `
+            <div style="margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                <div style="font-size: 12px; color: #FFD700; margin-bottom: 5px;">
+                    已邀请好友 (${gameData.invitedFriends.length}) 
+                    ${unclaimedCount > 0 ? `<span style="color: #e74c3c;">(${unclaimedCount}位待领奖)</span>` : ''}
+                </div>
+                ${gameData.invitedFriends.map(f => `
+                    <div style="font-size: 11px; color: #aaa; display: flex; justify-content: space-between;">
+                        <span>👤 ${f.name} - ${f.time}</span>
+                        <span>${f.rewardClaimed ? '✅已领' : '⏳待领'}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+    
+    // 邀请发起方领取奖励按钮
+    let rewardButtonHtml = '';
+    const unclaimedFriends = gameData.invitedFriends.filter(f => !f.rewardClaimed);
+    if (unclaimedFriends.length > 0) {
+        rewardButtonHtml = `
+            <button class="btn btn-gold" onclick="claimInvitationReward()" style="margin: 10px 0; width: 100%;">
+                🎁 领取邀请奖励 (${unclaimedFriends.length}位好友)<br>
+                <small>${unclaimedFriends.length * 500}钱 + ${unclaimedFriends.length * 5}碎片 + ${unclaimedFriends.length * 50}功德</small>
+            </button>
+        `;
+    }
+
+    // 被邀请方状态
+    let invitedByHtml = '';
+    if (gameData.invitedBy) {
+        if (!gameData.newPlayerRewardClaimed) {
+            invitedByHtml = `
+                <div style="margin: 10px 0;">
+                    <div style="color: #2ecc71; font-size: 12px; margin-bottom: 5px;">✅ 已绑定邀请：${gameData.invitedBy}</div>
+                    <button class="btn btn-gold" onclick="claimNewPlayerReward()" style="width: 100%;">
+                        🎁 领取新手奖励<br>
+                        <small>1000钱 + 10碎片 + 50功德</small>
+                    </button>
+                </div>
+            `;
+        } else {
+            invitedByHtml = `
+                <div style="color: #2ecc71; font-size: 12px; margin: 10px 0;">
+                    ✅ 已接受邀请：${gameData.invitedBy}<br>
+                    ✅ 新手奖励已领取
+                </div>
+            `;
+        }
+    } else {
+        invitedByHtml = `
+            <div style="margin: 10px 0;">
+                <div style="font-size: 12px; color: #aaa; margin-bottom: 5px;">输入好友邀请码：</div>
+                <div style="display: flex; gap: 5px;">
+                    <input type="text" id="invite-input" placeholder="如：CS123456" style="flex: 1; padding: 8px; border-radius: 5px; border: none; background: rgba(255,255,255,0.1); color: #fff;">
+                    <button class="btn" onclick="submitInvitationCode()">提交</button>
+                </div>
+            </div>
+        `;
+    }
+    
+    container.innerHTML = `
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin: 10px 0; border: 1px solid #FFD700;">
+            <div style="font-size: 14px; color: #FFD700; font-weight: bold; margin-bottom: 10px;">🎁 邀请好友</div>
+            
+            <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin: 10px 0; text-align: center;">
+                <div style="font-size: 11px; color: #aaa;">我的邀请码</div>
+                <div style="font-size: 20px; color: #FFD700; font-weight: bold; letter-spacing: 2px;">${gameData.invitationCode}</div>
+                <button class="btn btn-gold" onclick="copyInvitationCode()" style="margin-top: 5px; font-size: 11px;">📋 复制邀请码</button>
+            </div>
+            
+            <div style="font-size: 11px; color: #888; margin: 10px 0;">
+                💡 分享给好友，双方都有奖励！<br>
+                <b>被邀请方</b>：注册后得1000钱+10碎片+50功德<br>
+                <b>邀请方</b>：好友注册后得500钱+5碎片+50功德
+            </div>
+            
+            ${invitedByHtml}
+            ${invitedListHtml}
+            ${rewardButtonHtml}
+            
+            <!-- 测试按钮（实际应该删除） -->
+            <button class="btn" onclick="simulateInvitedFriend()" style="margin-top: 10px; font-size: 10px; opacity: 0.5;">[测试]模拟好友注册加入</button>
+        </div>
+    `;
+}
+
+function updateUI() {
+    try {
+    // 计算实际庙宇上限（包含财神加成）
+    let actualStorage = templeData[gameData.level].storage;
+    const chenjiugong = gods.find(g => g.id === 'chenjiugong');
+    if (chenjiugong && chenjiugong.unlocked) {
+        actualStorage += chenjiugong.bonus; // +500上限
+    }
+    
+    const temple = { ...templeData[gameData.level], storage: actualStorage };
+    
+    document.getElementById('res-money').textContent = Math.floor(gameData.money);
+    document.getElementById('res-merit').textContent = gameData.merit;
+    document.getElementById('res-fragments').textContent = gameData.fragments;
+    document.getElementById('res-banners').textContent = gameData.banners;
+    document.getElementById('res-mana').textContent = Math.floor(gameData.mana);
+    document.getElementById('res-level').textContent = gameData.level;
+    document.getElementById('res-faith').textContent = Math.floor(gameData.faith);
+    document.getElementById('res-reputation').textContent = gameData.reputation;
+    
+    // 庙宇信息 - 带null检查
+    const templeStageEl = document.getElementById('temple-stage');
+    if (templeStageEl) templeStageEl.textContent = temple.stage;
+    const templeLevelEl = document.getElementById('temple-level');
+    if (templeLevelEl) templeLevelEl.textContent = gameData.level;
+    const templeOutputEl = document.getElementById('temple-output');
+    if (templeOutputEl) templeOutputEl.textContent = temple.output;
+    const templeCapEl = document.getElementById('temple-cap');
+    if (templeCapEl) templeCapEl.textContent = temple.storage;
+    const templeRepairEl = document.getElementById('temple-repair');
+    if (templeRepairEl) templeRepairEl.textContent = temple.repair;
+    const shieldStatusEl = document.getElementById('shield-status');
+    if (shieldStatusEl) shieldStatusEl.textContent = gameData.shieldActive ? '🛡️ 保护中' : '无';
+    
+    // 供奉材料库存 - 带null检查
+    const invIncenseEl = document.getElementById('inv-incense');
+    if (invIncenseEl) invIncenseEl.textContent = gameData.incense_sticks;
+    const invCandleEl = document.getElementById('inv-candle');
+    if (invCandleEl) invCandleEl.textContent = gameData.candles;
+    const invPaperEl = document.getElementById('inv-paper');
+    if (invPaperEl) invPaperEl.textContent = gameData.gold_paper;
+    const invFruitEl = document.getElementById('inv-fruit');
+    if (invFruitEl) invFruitEl.textContent = gameData.fruits;
+    
+    // 化缘计数
+    const almsCountEl = document.getElementById('alms-count');
+    if (almsCountEl) almsCountEl.textContent = gameData.almsCount;
+    const greatCountEl = document.getElementById('great-count');
+    var missEl = document.getElementById('miss-streak');
+    if (greatCountEl) greatCountEl.textContent = gameData.greatCount;
+    console.log('更新化缘计数:', gameData.almsCount, gameData.greatCount);
+    
+    // 双钱袋显示
+    const templeStorageEl = document.getElementById('temple-storage');
+    if (templeStorageEl) templeStorageEl.textContent = Math.floor(gameData.templeStorage);
+    const pocketMoneyEl = document.getElementById('pocket-money');
+    if (pocketMoneyEl) pocketMoneyEl.textContent = Math.floor(gameData.money);
+    
+    // 续香库存显示 - 强制更新
+    const renewIncenseEl2 = document.getElementById('renew-incense');
+    const renewCandleEl2 = document.getElementById('renew-candle');
+    const renewPaperEl2 = document.getElementById('renew-paper');
+    const renewFruitEl2 = document.getElementById('renew-fruit');
+    if (renewIncenseEl2) renewIncenseEl2.textContent = gameData.incense_sticks;
+    if (renewCandleEl2) renewCandleEl2.textContent = gameData.candles;
+    if (renewPaperEl2) renewPaperEl2.textContent = gameData.gold_paper || 0;
+    if (renewFruitEl2) renewFruitEl2.textContent = gameData.fruits || 0;
+    console.log('更新续香库存:', gameData.incense_sticks, gameData.candles);
+    
+    // 供奉材料库存 - 强制更新
+    const invIncenseEl2 = document.getElementById('inv-incense');
+    const invCandleEl2 = document.getElementById('inv-candle');
+    const invPaperEl2 = document.getElementById('inv-paper');
+    const invFruitEl2 = document.getElementById('inv-fruit');
+    if (invIncenseEl2) invIncenseEl2.textContent = gameData.incense_sticks;
+    if (invCandleEl2) invCandleEl2.textContent = gameData.candles;
+    if (invPaperEl2) invPaperEl2.textContent = gameData.gold_paper;
+    if (invFruitEl2) invFruitEl2.textContent = gameData.fruits;
+    console.log('更新供奉库存:', gameData.incense_sticks, gameData.candles, gameData.gold_paper, gameData.fruits);
+    
+    // 香火剩余时间显示
+    const incenseTimeEl = document.getElementById('incense-time');
+    if (incenseTimeEl) {
+        if (hasIncense()) {
+            const remaining = Math.ceil((gameData.currentIncense.endTime - Date.now()) / 60000);
+            const hours = Math.floor(remaining / 60);
+            const mins = remaining % 60;
+            incenseTimeEl.textContent = `${hours}小时${mins}分钟`;
+            incenseTimeEl.style.color = '#2ecc71';
+        } else {
+            incenseTimeEl.textContent = '已熄灭，请续香！';
+            incenseTimeEl.style.color = '#e74c3c';
+        }
+    }
+    
+    // 香火状态
+    const autoIncenseEl = document.getElementById('auto-incense');
+    if (autoIncenseEl) {
+        if (hasIncense()) {
+            autoIncenseEl.textContent = '燃烧中🔥';
+            autoIncenseEl.style.color = '#2ecc71';
+        } else if (gameData.incense_sticks > 0 || gameData.candles > 0) {
+            autoIncenseEl.textContent = '已熄灭，请续香！❌';
+            autoIncenseEl.style.color = '#e74c3c';
+        } else {
+            autoIncenseEl.textContent = '无材料，请购买！⚠️';
+            autoIncenseEl.style.color = '#f39c12';
+        }
+    }
+    
+    // 布施计数器更新
+    const bushuSmallEl = document.getElementById('bushu-small');
+    if (bushuSmallEl) bushuSmallEl.textContent = gameData.bushuSmall;
+    const bushuMediumEl = document.getElementById('bushu-medium');
+    if (bushuMediumEl) bushuMediumEl.textContent = gameData.bushuMedium;
+    const bushuLargeEl = document.getElementById('bushu-large');
+    if (bushuLargeEl) bushuLargeEl.textContent = gameData.bushuLarge;
+    
+    // 拜访次数更新
+    const visitCountEl = document.getElementById('visit-count');
+    if (visitCountEl) visitCountEl.textContent = gameData.visitCount;
+    
+    let buffHtml = '';
+    for (const id in activeBuffs) {
+        if (activeBuffs[id] > 0) {
+            const god = gods.find(g=>g.id===id);
+            buffHtml += `<span class="buff-item">${god.name}(${activeBuffs[id]})</span>`;
+        }
+    }
+    const buffListEl = document.getElementById('buff-list');
+    if (buffListEl) buffListEl.innerHTML = buffHtml || '无';
+    
+    // 升级信息
+    const btnUpgradeEl = document.getElementById('btn-upgrade');
+    const btnTianmenEl = document.getElementById('btn-tianmen');
+    const upgradeInfoEl = document.getElementById('upgrade-info');
+    
+    if (gameData.level >= 5) {
+        if (btnUpgradeEl) btnUpgradeEl.classList.add('hidden');
+        if (btnTianmenEl) btnTianmenEl.classList.remove('hidden');
+        if (upgradeInfoEl) upgradeInfoEl.innerHTML = '已达5级金身！<br>集齐8位财神 + 50万香火钱<br>可开启天门迎财神';
+    } else {
+        const need = upgradeNeeds[gameData.level];
+        const currentMoney = gameData.money;
+        const currentBanners = gameData.banners;
+        const currentMerit = gameData.merit;
+        if (upgradeInfoEl) {
+            upgradeInfoEl.innerHTML = 
+                `<div style="line-height:1.8;">` +
+                `<strong>Lv.${gameData.level} → Lv.${gameData.level+1}（${need.stage}）</strong><br>` +
+                `💰 香火钱: ${currentMoney}/${need.money} ${currentMoney>=need.money?'✅':'❌'}<br>` +
+                `🎏 招财幡: ${currentBanners}/${need.banners} ${currentBanners>=need.banners?'✅':'❌'}<br>` +
+                `⭐ 功德门槛: ${currentMerit}/${need.merit} ${currentMerit>=need.merit?'✅':'❌'}` +
+                `</div>`;
+        }
+    }
+    // 更新公告红点
+    updateBadge('announcement-badge', getUnreadAnnouncementCount());
+    // 更新消息红点
+    updateBadge('mail-badge', getUnreadMailCount());
+    
+    } catch (e) {
+        console.error('updateUI错误:', e);
+    }
+}
+
+function showTab(tab) {
+    document.querySelectorAll('.section').forEach(s=>s.classList.add('hidden'));
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('tab-'+tab).classList.remove('hidden');
+    event.target.classList.add('active');
+    // 切换到升级页面时刷新信息
+    if (tab === 'upgrade') updateUI();
+    // 切换到好友页面时刷新邀请系统
+    if (tab === 'friend') renderInvitationSystem();
+    // 切换到排行页面时刷新排行榜
+    if (tab === 'rank') renderLeaderboard();
+    // 切换到数据页面时刷新统计
+    if (tab === 'data') renderStatistics();
+}
+
+function showModal(title, content) {
+    const html = `<div class="modal" onclick="this.remove()"><div class="modal-content" onclick="event.stopPropagation()">` +
+        `<div class="modal-title">${title}</div><p style="margin:15px 0;line-height:1.6;">${content.replace(/\n/g,'<br>')}</p>` +
+        `<button class="btn btn-gold" onclick="this.closest('.modal').remove()">确定</button></div></div>`;
+    document.getElementById('modal-container').innerHTML = html;
+}
+
+function showModalCustom(title, content) {
+    const html = `<div class="modal" onclick="this.remove()"><div class="modal-content" onclick="event.stopPropagation()">` +
+        `<div class="modal-title">${title}</div><div style="margin:15px 0;line-height:1.6;">${content}</div></div></div>`;
+    document.getElementById('modal-container').innerHTML = html;
+}
+
+function log(id, msg) {
+    const el = document.getElementById(id);
+    const div = document.createElement('div');
+    div.style.cssText = 'padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1);';
+    div.textContent = msg;
+    el.insertBefore(div, el.firstChild);
+    if (el.children.length > 20) el.removeChild(el.lastChild);
+}
+
+// ==================== 公告系统 ====================
+
+const announcements = [
+    {
+        id: 1,
+        title: '🎉 欢迎加入财神大陆！',
+        content: '恭喜您开启财运之旅！每日登录领取丰厚奖励，邀请好友共享财运！',
+        type: 'welcome',
+        date: '2024-03-01'
+    },
+    {
+        id: 2,
+        title: '💰 开服活动进行中',
+        content: '限时双倍收益活动！现在登录即可获得双倍香火钱产出！',
+        type: 'event',
+        date: '2024-03-24'
+    },
+    {
+        id: 3,
+        title: '📢 系统维护通知',
+        content: '为了更好的游戏体验，我们将于本周五凌晨2:00-4:00进行系统维护。',
+        type: 'maintenance',
+        date: '2024-03-25'
+    }
+];
+
+function showAnnouncements() {
+    if (!gameData.readAnnouncements) gameData.readAnnouncements = [];
+    
+    const unreadCount = announcements.filter(a => !gameData.readAnnouncements.includes(a.id)).length;
+    
+    let html = `
+        <div style="text-align: left; max-height: 400px; overflow-y: auto;">
+            <div style="background: rgba(255,215,0,0.1); padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center;">
+                <span style="color: #FFD700;">📢 公告列表</span>
+                ${unreadCount > 0 ? `<span style="background: #ff4444; color: white; font-size: 10px; padding: 2px 8px; border-radius: 10px; margin-left: 10px;">${unreadCount} 条未读</span>` : ''}
+            </div>
+    `;
+    
+    // 按日期倒序排列
+    const sortedAnnouncements = [...announcements].sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    sortedAnnouncements.forEach(a => {
+        const isRead = gameData.readAnnouncements.includes(a.id);
+        const typeIcon = a.type === 'event' ? '🎉' : a.type === 'maintenance' ? '🔧' : '📢';
+        
+        html += `
+            <div style="background: ${isRead ? 'rgba(255,255,255,0.05)' : 'rgba(255,215,0,0.1)'}; 
+                        padding: 12px; border-radius: 8px; margin-bottom: 10px; 
+                        border-left: 3px solid ${isRead ? '#666' : '#FFD700'};
+                        cursor: pointer;"
+                     onclick="showAnnouncementDetail(${a.id})">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center;">
+                        <span style="margin-right: 8px;">${typeIcon}</span>
+                        <span style="font-weight: ${isRead ? 'normal' : 'bold'}; color: ${isRead ? '#aaa' : '#fff'};">${a.title}</span>
+                        ${!isRead ? '<span style="background: #ff4444; width: 6px; height: 6px; border-radius: 50%; margin-left: 5px;"></span>' : ''}
+                    </div>
+                    <span style="font-size: 11px; color: #666;">${a.date}</span>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += `
+        <div style="text-align: center; margin-top: 15px;">
+            <button class="btn" onclick="markAllAnnouncementsRead()">全部标为已读</button>
+            <button class="btn btn-gold" style="margin-left: 10px;" onclick="this.closest('.modal').remove()">关闭</button>
+        </div>
+        </div>
+    `;
+    
+    showModalCustom('📢 游戏公告', html);
+    updateBadge('announcement-badge', unreadCount);
+}
+
+function showAnnouncementDetail(id) {
+    const announcement = announcements.find(a => a.id === id);
+    if (!announcement) return;
+    
+    // 标记为已读
+    if (!gameData.readAnnouncements.includes(id)) {
+        gameData.readAnnouncements.push(id);
+        saveGame();
+        updateBadge('announcement-badge', getUnreadAnnouncementCount());
+    }
+    
+    const typeIcon = announcement.type === 'event' ? '🎉' : announcement.type === 'maintenance' ? '🔧' : '📢';
+    
+    const html = `
+        <div style="text-align: left;">
+            <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <div style="font-size: 18px; color: #FFD700; font-weight: bold; margin-bottom: 10px;">
+                    ${typeIcon} ${announcement.title}
+                </div>
+                <div style="font-size: 11px; color: #888; margin-bottom: 15px;">
+                    ${announcement.date}
+                </div>
+                <div style="font-size: 14px; line-height: 1.8; color: #ddd;">
+                    ${announcement.content}
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="btn" onclick="showAnnouncements()" style="margin-right: 10px;">← 返回列表</button>
+                <button class="btn btn-gold" onclick="this.closest('.modal').remove()">关闭</button>
+            </div>
+        </div>
+    `;
+    showModalCustom('📢 公告详情', html);
+}
+
+function markAllAnnouncementsRead() {
+    announcements.forEach(a => {
+        if (!gameData.readAnnouncements.includes(a.id)) {
+            gameData.readAnnouncements.push(a.id);
+        }
+    });
+    saveGame();
+    updateBadge('announcement-badge', 0);
+    showAnnouncements();
+}
+
+// ==================== 游戏内消息系统 ====================
+
+function showMails() {
+    if (!gameData.mails) {
+        gameData.mails = [
+            { id: 1, title: '🎁 新手礼包', content: '欢迎加入财神大陆！请查收新手礼包。', rewards: { money: 1000, fragments: 5 }, claimed: false, date: '2024-03-01' },
+            { id: 2, title: '📢 系统维护补偿', content: '由于系统维护，特发放补偿奖励。', rewards: { merit: 50, incense_sticks: 3 }, claimed: false, date: '2024-03-24' }
+        ];
+        saveGame();
+    }
+    
+    const unreadCount = gameData.mails.filter(m => !m.claimed).length;
+    
+    let html = `
+        <div style="max-height: 400px; overflow-y: auto;">
+            <div style="text-align: center; margin-bottom: 10px; font-size: 12px; color: #888;">
+                未读消息: ${unreadCount} 封
+            </div>
+    `;
+    
+    if (gameData.mails.length === 0) {
+        html += '<div style="text-align: center; color: #888; padding: 20px;">暂无消息</div>';
+    } else {
+        gameData.mails.forEach(mail => {
+            html += `
+                <div style="background: ${mail.claimed ? 'rgba(255,255,255,0.05)' : 'rgba(255,215,0,0.1)'}; 
+                            padding: 15px; border-radius: 8px; margin-bottom: 10px;
+                            border: 1px solid ${mail.claimed ? '#444' : '#FFD700'};
+                            cursor: ${mail.claimed ? 'default' : 'pointer'};"
+                     ${mail.claimed ? '' : `onclick="claimMailReward(${mail.id})"`}>
+                    <div style="font-size: 14px; color: ${mail.claimed ? '#aaa' : '#FFD700'}; font-weight: bold;">
+                        ${mail.claimed ? '✓' : '📧'} ${mail.title}
+                    </div>
+                    <div style="font-size: 11px; color: #666; margin: 3px 0;">${mail.date}</div>
+                    <div style="font-size: 12px; color: #888; margin: 5px 0;">${mail.content}</div>
+                    ${mail.claimed ? 
+                        '<div style="font-size: 11px; color: #2ecc71;">已领取</div>' :
+                        '<div style="font-size: 11px; color: #FFD700;">点击领取奖励</div>'}
+                </div>
+            `;
+        });
+    }
+    
+    html += `
+        <div style="text-align: center; margin-top: 15px;">
+            <button class="btn btn-gold" onclick="this.closest('.modal').remove()">关闭</button>
+        </div>
+        </div>
+    `;
+    showModalCustom('📧 消息', html);
+}
+
+function claimMailReward(mailId) {
+    const mail = gameData.mails.find(m => m.id === mailId);
+    if (!mail || mail.claimed) return;
+    
+    // 发放奖励
+    if (mail.rewards.money) gameData.money += mail.rewards.money;
+    if (mail.rewards.fragments) gameData.fragments += mail.rewards.fragments;
+    if (mail.rewards.merit) gameData.merit += mail.rewards.merit;
+    if (mail.rewards.incense_sticks) gameData.incense_sticks += mail.rewards.incense_sticks;
+    if (mail.rewards.candles) gameData.candles += mail.rewards.candles;
+    
+    mail.claimed = true;
+    
+    // 更新红点
+    updateBadge('mail-badge', getUnreadMailCount());
+    
+    showModal('领取成功', '奖励已发放到账户！');
+    updateUI();
+    saveGame();
+    showMails(); // 刷新消息列表
+}
+
+// ==================== 红点提醒系统 ====================
+
+function showMailbox() {
+    showMails();
+}
+
+function updateBadge(badgeId, count) {
+    const badge = document.getElementById(badgeId);
+    if (!badge) return;
+    
+    if (count > 0) {
+        badge.textContent = count > 99 ? '99+' : count;
+        badge.style.display = 'inline-block';
+    } else {
+        badge.style.display = 'none';
+    }
+}
+
+function getUnreadAnnouncementCount() {
+    if (!gameData.readAnnouncements) gameData.readAnnouncements = [];
+    return announcements.filter(a => !gameData.readAnnouncements.includes(a.id)).length;
+}
+
+function getUnreadMailCount() {
+    if (!gameData.mails) return 0;
+    return gameData.mails.filter(m => !m.claimed).length;
+}
+
+// ==================== 客服入口 ====================
+
+function showCustomerService() {
+    const html = `
+        <div style="text-align: center; padding: 20px;">
+            <div style="font-size: 48px; margin-bottom: 15px;">🎧</div>
+            <div style="font-size: 18px; color: #FFD700; margin-bottom: 20px;">联系客服</div>
+            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: left;">
+                <div style="margin-bottom: 10px;">
+                    <span style="color: #888;">📧 客服邮箱：</span>
+                    <span style="color: #FFD700;">support@caishen.com</span>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <span style="color: #888;">💬 微信客服：</span>
+                    <span style="color: #FFD700;">CaiShenKeFu</span>
+                </div>
+                <div>
+                    <span style="color: #888;">📱 QQ群：</span>
+                    <span style="color: #FFD700;">123456789</span>
+                </div>
+            </div>
+            <div style="font-size: 12px; color: #666; margin-bottom: 20px;">
+                工作时间：周一至周五 9:00-18:00<br>
+                一般会在24小时内回复
+            </div>
+            <button class="btn" onclick="this.closest('.modal').remove()">我知道了</button>
+        </div>
+    `;
+    showModal('🎧 客服中心', html);
+}
+
+// ==================== 每日签到日历 ====================
+
+function showSignInCalendar() {
+    const today = new Date().getDate();
+    if (!gameData.signedDays) gameData.signedDays = [];
+    if (!gameData.consecutiveSignInDays) gameData.consecutiveSignInDays = 0;
+    
+    const hasSignedToday = gameData.signedDays.includes(today);
+    
+    const rewards = [
+        { day: 1, reward: '100钱', icon: '💰' },
+        { day: 2, reward: '200钱', icon: '💰' },
+        { day: 3, reward: '线香×1', icon: '📿' },
+        { day: 4, reward: '300钱', icon: '💰' },
+        { day: 5, reward: '碎片×5', icon: '🔷' },
+        { day: 6, reward: '红烛×1', icon: '🕯️' },
+        { day: 7, reward: '元宝×10', icon: '💎' }
+    ];
+    
+    let html = `
+        <div style="text-align: center;">
+            <div style="font-size: 16px; color: #FFD700; margin-bottom: 10px;">
+                已连续签到 ${gameData.consecutiveSignInDays} 天
+            </div>
+            ${!hasSignedToday ? 
+                `<button class="btn btn-gold" onclick="doSignIn()" style="margin-bottom: 15px; padding: 10px 30px;">今日签到</button>` :
+                `<div style="color: #2ecc71; margin-bottom: 15px;">✅ 今日已签到</div>`
+            }
+            <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin: 15px 0;">
+    `;
+    
+    for (let i = 1; i <= 7; i++) {
+        const isSigned = gameData.signedDays.includes(i);
+        const isToday = i === today;
+        const reward = rewards[i - 1];
+        
+        html += `
+            <div style="background: ${isSigned ? 'rgba(46,204,113,0.2)' : isToday ? 'rgba(255,215,0,0.3)' : 'rgba(255,255,255,0.1)'};
+                        padding: 10px 5px; border-radius: 5px; text-align: center;
+                        border: 1px solid ${isSigned ? '#2ecc71' : isToday ? '#FFD700' : '#444'};">
+                <div style="font-size: 10px; color: #888;">第${i}天</div>
+                <div style="font-size: 16px; margin: 3px 0;">${reward.icon}</div>
+                <div style="font-size: 10px; color: ${isSigned ? '#2ecc71' : '#FFD700'};">
+                    ${isSigned ? '✓' : reward.reward}
+                </div>
+            </div>
+        `;
+    }
+    
+    html += '</div></div>';
+    showModal('📅 每日签到', html);
+}
+
+function doSignIn() {
+    const today = new Date().getDate();
+    
+    if (gameData.signedDays.includes(today)) {
+        showModal('提示', '今日已签到！');
+        return;
+    }
+    
+    // 发放奖励
+    const dayOfWeek = today % 7 || 7;
+    const rewards = [
+        { money: 100 },
+        { money: 200 },
+        { incense_sticks: 1 },
+        { money: 300 },
+        { fragments: 5 },
+        { candles: 1 },
+        { yuanbao: 10 }
+    ];
+    
+    const reward = rewards[dayOfWeek - 1];
+    let rewardText = [];
+    
+    if (reward.money) { gameData.money += reward.money; rewardText.push(`${reward.money}钱`); }
+    if (reward.incense_sticks) { gameData.incense_sticks += reward.incense_sticks; rewardText.push('线香×1'); }
+    if (reward.fragments) { gameData.fragments += reward.fragments; rewardText.push(`碎片×${reward.fragments}`); }
+    if (reward.candles) { gameData.candles += reward.candles; rewardText.push('红烛×1'); }
+    if (reward.yuanbao) { gameData.yuanbao += reward.yuanbao; rewardText.push(`元宝×${reward.yuanbao}`); }
+    
+    gameData.signedDays.push(today);
+    gameData.consecutiveSignInDays++;
+    
+    showModal('签到成功！', `获得奖励：${rewardText.join('、')}`);
+    updateUI();
+    saveGame();
+}
+
+// ==================== 帮助FAQ完整版 ====================
+
+function showHelp() {
+    const html = `
+        <div style="text-align: left; line-height: 1.8; max-height: 400px; overflow-y: auto;">
+            <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 10px; cursor: pointer;" onclick="toggleHelpSection('help-basic')">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #FFD700; font-weight: bold;">🎮 基础玩法</span>
+                    <span id="help-basic-icon">▼</span>
+                </div>
+            </div>
+            <div id="help-basic" style="display: block; padding: 0 10px 10px 10px;">
+                <p><strong style="color: #aaa;">Q: 如何获得香火钱？</strong></p>
+                <p>A: 1) 续香保持庙宇产出 2) 化缘获取收益 3) 完成任务奖励 4) 每日签到</p>
+                <br>
+                <p><strong style="color: #aaa;">Q: 财神怎么解锁？</strong></p>
+                <p>A: 每个财神有不同的解锁条件，在成就页面可以查看具体要求。</p>
+                <br>
+                <p><strong style="color: #aaa;">Q: 招财幡有什么用？</strong></p>
+                <p>A: 招财幡是升级庙宇的必需材料，40个碎片可合成1个招财幡。</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 10px; cursor: pointer;" onclick="toggleHelpSection('help-temple')">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #FFD700; font-weight: bold;">🏛️ 庙宇系统</span>
+                    <span id="help-temple-icon">▼</span>
+                </div>
+            </div>
+            <div id="help-temple" style="display: none; padding: 0 10px 10px 10px;">
+                <p><strong style="color: #aaa;">Q: 什么是双钱袋？</strong></p>
+                <p>A: 庙宇存储的是未收取的香火钱，点击"收取"按钮才能到口袋中使用。</p>
+                <br>
+                <p><strong style="color: #aaa;">Q: 为什么要续香？</strong></p>
+                <p>A: 香火燃烧时庙宇才会产出香火钱，线香+2小时，红烛+4小时。</p>
+                <br>
+                <p><strong style="color: #aaa;">Q: 护盾是什么？</strong></p>
+                <p>A: 护盾可以保护庙宇收益不被好友偷取，通过供奉获得。</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 10px; cursor: pointer;" onclick="toggleHelpSection('help-alms')">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #FFD700; font-weight: bold;">🚶 化缘系统</span>
+                    <span id="help-alms-icon">▼</span>
+                </div>
+            </div>
+            <div id="help-alms" style="display: none; padding: 0 10px 10px 10px;">
+                <p><strong style="color: #aaa;">Q: 什么是时辰契合？</strong></p>
+                <p>A: 在选择的时辰内登录游戏，可获得+20%收益加成。</p>
+                <br>
+                <p><strong style="color: #aaa;">Q: 大吉是什么意思？</strong></p>
+                <p>A: 大吉是化缘最好的结果，可获得双倍奖励，还有10%概率暴击。</p>
+                <br>
+                <p><strong style="color: #aaa;">Q: 不同区域有什么区别？</strong></p>
+                <p>A: 东区域基础收益100，南200，西300，北500，风险越高收益越高。</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 10px; cursor: pointer;" onclick="toggleHelpSection('help-title')">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #FFD700; font-weight: bold;">🏆 称号系统</span>
+                    <span id="help-title-icon">▼</span>
+                </div>
+            </div>
+            <div id="help-title" style="display: none; padding: 0 10px 10px 10px;">
+                <p><strong style="color: #aaa;">Q: 称号有什么用？</strong></p>
+                <p>A: 解锁称号后可以获得属性加成，装备不同的称号有不同的效果。</p>
+                <br>
+                <p><strong style="color: #aaa;">Q: 聚财令是什么？</strong></p>
+                <p>A: 聚财令是特殊称号，装备后全属性+20%。</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 10px; cursor: pointer;" onclick="toggleHelpSection('help-other')">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #FFD700; font-weight: bold;">📌 其他问题</span>
+                    <span id="help-other-icon">▼</span>
+                </div>
+            </div>
+            <div id="help-other" style="display: none; padding: 0 10px 10px 10px;">
+                <p><strong style="color: #aaa;">Q: 数据会丢失吗？</strong></p>
+                <p>A: 游戏数据保存在本地，清除浏览器缓存会导致数据丢失，请谨慎操作。</p>
+                <br>
+                <p><strong style="color: #aaa;">Q: 如何联系客服？</strong></p>
+                <p>A: 点击顶部"客服"按钮，可以通过邮箱、微信、QQ群联系我们。</p>
+            </div>
+        </div>    `;
+    showModal('📖 帮助中心', html);
+}
+
+function toggleHelpSection(id) {
+    const section = document.getElementById(id);
+    const icon = document.getElementById(id + '-icon');
+    if (section.style.display === 'none') {
+        section.style.display = 'block';
+        icon.textContent = '▼';
+    } else {
+        section.style.display = 'none';
+        icon.textContent = '▶';
+    }
+}
+
+// ==================== 设置页面功能 ====================
+
+function toggleBGM() {
+    gameData.settings = gameData.settings || {};
+    gameData.settings.bgm = !gameData.settings.bgm;
+    const btn = document.getElementById('btn-bgm');
+    if (btn) btn.textContent = gameData.settings.bgm ? '开启' : '关闭';
+    saveGame();
+    showToast(gameData.settings.bgm ? '背景音乐已开启' : '背景音乐已关闭');
+}
+
+function toggleSFX() {
+    gameData.settings = gameData.settings || {};
+    gameData.settings.sfx = !gameData.settings.sfx;
+    const btn = document.getElementById('btn-sfx');
+    if (btn) btn.textContent = gameData.settings.sfx ? '开启' : '关闭';
+    saveGame();
+    showToast(gameData.settings.sfx ? '点击音效已开启' : '点击音效已关闭');
+}
+
+function toggleNotification(type) {
+    gameData.settings = gameData.settings || {};
+    gameData.settings.notifications = gameData.settings.notifications || {};
+    gameData.settings.notifications[type] = !gameData.settings.notifications[type];
+    const btn = document.getElementById('btn-notify-' + type);
+    if (btn) btn.textContent = gameData.settings.notifications[type] ? '开启' : '关闭';
+    saveGame();
+    showToast(gameData.settings.notifications[type] ? '通知已开启' : '通知已关闭');
+}
+
+function showFAQ() {
+    showHelp();
+}
+
+function showContact() {
+    showCustomerService();
+}
+
+function showPrivacy() {
+    const html = `
+        <div style="text-align: left; line-height: 1.8; max-height: 400px; overflow-y: auto; padding: 10px;">
+            <h3 style="color: #FFD700; margin-bottom: 15px;">🔒 隐私政策</h3>
+            <p style="margin-bottom: 10px;"><strong>1. 数据收集</strong></p>
+            <p>本游戏仅在本地存储游戏进度，不会上传任何个人信息到服务器。</p>
+            <br>
+            <p style="margin-bottom: 10px;"><strong>2. 数据使用</strong></p>
+            <p>游戏数据仅用于记录您的游戏进度，包括金币数量、道具、成就等。</p>
+            <br>
+            <p style="margin-bottom: 10px;"><strong>3. 数据安全</strong></p>
+            <p>数据保存在您的浏览器本地存储中，清除浏览器数据会导致游戏进度丢失。</p>
+            <br>
+            <p style="margin-bottom: 10px;"><strong>4. 第三方服务</strong></p>
+            <p>本游戏不使用任何第三方追踪或广告服务。</p>
+        </div>
+    `;
+    showModal('🔒 隐私政策', html);
+}
+
+function clearCache() {
+    showModal('🗑️ 清除缓存', `
+        <div style="text-align: center; padding: 20px;">
+            <div style="font-size: 48px; margin-bottom: 15px;">⚠️</div>
+            <div style="color: #e74c3c; margin-bottom: 15px;">警告：此操作将清除所有游戏数据！</div>
+            <div style="font-size: 12px; color: #888; margin-bottom: 20px;">清除后游戏将恢复到初始状态，此操作不可恢复。</div>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="btn" onclick="closeModal()">取消</button>
+                <button class="btn" onclick="confirmClearCache()" style="background: #e74c3c;">确认清除</button>
+            </div>
+        </div>
+    `);
+}
+
+function confirmClearCache() {
+    localStorage.removeItem('caishen_v19');
+    closeModal();
+    showModal('✅ 清除完成', `
+        <div style="text-align: center; padding: 20px;">
+            <div>游戏数据已清除，页面将重新加载。</div>
+            <button class="btn" onclick="location.reload()" style="margin-top: 15px;">重新加载</button>
+        </div>
+    `);
+}
+
+function showToast(message) {
+    // 简单的toast提示
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: rgba(0,0,0,0.8); color: #FFD700; padding: 15px 30px;
+        border-radius: 8px; z-index: 9999; font-size: 14px;
+        border: 1px solid #FFD700;
+    `;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+}
+
+function showSupport() {
+    if (!gameData.supportTickets) gameData.supportTickets = [];
+    
+    let html = `
+        <div style="text-align: left; max-height: 400px; overflow-y: auto;">
+            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <div style="font-size: 14px; color: #FFD700; margin-bottom: 10px;">💬 提交新反馈</div>
+                <select id="support-type" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 5px; border: none; background: rgba(0,0,0,0.3); color: #fff;">
+                    <option value="bug">🐛 游戏Bug</option>
+                    <option value="suggestion">💡 功能建议</option>
+                    <option value="complaint">😤 投诉反馈</option>
+                    <option value="other">📝 其他问题</option>
+                </select>
+                <textarea id="support-content" placeholder="请详细描述您遇到的问题..." 
+                    style="width: 100%; height: 80px; padding: 10px; border-radius: 5px; border: none; background: rgba(0,0,0,0.3); color: #fff; resize: none;"></textarea>
+                <button class="btn btn-gold" onclick="submitSupport()" style="width: 100%; margin-top: 10px;">提交反馈</button>
+            </div>
+    `;
+    
+    // 显示历史反馈
+    if (gameData.supportTickets.length > 0) {
+        html += '<div style="font-size: 14px; color: #FFD700; margin-bottom: 10px;">📜 历史反馈</div>';
+        gameData.supportTickets.slice(-5).reverse().forEach(ticket => {
+            const statusColors = {
+                pending: '#f39c12',
+                replied: '#3498db',
+                resolved: '#2ecc71'
+            };
+            const statusText = {
+                pending: '待处理',
+                replied: '已回复',
+                resolved: '已解决'
+            };
+            
+            html += `
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 5px; margin-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                        <span style="color: #888;">${ticket.date}</span>
+                        <span style="color: ${statusColors[ticket.status]};">${statusText[ticket.status]}</span>
+                    </div>
+                    <div style="font-size: 13px; color: #aaa; margin-top: 5px;">${ticket.content.substring(0, 50)}...</div>
+                </div>
+            `;
+        });
+    }
+    
+    html += `
+            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                <div style="font-size: 14px; color: #FFD700; margin-bottom: 10px;">📞 其他联系方式</div>
+                <div style="font-size: 12px; color: #888; line-height: 1.8;">
+                    <div>📧 邮箱: support@caishen.com</div>
+                    <div>💬 微信: caishen_game</div>
+                    <div>⏰ 工作时间: 9:00-21:00</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    showModal('💬 客服中心', html);
+}
+
+function submitSupport() {
+    const type = document.getElementById('support-type')?.value;
+    const content = document.getElementById('support-content')?.value?.trim();
+    
+    if (!content) {
+        showModal('提示', '请输入反馈内容');
+        return;
+    }
+    
+    if (!gameData.supportTickets) gameData.supportTickets = [];
+    
+    gameData.supportTickets.push({
+        id: Date.now(),
+        type: type,
+        content: content,
+        status: 'pending',
+        date: new Date().toLocaleDateString()
+    });
+    
+    saveGame();
+    showModal('提交成功', '感谢您的反馈！我们会尽快处理。');
+}
+
+// ==================== GM测试功能 ====================
+
+function gmAddMoney(amount) {
+    gameData.money += amount;
+    log('gm-log', `💰 钱兜兜 +${amount.toLocaleString()}，当前：${gameData.money.toLocaleString()}`);
+    updateUI();
+    saveGame();
+}
+
+function gmAddItem(type, count) {
+    const itemNames = {
+        incense: '线香',
+        candle: '红烛',
+        paper: '金纸',
+        fruit: '供果'
+    };
+    const itemKeys = {
+        incense: 'incense_sticks',
+        candle: 'candles',
+        paper: 'gold_paper',
+        fruit: 'fruits'
+    };
+    gameData[itemKeys[type]] += count;
+    log('gm-log', `📦 ${itemNames[type]} +${count}，当前：${gameData[itemKeys[type]]}`);
+    updateUI();
+    saveGame();
+}
+
+function gmAddResource(type, amount) {
+    const resourceNames = {
+        fragments: '碎片',
+        merit: '功德',
+        banners: '招财幡',
+        mana: '法力'
+    };
+    gameData[type] += amount;
+    if (type === 'mana') gameData.mana = Math.min(100, gameData.mana);
+    log('gm-log', `💎 ${resourceNames[type]} +${amount}，当前：${gameData[type]}`);
+    updateUI();
+    saveGame();
+}
+
+function gmResetDaily() {
+    gameData.almsCount = 0;
+    gameData.visitCount = 0;
+    gameData.bushuSmall = 0;
+    gameData.bushuMedium = 0;
+    gameData.bushuLarge = 0;
+    log('gm-log', '🔄 所有每日限制已重置');
+    updateUI();
+    saveGame();
+}
+
+function gmResetAlms() {
+    gameData.almsCount = 0;
+    log('gm-log', '🔄 化缘次数已重置');
+    updateUI();
+    saveGame();
+}
+
+function gmResetVisit() {
+    gameData.visitCount = 0;
+    log('gm-log', '🔄 拜访次数已重置');
+    updateUI();
+    saveGame();
+}
+
+function gmResetBushu() {
+    gameData.bushuSmall = 0;
+    gameData.bushuMedium = 0;
+    gameData.bushuLarge = 0;
+    log('gm-log', '🔄 布施次数已重置');
+    updateUI();
+    saveGame();
+}
+
+function gmUnlockGod(godId) {
+    const god = gods.find(g => g.id === godId);
+    if (god) {
+        god.unlocked = true;
+        log('gm-log', `✨ 已解锁财神：${god.name}`);
+        renderGods();
+        updateUI();
+        saveGame();
+    }
+}
+
+function gmUnlockAllGods() {
+    gods.forEach(god => {
+        if (god.id !== 'tudigong') god.unlocked = true;
+    });
+    log('gm-log', '✨ 已解锁全部财神（除土地公）');
+    renderGods();
+    updateUI();
+    saveGame();
+}
+
+function gmLevelUp() {
+    if (gameData.level < 6) {
+        gameData.level++;
+        log('gm-log', `🏛️ 庙宇升到 ${gameData.level} 级`);
+        updateUI();
+        saveGame();
+    }
+}
+
+function gmMaxLevel() {
+    gameData.level = 6;
+    log('gm-log', '🏛️ 庙宇已满级（6级）');
+    updateUI();
+    saveGame();
+}
+
+function gmOpenHeavenGate() {
+    gameData.level = 6;
+    const zhaogongming = gods.find(g => g.id === 'zhaogongming');
+    if (zhaogongming) zhaogongming.unlocked = true;
+    log('gm-log', '🌟 天门已开！赵公明降临！庙宇6级！');
+    showModal('🌟 开天门！', '天门开启，财神降临！庙宇升至6级！');
+    renderGods();
+    updateUI();
+    saveGame();
+}
+
+// ==================== 测试消息功能 ====================
+
+function gmSendTestMail() {
+    if (!gameData.mails) gameData.mails = [];
+    
+    const testMails = [
+        {
+            id: Date.now(),
+            title: '🎉 测试消息',
+            content: '这是一条测试消息，用来演示消息系统功能。点击领取奖励！',
+            rewards: { money: 888, fragments: 8 },
+            claimed: false,
+            date: new Date().toLocaleDateString()
+        },
+        {
+            id: Date.now() + 1,
+            title: '🎁 系统赠送',
+            content: '感谢您测试财神大陆！送上小小心意。',
+            rewards: { incense_sticks: 3, candles: 1 },
+            claimed: false,
+            date: new Date().toLocaleDateString()
+        }
+    ];
+    
+    gameData.mails.push(...testMails);
+    
+    // 更新红点
+    updateBadge('mail-badge', gameData.mails.filter(m => !m.claimed).length);
+    
+    log('gm-log', '📧 已发送2条测试消息，请点击顶部"消息"查看');
+    showModal('📧 测试消息已发送', '请点击顶部"消息"按钮查看新消息！');
+    saveGame();
+}
+
+function gmCompleteAllTitles() {
+    if (!gameData.unlockedTitles) gameData.unlockedTitles = [];
+    if (!gameData.titleRewards) gameData.titleRewards = {};
+    
+    titlesData.forEach(title => {
+        if (!gameData.unlockedTitles.includes(title.id)) {
+            gameData.unlockedTitles.push(title.id);
+        }
+        // 标记所有任务奖励已领取
+        title.tasks.forEach(task => {
+            gameData.titleRewards[`${title.id}_${task.id}`] = true;
+        });
+    });
+    
+    log('gm-log', '🏆 已完成所有称号任务并解锁');
+    renderAchievements();
+    updateUI();
+    saveGame();
+}
+
+function gmResetTitles() {
+    gameData.unlockedTitles = [];
+    gameData.titleRewards = {};
+    gameData.currentTitle = null;
+    log('gm-log', '🔄 称号系统已重置');
+    renderAchievements();
+    updateUI();
+    saveGame();
+}
+
+function gmClearLocalStorage() {
+    if (confirm('确定要清空本地存档吗？这将删除所有游戏数据！')) {
+        localStorage.removeItem('caishen_v19');
+        log('gm-log', '🗑️ 本地存档已清空，刷新页面后生效');
+        showModal('已清空', '本地存档已清空，请刷新页面重新开始');
+    }
+}
+
+function gmResetAll() {
+    if (confirm('确定要重置所有数据吗？这将恢复到初始状态！')) {
+        // 重置所有数据到初始值
+        gameData.level = 1;
+        gameData.money = 2400;
+        gameData.templeStorage = 0;
+        gameData.yuanbao = 0;
+        gameData.merit = 0;
+        gameData.fragments = 0;
+        gameData.mana = 100;
+        gameData.banners = 0;
+        gameData.faith = 0;
+        gameData.reputation = 0;
+        gameData.incense_sticks = 3;
+        gameData.candles = 1;
+        gameData.gold_paper = 0;
+        gameData.fruits = 0;
+        gameData.almsCount = 0;
+        gameData.worshipCount = 0;
+        gameData.greatCount = 0;
+        gameData.visitCount = 0;
+        gameData.bushuSmall = 0;
+        gameData.bushuMedium = 0;
+        gameData.bushuLarge = 0;
+        gameData.unlockedTitles = [];
+        gameData.currentTitle = null;
+        gameData.titleRewards = {};
+        gameData.invitedFriends = [];
+        
+        // 重置财神解锁状态
+        gods.forEach(god => {
+            if (god.id !== 'tudigong') god.unlocked = false;
+        });
+        
+        log('gm-log', '🔄 所有数据已重置为初始状态');
+        updateUI();
+        renderGods();
+        renderAchievements();
+        saveGame();
+        showModal('已重置', '所有数据已重置为初始状态');
+    }
+}
+
+// ==================== 飘字效果 ====================
+
+function showFloatingText(text, x, y, color = '#FFD700') {
+    const el = document.createElement('div');
+    el.textContent = text;
+    el.style.cssText = `
+        position: fixed;
+        left: ${x}px;
+        top: ${y}px;
+        color: ${color};
+        font-size: 18px;
+        font-weight: bold;
+        pointer-events: none;
+        z-index: 9999;
+        text-shadow: 0 0 10px ${color};
+        animation: floatUp 1.5s ease-out forwards;
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1500);
+}
+
+// 添加飘字动画CSS
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes floatUp {
+        0% { opacity: 1; transform: translateY(0) scale(1); }
+        50% { opacity: 0.8; transform: translateY(-30px) scale(1.1); }
+        100% { opacity: 0; transform: translateY(-60px) scale(0.9); }
+    }
+`;
+document.head.appendChild(style);
+
+// ==================== 设置功能 ====================
+
+function toggleBGM() {
+    const btn = document.getElementById('btn-bgm');
+    const isOn = btn.textContent === '开启';
+    btn.textContent = isOn ? '关闭' : '开启';
+    btn.className = isOn ? 'btn btn-gold' : 'btn';
+    log('settings-log', isOn ? '🔊 背景音乐已关闭' : '🔊 背景音乐已开启');
+    // 保存设置
+    if (!gameData.settings) gameData.settings = {};
+    gameData.settings.bgm = !isOn;
+    saveGame();
+}
+
+function toggleSFX() {
+    const btn = document.getElementById('btn-sfx');
+    const isOn = btn.textContent === '开启';
+    btn.textContent = isOn ? '关闭' : '开启';
+    btn.className = isOn ? 'btn btn-gold' : 'btn';
+    log('settings-log', isOn ? '🔇 点击音效已关闭' : '🔇 点击音效已开启');
+    if (!gameData.settings) gameData.settings = {};
+    gameData.settings.sfx = !isOn;
+    saveGame();
+}
+
+function toggleNotification(type) {
+    const btn = document.getElementById(`btn-notify-${type}`);
+    const isOn = btn.textContent === '开启';
+    btn.textContent = isOn ? '关闭' : '开启';
+    btn.className = isOn ? 'btn btn-gold' : 'btn';
+    log('settings-log', `${isOn ? '🔕' : '🔔'} ${type === 'login' ? '每日登录提醒' : '活动提醒'}已${isOn ? '关闭' : '开启'}`);
+    if (!gameData.settings) gameData.settings = {};
+    gameData.settings[`notify_${type}`] = !isOn;
+    saveGame();
+}
+
+function showFAQ() {
+    const faqContent = `
+        <div style="text-align: left; line-height: 1.8;">
+            <h3 style="color: #FFD700; margin: 10px 0;">❓ 常见问题</h3>
+            <p><strong>Q: 如何获得更多的香火钱？</strong></p>
+            <p>A: 1. 续香保持庙宇产出 2. 化缘获取收益 3. 完成任务奖励</p>
+            <br>
+            <p><strong>Q: 财神怎么解锁？</strong></p>
+            <p>A: 每个财神有不同的解锁条件，点击锁定的财神查看具体要求</p>
+            <br>
+            <p><strong>Q: 招财幡有什么用？</strong></p>
+            <p>A: 招财幡是升级庙宇的必需材料，4个碎片可合成1个招财幡</p>
+            <br>
+            <p><strong>Q: 如何触发时辰契合？</strong></p>
+            <p>A: 在选择的时辰内登录游戏，可获得+20%收益加成</p>
+        </div>
+    `;
+    showModal('📖 帮助与FAQ', faqContent);
+}
+
+function showContact() {
+    showModal('💬 联系客服', 
+        '遇到问题需要帮助？<br><br>' +
+        '📧 邮箱: support@caishen.com<br>' +
+        '💬 微信: caishen_game<br><br>' +
+        '工作时间: 9:00-21:00<br>' +
+        '我们会在24小时内回复您！'
+    );
+}
+
+function showPrivacy() {
+    showModal('🔒 隐私政策', 
+        '我们重视您的隐私！<br><br>' +
+        '1. 我们仅收集游戏必要数据<br>' +
+        '2. 不会向第三方出售您的信息<br>' +
+        '3. 您可随时删除游戏数据<br><br>' +
+        '详细政策请查看完整版本'
+    );
+}
+
+function clearCache() {
+    if (confirm('确定要清除缓存吗？这将重置所有设置但不会删除游戏进度。')) {
+        localStorage.removeItem('caishen_v19_settings');
+        log('settings-log', '🗑️ 缓存已清除');
+        showModal('已清除', '缓存已清除，设置已恢复默认');
+    }
+}
+
+// 加载设置
+function loadSettings() {
+    if (!gameData.settings) gameData.settings = {};
+    
+    // 更新按钮状态
+    const bgmBtn = document.getElementById('btn-bgm');
+    const sfxBtn = document.getElementById('btn-sfx');
+    const notifyLoginBtn = document.getElementById('btn-notify-login');
+    const notifyEventBtn = document.getElementById('btn-notify-event');
+    
+    if (bgmBtn) {
+        bgmBtn.textContent = gameData.settings.bgm !== false ? '开启' : '关闭';
+        bgmBtn.className = gameData.settings.bgm !== false ? 'btn' : 'btn btn-gold';
+    }
+    if (sfxBtn) {
+        sfxBtn.textContent = gameData.settings.sfx !== false ? '开启' : '关闭';
+        sfxBtn.className = gameData.settings.sfx !== false ? 'btn' : 'btn btn-gold';
+    }
+    if (notifyLoginBtn) {
+        notifyLoginBtn.textContent = gameData.settings.notify_login !== false ? '开启' : '关闭';
+        notifyLoginBtn.className = gameData.settings.notify_login !== false ? 'btn' : 'btn btn-gold';
+    }
+    if (notifyEventBtn) {
+        notifyEventBtn.textContent = gameData.settings.notify_event !== false ? '开启' : '关闭';
+        notifyEventBtn.className = gameData.settings.notify_event !== false ? 'btn' : 'btn btn-gold';
+    }
+}
+
+// ==================== 排行榜系统 ====================
+
+// 模拟排行榜数据（实际应该从服务器获取）
+const mockLeaderboard = [
+    { name: '财神爷本尊', level: 6, money: 999999, merit: 8888 },
+    { name: '招财进宝', level: 5, money: 500000, merit: 5000 },
+    { name: '富贵逼人', level: 5, money: 350000, merit: 4200 },
+    { name: '金玉满堂', level: 4, money: 200000, merit: 3000 },
+    { name: '财源广进', level: 4, money: 150000, merit: 2500 },
+    { name: '你', level: gameData.level, money: gameData.money, merit: gameData.merit, isSelf: true }
+];
+
+function renderLeaderboard() {
+    // 更新自己的数据
+    const selfIndex = mockLeaderboard.findIndex(p => p.isSelf);
+    if (selfIndex >= 0) {
+        mockLeaderboard[selfIndex] = {
+            name: '你',
+            level: gameData.level,
+            money: gameData.money,
+            merit: gameData.merit,
+            isSelf: true
+        };
+    }
+    
+    // 按功德排序
+    const sorted = [...mockLeaderboard].sort((a, b) => b.merit - a.merit);
+    
+    // 找到自己的排名
+    const myRank = sorted.findIndex(p => p.isSelf) + 1;
+    
+    let html = `
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin: 10px 0;">
+            <div style="text-align: center; margin-bottom: 15px;">
+                <div style="font-size: 24px; color: #FFD700; font-weight: bold;">🏆 排行榜</div>
+                <div style="font-size: 12px; color: #888; margin-top: 5px;">你的排名：第${myRank}名</div>
+            </div>
+            
+            <div style="display: flex; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 5px; margin-bottom: 5px; font-size: 11px; color: #888;">
+                <div style="width: 40px;">排名</div>
+                <div style="flex: 1;">玩家</div>
+                <div style="width: 50px; text-align: center;">等级</div>
+                <div style="width: 80px; text-align: right;">功德</div>
+            </div>
+    `;
+    
+    sorted.forEach((player, index) => {
+        const rankIcon = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}`;
+        const bgStyle = player.isSelf ? 'background: rgba(255,215,0,0.2); border: 1px solid #FFD700;' : 'background: rgba(255,255,255,0.05);';
+        
+        html += `
+            <div style="display: flex; padding: 10px 8px; border-radius: 5px; margin: 3px 0; ${bgStyle} font-size: 12px; align-items: center;">
+                <div style="width: 40px; font-weight: bold; color: ${index < 3 ? '#FFD700' : '#888'};">${rankIcon}</div>
+                <div style="flex: 1; color: ${player.isSelf ? '#FFD700' : '#fff'}; font-weight: ${player.isSelf ? 'bold' : 'normal'};">${player.name}</div>
+                <div style="width: 50px; text-align: center; color: #aaa;">Lv.${player.level}</div>
+                <div style="width: 80px; text-align: right; color: #FFD700;">${player.merit.toLocaleString()}</div>
+            </div>
+        `;
+    });
+    
+    html += `</div>`;
+    
+    const container = document.getElementById('leaderboard-container');
+    if (container) container.innerHTML = html;
+}
+
+// ==================== 数据统计系统 ====================
+
+function renderStatistics() {
+    // 计算统计数据
+    const totalIncome = gameData.money + gameData.templeStorage;
+    const totalAlms = gameData.almsCount;
+    const totalWorship = gameData.worshipCount;
+    const totalLoginDays = gameData.loginDays || 1;
+    const avgDailyIncome = Math.floor(totalIncome / totalLoginDays);
+    
+    // 计算游戏天数
+    const firstLogin = gameData.lastLoginDate ? new Date(gameData.lastLoginDate) : new Date();
+    const daysPlayed = Math.max(1, Math.floor((Date.now() - firstLogin.getTime()) / 86400000) + 1);
+    
+    const html = `
+        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin: 10px 0;">
+            <div style="font-size: 14px; color: #FFD700; font-weight: bold; margin-bottom: 15px; text-align: center;">📊 数据统计</div>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 5px; text-align: center;">
+                    <div style="font-size: 18px; color: #FFD700; font-weight: bold;">${gameData.money.toLocaleString()}</div>
+                    <div style="font-size: 11px; color: #888;">当前钱兜兜</div>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 5px; text-align: center;">
+                    <div style="font-size: 18px; color: #FFD700; font-weight: bold;">${gameData.merit.toLocaleString()}</div>
+                    <div style="font-size: 11px; color: #888;">累计功德</div>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 5px; text-align: center;">
+                    <div style="font-size: 18px; color: #FFD700; font-weight: bold;">${totalAlms}</div>
+                    <div style="font-size: 11px; color: #888;">累计化缘</div>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 5px; text-align: center;">
+                    <div style="font-size: 18px; color: #FFD700; font-weight: bold;">${totalWorship}</div>
+                    <div style="font-size: 11px; color: #888;">累计供奉</div>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 5px; text-align: center;">
+                    <div style="font-size: 18px; color: #FFD700; font-weight: bold;">${gameData.greatCount}</div>
+                    <div style="font-size: 11px; color: #888;">大吉次数</div>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 5px; text-align: center;">
+                    <div style="font-size: 18px; color: #FFD700; font-weight: bold;">${friends.length}</div>
+                    <div style="font-size: 11px; color: #888;">好友数量</div>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 5px; text-align: center;">
+                    <div style="font-size: 18px; color: #FFD700; font-weight: bold;">${daysPlayed}</div>
+                    <div style="font-size: 11px; color: #888;">游戏天数</div>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 5px; text-align: center;">
+                    <div style="font-size: 18px; color: #FFD700; font-weight: bold;">${gods.filter(g => g.unlocked).length}/9</div>
+                    <div style="font-size: 11px; color: #888;">解锁财神</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px; padding: 10px; background: rgba(255,215,0,0.1); border-radius: 5px; border: 1px solid rgba(255,215,0,0.3);">
+                <div style="font-size: 12px; color: #FFD700; text-align: center;">
+                    💡 日均收益：${avgDailyIncome.toLocaleString()} 钱
+                </div>
+            </div>
+        </div>
+    `;
+    
+    const container = document.getElementById('statistics-container');
+    if (container) container.innerHTML = html;
+}
+
+// ==================== 新手引导系统 ====================
+
+let tutorialStep = 0;
+const tutorialSteps = [
+    {
+        title: '欢迎来到财神大陆！🎉',
+        content: '这是一款经营庙宇、供奉财神、化缘收集资源的游戏。'
+    },
+    {
+        title: '核心玩法',
+        content: '1️⃣ 续香保持庙宇产出<br>2️⃣ 收取香火钱到钱兜兜<br>3️⃣ 化缘获取资源<br>4️⃣ 供奉财神获得BUFF<br>5️⃣ 升级解锁更多财神'
+    },
+    {
+        title: '小贴士💡',
+        content: '• 线香+2小时，红烛+4小时<br>• 每日首次登录送2线香+2红烛<br>• 记得领取任务奖励<br>• 邀请好友双方都有奖励！'
+    }
+];
+
+function showTutorial() {
+    let currentStep = 0;
+    
+    function showStep() {
+        const step = tutorialSteps[currentStep];
+        const isLast = currentStep === tutorialSteps.length - 1;
+        
+        const html = `<div class="modal" id="tutorial-modal"><div class="modal-content">` +
+            `<div class="modal-title">${step.title}</div>` +
+            `<p style="margin:15px 0;line-height:1.6;">${step.content}</p>` +
+            `<div style="text-align: center; margin-top: 20px;">` +
+            `<button class="btn" onclick="skipTutorial()" style="margin-right: 10px;">跳过</button>` +
+            (isLast ? 
+                `<button class="btn btn-gold" onclick="finishTutorial()">开始游戏</button>` :
+                `<button class="btn btn-gold" onclick="nextStep()">下一步</button>`) +
+            `</div></div></div>`;
+        
+        document.getElementById('modal-container').innerHTML = html;
+    }
+    
+    window.nextStep = function() {
+        currentStep++;
+        if (currentStep < tutorialSteps.length) {
+            showStep();
+        } else {
+            finishTutorial();
+        }
+    };
+    
+    window.skipTutorial = function() {
+        document.getElementById('tutorial-modal').remove();
+        finishTutorial();
+    };
+    
+    window.finishTutorial = function() {
+        const modal = document.getElementById('tutorial-modal');
+        if (modal) modal.remove();
+        gameData.tutorialCompleted = true;
+        saveGame();
+        delete window.nextStep;
+        delete window.skipTutorial;
+        delete window.finishTutorial;
+    };
+    
+    showStep();
+}
+
+init();
+</script>
+</body>
+</html>
