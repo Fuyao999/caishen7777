@@ -1097,21 +1097,87 @@
             </div>
         </main>
     </div>
+    <!-- ===== 通用模态框 ===== -->
+    <div id="globalModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:2000;justify-content:center;align-items:center">
+        <div style="background:#16213e;border:1px solid #0f3460;border-radius:10px;width:650px;max-width:90vw;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.5)">
+            <div id="modalHeader" style="display:flex;justify-content:space-between;align-items:center;padding:20px 24px 16px;border-bottom:1px solid #0f3460">
+                <h3 id="modalTitle" style="margin:0;font-size:18px"></h3>
+                <span onclick="closeGlobalModal()" style="cursor:pointer;font-size:24px;color:#888;line-height:1">&times;</span>
+            </div>
+            <div id="modalBody" style="padding:20px 24px"></div>
+            <div id="modalFooter" style="padding:12px 24px 20px;text-align:right;border-top:1px solid #0f3460"></div>
+        </div>
+    </div>
+    <!-- ===== Toast提示 ===== -->
+    <div id="globalToast" style="display:none;position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:12px 28px;border-radius:8px;font-size:14px;z-index:3000;transition:opacity 0.3s"></div>
+
 
     <script>
-        // 页面切换
+        // ===== 页面切换 =====
         function showPage(pageName) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.style.display = 'none';
-            });
+            document.querySelectorAll('.page').forEach(function(p){ p.style.display='none'; });
             document.getElementById(pageName).style.display = 'block';
-            document.querySelectorAll('.nav-menu li').forEach(li => {
-                li.classList.remove('active');
-            });
-            event.target.closest('li').classList.add('active');
+            document.querySelectorAll('.nav-menu li').forEach(function(li){ li.classList.remove('active'); });
+            if(event && event.target) event.target.closest('li').classList.add('active');
         }
 
-        // 公告管理
+        // ===== Toast提示 =====
+        function showToast(msg, type) {
+            var t = document.getElementById('globalToast');
+            t.textContent = msg;
+            t.style.background = type === 'error' ? '#e74c3c' : type === 'warn' ? '#f39c12' : '#27ae60';
+            t.style.color = '#fff';
+            t.style.display = 'block';
+            t.style.opacity = '1';
+            setTimeout(function(){ t.style.opacity='0'; setTimeout(function(){ t.style.display='none'; },300); }, 2000);
+        }
+
+        // ===== 通用模态框 =====
+        function showGlobalModal(title, bodyHTML, footerHTML) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').innerHTML = bodyHTML;
+            document.getElementById('modalFooter').innerHTML = footerHTML || '<button class="btn" onclick="closeGlobalModal()" style="background:#34495e">关闭</button>';
+            document.getElementById('globalModal').style.display = 'flex';
+        }
+        function closeGlobalModal() {
+            document.getElementById('globalModal').style.display = 'none';
+        }
+        // 点击遮罩关闭
+        document.getElementById('globalModal').addEventListener('click', function(e) {
+            if (e.target === this) closeGlobalModal();
+        });
+
+        // ===== 确认弹窗 =====
+        function showConfirm(title, msg, onYes) {
+            var body = '<div style="text-align:center;padding:10px 0"><p style="font-size:16px;margin-bottom:5px">' + msg + '</p></div>';
+            var footer = '<button class="btn" onclick="closeGlobalModal()" style="background:#34495e;margin-right:10px">取消</button>' +
+                '<button class="btn btn-danger" onclick="closeGlobalModal();(' + onYes.toString() + ')()">确认</button>';
+            showGlobalModal(title, body, footer);
+        }
+
+        // ===== 详情弹窗 =====
+        function showDetailModal(title, fields) {
+            var body = '<table style="width:100%;border-collapse:collapse">';
+            fields.forEach(function(f) {
+                body += '<tr><td style="padding:10px 12px;color:#888;white-space:nowrap;border-bottom:1px solid #0f3460;width:120px">' + f[0] + '</td>';
+                body += '<td style="padding:10px 12px;border-bottom:1px solid #0f3460">' + f[1] + '</td></tr>';
+            });
+            body += '</table>';
+            showGlobalModal(title, body);
+        }
+
+        // ===== 从表格行提取数据 =====
+        function getRowData(btn) {
+            var tr = btn.closest('tr');
+            if (!tr) return [];
+            return Array.prototype.map.call(tr.querySelectorAll('td'), function(td){ return td.textContent.trim(); });
+        }
+        function getPageId(btn) {
+            var page = btn.closest('.page');
+            return page ? page.id : '';
+        }
+
+        // ===== 公告管理（保留原有） =====
         function showAnnounceModal() {
             document.getElementById('announceModal').style.display = 'flex';
         }
@@ -1121,12 +1187,452 @@
         function publishAnnouncement() {
             var title = document.getElementById('announceTitle').value;
             if (title) {
-                alert('公告已发布: ' + title);
+                var type = document.getElementById('announceType');
+                var typeText = type.options[type.selectedIndex].text;
+                showToast('✅ 公告已发布: 【' + typeText + '】' + title, 'success');
                 closeAnnounceModal();
+                document.getElementById('announceTitle').value = '';
+                document.getElementById('announceContent').value = '';
             } else {
-                alert('请输入公告标题');
+                showToast('⚠️ 请输入公告标题', 'warn');
             }
         }
-    </</script>
+
+        // ===== 事件委托：处理所有按钮点击 =====
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('button');
+            if (!btn) return;
+            // 已有onclick的按钮跳过
+            if (btn.getAttribute('onclick')) return;
+            // 导航按钮跳过
+            if (btn.closest('.nav-menu')) return;
+
+            var text = btn.textContent.trim();
+            var page = getPageId(btn);
+            var row = getRowData(btn);
+
+            // ===== Dashboard页面 =====
+            if (page === 'dashboard') {
+                if (text === '退出') {
+                    showConfirm('退出确认', '确定要退出管理后台吗？', function(){ showToast('已退出登录','success'); });
+                    return;
+                }
+                // 系统状态表格的查看/管理按钮 → 跳转对应页面
+                var moduleMap = {'等级系统':'users','十二财域':'events','门派系统':'sects','师徒系统':'mentors',
+                    '交易市场':'trades','PVP系统':'pvp','活动系统':'events','反作弊系统':'anticheat'};
+                if (row.length > 0) {
+                    var targetPage = moduleMap[row[0]];
+                    if (targetPage) {
+                        // 模拟点击导航
+                        var navItems = document.querySelectorAll('.nav-menu li');
+                        navItems.forEach(function(li) {
+                            var onc = li.getAttribute('onclick');
+                            if (onc && onc.indexOf(targetPage) > -1) li.click();
+                        });
+                        return;
+                    }
+                }
+            }
+
+            // ===== Users页面 =====
+            if (page === 'users') {
+                if (text === '搜索') {
+                    var input = btn.closest('.search-box').querySelector('input');
+                    showToast('🔍 搜索: ' + (input.value || '全部用户'), 'success');
+                    return;
+                }
+                if (text === '详情' && row.length >= 7) {
+                    showDetailModal('👤 用户详情 - ' + row[1], [
+                        ['用户ID', row[0]], ['昵称', row[1]], ['等级', row[2]],
+                        ['境界', row[3]], ['香火钱', row[4]], ['元宝', row[5]],
+                        ['状态', row[6]], ['注册时间', '2026-01-15 08:30:00'],
+                        ['最后登录', '2026-03-28 19:28:01'], ['累计在线', '320小时'],
+                        ['累计充值', '¥1,280'], ['所属门派', '天机阁']
+                    ]);
+                    return;
+                }
+                if (text === '封禁' && row.length >= 2) {
+                    showConfirm('⚠️ 封禁用户', '确定要封禁用户 <strong>' + row[1] + '</strong>（ID:' + row[0] + '）吗？<br><br><span style="color:#e74c3c">封禁后该用户将无法登录游戏</span>', function(){
+                        showToast('🚫 已封禁用户: ' + row[1], 'error');
+                    });
+                    return;
+                }
+            }
+
+            // ===== Sects页面 =====
+            if (page === 'sects') {
+                if (text === '管理' && row.length >= 7) {
+                    showDetailModal('🏛️ 门派详情 - ' + row[1], [
+                        ['门派ID', row[0]], ['门派名', row[1]], ['掌门', row[2]],
+                        ['成员数', row[3]], ['门派等级', row[4]], ['资金', row[5]],
+                        ['状态', row[6]], ['创建时间', '2026-01-01'],
+                        ['本周活跃度', '85%'], ['门派技能', '聚财术Lv.5 / 金光阵Lv.3'],
+                        ['门派仓库', '装备32件 / 材料156个'], ['本月门派战', '胜3 / 负1']
+                    ]);
+                    return;
+                }
+                if (text === '解散' && row.length >= 2) {
+                    showConfirm('⚠️ 解散门派', '确定要解散 <strong>' + row[1] + '</strong> 吗？<br><br><span style="color:#e74c3c">此操作不可逆，所有成员将被踢出</span>', function(){
+                        showToast('💥 已解散门派: ' + row[1], 'error');
+                    });
+                    return;
+                }
+            }
+
+            // ===== Mentors页面 =====
+            if (page === 'mentors') {
+                if (text === '搜索') {
+                    var input = btn.closest('.search-box').querySelector('input');
+                    showToast('🔍 搜索: ' + (input.value || '全部师徒'), 'success');
+                    return;
+                }
+                if (text === '详情' && row.length >= 7) {
+                    showDetailModal('👨‍🏫 师徒详情', [
+                        ['师傅', row[0] + ' (Lv.' + row[1] + ')'],
+                        ['徒弟', row[2] + ' (Lv.' + row[3] + ')'],
+                        ['持续天数', row[4]], ['传功次数', row[5]],
+                        ['状态', row[6]], ['拜师时间', '2026-02-26 10:00'],
+                        ['师傅奖励', '经验+15% / 贡献点×' + row[5]],
+                        ['徒弟收益', '经验+20% / 技能书×3'],
+                        ['互动评价', '⭐⭐⭐⭐⭐']
+                    ]);
+                    return;
+                }
+                if (text === '强制解除' && row.length >= 3) {
+                    showConfirm('⚠️ 强制解除师徒', '确定要强制解除 <strong>' + row[0] + '</strong> 和 <strong>' + row[2] + '</strong> 的师徒关系吗？', function(){
+                        showToast('💔 已解除师徒关系: ' + row[0] + ' ↔ ' + row[2], 'warn');
+                    });
+                    return;
+                }
+            }
+
+            // ===== Trades页面 =====
+            if (page === 'trades') {
+                if (text === '搜索') {
+                    var input = btn.closest('.search-box').querySelector('input');
+                    showToast('🔍 搜索: ' + (input.value || '全部交易'), 'success');
+                    return;
+                }
+                if (text === '详情' && row.length >= 9) {
+                    showDetailModal('💰 交易详情 - ' + row[0], [
+                        ['交易ID', row[0]], ['卖家', row[1]], ['买家', row[2] || '-'],
+                        ['物品', row[3]], ['数量', row[4]], ['单价', row[5] + ' 香火钱'],
+                        ['类型', row[6]], ['状态', row[7]], ['时间', row[8]],
+                        ['交易税', Math.floor(parseInt(row[5].replace(/,/g,''))*0.05) + ' 香火钱'],
+                        ['手续费', '卖家承担']
+                    ]);
+                    return;
+                }
+                if (text === '终止' && row.length >= 1) {
+                    showConfirm('⚠️ 终止交易', '确定要终止交易 <strong>' + row[0] + '</strong> 吗？<br>物品将退回卖家', function(){
+                        showToast('🛑 已终止交易: ' + row[0], 'warn');
+                    });
+                    return;
+                }
+                if (text === '仲裁' && row.length >= 1) {
+                    var body = '<div style="margin-bottom:15px"><p>交易 <strong>' + row[0] + '</strong> 存在争议</p></div>' +
+                        '<div style="margin-bottom:15px"><label style="display:block;color:#888;margin-bottom:5px">仲裁结果</label>' +
+                        '<select id="arbitrateResult" style="width:100%;padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px">' +
+                        '<option value="buyer">判买家胜（物品归买家，退卖家金币）</option>' +
+                        '<option value="seller">判卖家胜（物品退卖家，退买家金币）</option>' +
+                        '<option value="cancel">取消交易（双方退还）</option></select></div>' +
+                        '<div><label style="display:block;color:#888;margin-bottom:5px">仲裁说明</label>' +
+                        '<textarea id="arbitrateNote" rows="3" placeholder="请输入仲裁理由..." style="width:100%;padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px;resize:vertical"></textarea></div>';
+                    var footer = '<button class="btn" onclick="closeGlobalModal()" style="background:#34495e;margin-right:10px">取消</button>' +
+                        '<button class="btn btn-primary" onclick="closeGlobalModal();showToast('⚖️ 仲裁完成: ' + row[0] + '','success')">提交仲裁</button>';
+                    showGlobalModal('⚖️ 交易仲裁 - ' + row[0], body, footer);
+                    return;
+                }
+            }
+
+            // ===== PVP页面 =====
+            if (page === 'pvp') {
+                if (text === '搜索') {
+                    var input = btn.closest('.search-box').querySelector('input');
+                    showToast('🔍 搜索: ' + (input.value || '全部对战'), 'success');
+                    return;
+                }
+                if (text === '回放' && row.length >= 9) {
+                    showDetailModal('⚔️ 对战回放 - ' + row[0], [
+                        ['对战ID', row[0]], ['玩家1', row[1] + ' (Lv.' + row[2] + ')'],
+                        ['玩家2', row[3] + ' (Lv.' + row[4] + ')'], ['胜者', row[5]],
+                        ['类型', row[6]], ['时长', row[7]], ['时间', row[8]],
+                        ['回合数', '12回合'], ['关键一击', row[5].replace(/[^\u4e00-\u9fa5]/g,'') + ' 使用「天降横财」造成 15,280 伤害'],
+                        ['战斗评分', '⭐⭐⭐⭐']
+                    ]);
+                    return;
+                }
+                if (text === '处理举报' && row.length >= 1) {
+                    var body = '<div style="margin-bottom:15px"><p>对战 <strong>' + row[0] + '</strong> 被举报</p></div>' +
+                        '<div style="margin-bottom:15px"><label style="display:block;color:#888;margin-bottom:5px">处理方式</label>' +
+                        '<select style="width:100%;padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px">' +
+                        '<option>警告举报方（恶意举报）</option><option>判定作弊，封禁被举报方</option>' +
+                        '<option>比赛结果作废，重赛</option><option>驳回举报</option></select></div>';
+                    var footer = '<button class="btn" onclick="closeGlobalModal()" style="background:#34495e;margin-right:10px">取消</button>' +
+                        '<button class="btn btn-primary" onclick="closeGlobalModal();showToast('✅ 举报已处理: ' + row[0] + '','success')">提交</button>';
+                    showGlobalModal('🚨 处理举报 - ' + row[0], body, footer);
+                    return;
+                }
+                if (text === '观战' && row.length >= 1) {
+                    showGlobalModal('👁️ 实时观战 - ' + row[0],
+                        '<div style="text-align:center;padding:30px 0"><div style="font-size:48px;margin-bottom:15px">⚔️</div>' +
+                        '<p style="font-size:16px;margin-bottom:10px"><strong>' + (row[1]||'队伍A') + '</strong> VS <strong>' + (row[3]||'队伍B') + '</strong></p>' +
+                        '<p style="color:#4ade80;font-size:14px">🔴 LIVE 对战进行中...</p>' +
+                        '<div style="margin-top:20px;padding:15px;background:#1a1a2e;border-radius:8px;text-align:left;font-family:monospace;font-size:13px;line-height:1.8">' +
+                        '<div style="color:#4ade80">[回合 8] 天机阁·玄机子 使用「聚宝盆」恢复 5,000 HP</div>' +
+                        '<div style="color:#f87171">[回合 8] 万宝楼·金算盘 使用「金蝉脱壳」闪避成功</div>' +
+                        '<div style="color:#fbbf24">[回合 9] 天机阁·小明 使用「天降横财」暴击！12,500 伤害</div>' +
+                        '</div></div>');
+                    return;
+                }
+            }
+
+            // ===== Events页面 =====
+            if (page === 'events') {
+                if (text === '管理' && row.length >= 7) {
+                    showDetailModal('🎉 活动详情 - ' + row[1], [
+                        ['活动ID', row[0]], ['名称', row[1]], ['类型', row[2]],
+                        ['开始时间', row[3]], ['结束时间', row[4]], ['参与人次', row[5]],
+                        ['状态', row[6]], ['奖池总额', '¥50,000'],
+                        ['已发奖励', '¥32,000'], ['参与率', '68%'],
+                        ['每日新增参与', '约500人/天']
+                    ]);
+                    return;
+                }
+                if (text === '终止' && row.length >= 2) {
+                    showConfirm('⚠️ 终止活动', '确定要终止活动 <strong>' + row[1] + '</strong> 吗？<br><br><span style="color:#e74c3c">终止后所有未发放的奖励将取消</span>', function(){
+                        showToast('🛑 已终止活动: ' + row[1], 'error');
+                    });
+                    return;
+                }
+                if (text === '编辑' && row.length >= 2) {
+                    var body = '<div style="margin-bottom:15px"><label style="display:block;color:#888;margin-bottom:5px">活动名称</label>' +
+                        '<input type="text" value="' + row[1] + '" style="width:100%;padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"></div>' +
+                        '<div style="margin-bottom:15px"><label style="display:block;color:#888;margin-bottom:5px">开始时间</label>' +
+                        '<input type="date" value="2026-04-04" style="width:100%;padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"></div>' +
+                        '<div style="margin-bottom:15px"><label style="display:block;color:#888;margin-bottom:5px">结束时间</label>' +
+                        '<input type="date" value="2026-04-06" style="width:100%;padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"></div>' +
+                        '<div><label style="display:block;color:#888;margin-bottom:5px">活动描述</label>' +
+                        '<textarea rows="3" style="width:100%;padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px;resize:vertical">清明时节祭祖先，诚心祈福得大缘...</textarea></div>';
+                    var footer = '<button class="btn" onclick="closeGlobalModal()" style="background:#34495e;margin-right:10px">取消</button>' +
+                        '<button class="btn btn-primary" onclick="closeGlobalModal();showToast('✅ 活动已更新: ' + row[1] + '','success')">保存</button>';
+                    showGlobalModal('✏️ 编辑活动 - ' + row[1], body, footer);
+                    return;
+                }
+                if (text === '删除' && row.length >= 2) {
+                    showConfirm('⚠️ 删除活动', '确定要删除活动 <strong>' + row[1] + '</strong> 吗？', function(){
+                        showToast('🗑️ 已删除活动: ' + row[1], 'error');
+                    });
+                    return;
+                }
+                if (text === '数据' && row.length >= 2) {
+                    showDetailModal('📊 活动数据 - ' + row[1], [
+                        ['活动名称', row[1]], ['参与人次', row[5] || '12,500'],
+                        ['参与率', '72%'], ['日均参与', '1,785人'],
+                        ['奖励总额', '¥120,000'], ['人均花费', '¥9.6'],
+                        ['最高单笔', '¥2,000'], ['活跃峰值', '3,200人/小时'],
+                        ['新用户占比', '15%'], ['留存影响', '+8% 次日留存']
+                    ]);
+                    return;
+                }
+            }
+
+            // ===== Anticheat页面 =====
+            if (page === 'anticheat') {
+                if (text === '搜索') {
+                    var input = btn.closest('.search-box').querySelector('input');
+                    showToast('🔍 搜索: ' + (input.value || '全部记录'), 'success');
+                    return;
+                }
+                if (text === '审查' && row.length >= 8) {
+                    showDetailModal('🛡️ 异常审查 - ' + row[0], [
+                        ['检测ID', row[0]], ['用户', row[1] + ' (Lv.' + row[2] + ')'],
+                        ['异常类型', row[3]], ['严重度', row[4]], ['详情', row[5]],
+                        ['检测时间', row[6]], ['状态', row[7]],
+                        ['历史记录', '本月第2次被检测'], ['IP地址', '192.168.1.' + Math.floor(Math.random()*255)],
+                        ['设备信息', 'iPhone 15 Pro / iOS 19.2'],
+                        ['关联账号', '无可疑关联']
+                    ]);
+                    return;
+                }
+                if (text === '封禁' && row.length >= 2) {
+                    showConfirm('⚠️ 封禁作弊用户', '确定要封禁 <strong>' + row[1] + '</strong> 吗？<br><br><span style="color:#e74c3c">封禁后该账号所有数据将被冻结</span>', function(){
+                        showToast('🚫 已封禁: ' + row[1], 'error');
+                    });
+                    return;
+                }
+                if (text === '放行' && row.length >= 2) {
+                    showConfirm('✅ 确认放行', '确认 <strong>' + row[1] + '</strong> 的行为属于正常操作？<br>放行后将标记为误报', function(){
+                        showToast('✅ 已放行: ' + row[1], 'success');
+                    });
+                    return;
+                }
+                if (text === '详情' && row.length >= 7) {
+                    showDetailModal('🛡️ 检测详情 - ' + row[0], [
+                        ['检测ID', row[0]], ['用户', row[1]], ['等级', row[2]],
+                        ['异常类型', row[3]], ['严重度', row[4]], ['详情', row[5]],
+                        ['时间', row[6]], ['状态', row[7] || '已处理'],
+                        ['处理人', 'admin'], ['处理时间', '2026-03-28 13:00']
+                    ]);
+                    return;
+                }
+                if (text === '解封' && row.length >= 2) {
+                    showConfirm('🔓 解封用户', '确定要解封 <strong>' + row[1] + '</strong> 吗？', function(){
+                        showToast('🔓 已解封: ' + row[1], 'success');
+                    });
+                    return;
+                }
+            }
+
+            // ===== Robots页面 =====
+            if (page === 'robots') {
+                if (text === '搜索') {
+                    var input = btn.closest('.search-box').querySelector('input');
+                    showToast('🔍 搜索: ' + (input.value || '全部机器人'), 'success');
+                    return;
+                }
+                if (text === '详情' && row.length >= 7) {
+                    showDetailModal('🤖 机器人详情 - ' + row[1], [
+                        ['ID', row[0]], ['名称', row[1]], ['等级', row[2]],
+                        ['行为模式', row[3]], ['状态', row[4]], ['在线', row[5]],
+                        ['今日行动', row[6]], ['创建时间', '2026-03-01'],
+                        ['累计在线', '520小时'], ['化缘次数', '3,200次'],
+                        ['持有香火钱', '125,000'], ['所属门派', '摸鱼派']
+                    ]);
+                    return;
+                }
+                if (text === '上线' && row.length >= 2) {
+                    showToast('🟢 ' + row[1] + ' 已上线', 'success');
+                    return;
+                }
+                if (text === '删除' && row.length >= 2) {
+                    showConfirm('⚠️ 删除机器人', '确定要删除 <strong>' + row[1] + '</strong> 吗？', function(){
+                        showToast('🗑️ 已删除: ' + row[1], 'error');
+                    });
+                    return;
+                }
+            }
+
+            // ===== Recharge页面 =====
+            if (page === 'recharge') {
+                if (text === '详情' && row.length >= 7) {
+                    showDetailModal('💎 订单详情 - ' + row[0], [
+                        ['订单号', row[0]], ['用户ID', row[1]], ['档位', row[2]],
+                        ['金额', row[3]], ['元宝', row[4]], ['状态', row[5]],
+                        ['时间', row[6]], ['支付渠道', '微信支付'],
+                        ['支付流水号', 'WX' + Date.now()], ['首充', '否'],
+                        ['VIP等级', 'VIP3 钻石'], ['累计充值', '¥3,280']
+                    ]);
+                    return;
+                }
+                if (text === '退款' && row.length >= 1) {
+                    showConfirm('⚠️ 退款确认', '确定要退款订单 <strong>' + row[0] + '</strong> 吗？<br>金额: ' + (row[3]||'') + '<br><br><span style="color:#e74c3c">退款后对应元宝将被扣除</span>', function(){
+                        showToast('💸 已退款: ' + row[0], 'warn');
+                    });
+                    return;
+                }
+                if (text === '导出') {
+                    showToast('📥 正在导出充值报表...', 'success');
+                    return;
+                }
+                if (text === '修改配置') {
+                    showGlobalModal('💎 VIP配置编辑',
+                        '<p style="color:#888;margin-bottom:15px">修改VIP等级配置后将立即生效</p>' +
+                        '<div style="margin-bottom:12px"><label style="color:#888">VIP1 累计充值门槛</label><input type="number" value="6" style="width:100%;padding:8px;margin-top:4px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"> 元</div>' +
+                        '<div style="margin-bottom:12px"><label style="color:#888">VIP5 累计充值门槛</label><input type="number" value="1000" style="width:100%;padding:8px;margin-top:4px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"> 元</div>' +
+                        '<div style="margin-bottom:12px"><label style="color:#888">VIP10 累计充值门槛</label><input type="number" value="50000" style="width:100%;padding:8px;margin-top:4px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"> 元</div>',
+                        '<button class="btn" onclick="closeGlobalModal()" style="background:#34495e;margin-right:10px">取消</button>' +
+                        '<button class="btn btn-primary" onclick="closeGlobalModal();showToast('✅ VIP配置已更新','success')">保存</button>');
+                    return;
+                }
+            }
+
+            // ===== Orders页面 =====
+            if (page === 'orders') {
+                if (text === '搜索') {
+                    var input = btn.closest('.search-box').querySelector('input');
+                    showToast('🔍 搜索: ' + (input.value || '全部订单'), 'success');
+                    return;
+                }
+                if (text === '详情' && row.length >= 8) {
+                    showDetailModal('📦 订单详情 - ' + row[0], [
+                        ['订单号', row[0]], ['用户ID', row[1]], ['用户昵称', row[2]],
+                        ['商品', row[3]], ['金额', row[4]], ['支付渠道', row[5]],
+                        ['状态', row[6]], ['创建时间', row[7]],
+                        ['支付时间', row[7]], ['到账时间', '即时到账'],
+                        ['IP地址', '113.87.x.x'], ['设备', 'iPhone 15']
+                    ]);
+                    return;
+                }
+                if (text === '取消' && row.length >= 1) {
+                    showConfirm('⚠️ 取消订单', '确定要取消订单 <strong>' + row[0] + '</strong> 吗？', function(){
+                        showToast('❌ 已取消订单: ' + row[0], 'warn');
+                    });
+                    return;
+                }
+            }
+
+            // ===== Announcements页面 =====
+            if (page === 'announcements') {
+                if (text === '编辑' && row.length >= 6) {
+                    var body = '<div style="margin-bottom:15px"><label style="display:block;color:#888;margin-bottom:5px">公告标题</label>' +
+                        '<input type="text" value="' + row[1] + '" style="width:100%;padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px"></div>' +
+                        '<div style="margin-bottom:15px"><label style="display:block;color:#888;margin-bottom:5px">公告类型</label>' +
+                        '<select style="width:100%;padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px">' +
+                        '<option>维护公告</option><option>活动公告</option><option>更新公告</option><option>紧急通知</option></select></div>' +
+                        '<div><label style="display:block;color:#888;margin-bottom:5px">公告内容</label>' +
+                        '<textarea rows="5" style="width:100%;padding:8px;background:#1a1a2e;color:#eee;border:1px solid #0f3460;border-radius:4px;resize:vertical">公告内容加载中...</textarea></div>';
+                    var footer = '<button class="btn" onclick="closeGlobalModal()" style="background:#34495e;margin-right:10px">取消</button>' +
+                        '<button class="btn btn-primary" onclick="closeGlobalModal();showToast('✅ 公告已更新','success')">保存</button>';
+                    showGlobalModal('✏️ 编辑公告 - ' + row[0], body, footer);
+                    return;
+                }
+                if (text === '下架' && row.length >= 2) {
+                    showConfirm('⚠️ 下架公告', '确定要下架 <strong>' + row[1] + '</strong> 吗？', function(){
+                        showToast('📤 已下架: ' + row[1], 'warn');
+                    });
+                    return;
+                }
+            }
+
+            // ===== Logs页面 =====
+            if (page === 'logs') {
+                if (text === '搜索') {
+                    var input = btn.closest('.search-box').querySelector('input');
+                    showToast('🔍 筛选日志: ' + (input.value || '全部'), 'success');
+                    return;
+                }
+            }
+
+            // ===== Settings页面 =====
+            if (page === 'settings') {
+                if (text === '修改' && row.length >= 3) {
+                    showConfirm('⚙️ 修改参数', '确定要修改 <strong>' + row[0] + '</strong> 吗？<br>修改后将立即生效', function(){
+                        showToast('✅ 已修改: ' + row[0], 'success');
+                    });
+                    return;
+                }
+                if (text === '重启' && row.length >= 1) {
+                    showConfirm('⚠️ 重启服务器', '确定要重启 <strong>' + row[0] + '</strong> 吗？<br><br><span style="color:#e74c3c">重启期间该服务将暂时不可用</span>', function(){
+                        showToast('🔄 正在重启: ' + row[0] + '...', 'warn');
+                    });
+                    return;
+                }
+            }
+
+            // ===== 分页按钮 =====
+            if (btn.closest('.pagination')) {
+                if (text === '上一页' || text === '下一页') {
+                    showToast('📄 ' + text, 'success');
+                } else {
+                    // 数字按钮
+                    btn.closest('.pagination').querySelectorAll('button').forEach(function(b){ b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    showToast('📄 第 ' + text + ' 页', 'success');
+                }
+                return;
+            }
+        });
+    </script>
 </body>
 </html>
