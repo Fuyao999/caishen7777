@@ -54,7 +54,7 @@
         .bagua-name { font-size: 13px; font-weight: bold; color: #FFD700; }
         .bagua-threshold { font-size: 10px; color: #aaa; margin-top: 2px; }
         .bagua-tag { font-size: 9px; background: rgba(255,0,0,0.4); padding: 1px 5px; border-radius: 4px; position: absolute; top: 3px; right: 3px; }
-        .v19-desc { font-size: 14px; line-height: 1.8; margin: 15px 0; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; text-align: left; }
+        .v19-desc { font-size: 14px; line-height: 1.8; margin: 15px 0; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; text-align: left; white-space: pre-wrap; }
         .v19-choices { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
         .v19-ch { flex: 1; padding: 12px 8px; border-radius: 10px; cursor: pointer; border: 2px solid transparent; text-align: center; transition: all 0.3s; color: white; }
         .v19-ch:hover { transform: translateY(-2px); border-color: #fff; }
@@ -408,7 +408,7 @@
         <div class="modal-content" style="max-width:380px;">
             <div style="font-size:50px;text-align:center;" id="v19-res-icon">🎉</div>
             <div style="font-size:22px;font-weight:bold;text-align:center;" id="v19-res-title">大吉大利</div>
-            <div id="v19-res-story" style="font-size:12px;line-height:1.6;margin:10px 0;padding:8px;background:rgba(0,0,0,0.2);border-radius:8px;text-align:left;"></div>
+            <div id="v19-res-story" style="font-size:12px;line-height:1.6;margin:10px 0;padding:8px;background:rgba(0,0,0,0.2);border-radius:8px;text-align:left;white-space:pre-wrap;"></div>
             <div style="font-size:18px;text-align:center;" id="v19-res-amount">+900</div>
             <div style="font-size:11px;color:#888;margin:5px 0;text-align:center;" id="v19-res-bal"></div>
             <div style="text-align:center;margin-top:10px;"><button class="btn btn-gold" onclick="v19Close()">确定</button></div>
@@ -915,7 +915,109 @@ function renderRegions() {
     target.innerHTML = h;
 }
 
-var _v19area = null, _v19char = '';
+var _v19area = null, _v19char = '', _v19scene = '', _v19sit = '';
+
+// 选择过渡描述（稳求/险求各8种随机）
+var V19_TRANS = {
+    safe: [
+        '你虔诚地双手合十，心中默念阿弥陀佛...',
+        '你缓缓跪下，恭恭敬敬地磕了三个头...',
+        '你闭上双眼，诚心祈祷，静候天意...',
+        '你点燃三炷香，虔诚地许下心愿...',
+        '你正了正衣冠，毕恭毕敬地行了一礼...',
+        '你深吸一口气，双手合十，心无杂念...',
+        '你轻声念了一段经文，等待命运的回响...',
+        '你谦卑地低下头，将一切交给上天安排...'
+    ],
+    risk: [
+        '你深吸一口气，心一横——豁出去了！',
+        '你一拍桌子，大喊：来吧！赌就赌！',
+        '你把心一横，双眼一闭——梭哈！',
+        '你咬紧牙关，把身家性命都压了上去！',
+        '你仰天长啸：天不绝我！冲了！',
+        '你撸起袖子，管他三七二十一！',
+        '你一脚踹开大门——老子今天就赌一把！',
+        '你眼神一亮，嘴角上扬——就是这个机会！'
+    ]
+};
+
+// 结果描述模板（每种10种随机）
+var V19_RES_TEXTS = {
+    JP: [
+        '天降祥瑞！金光大作，财源滚滚而来！',
+        '紫气东来！恭喜恭喜，大发特发！',
+        '龙凤呈祥！这一趟简直赚翻了！',
+        '天选之人就是你！财神爷亲自送钱！',
+        '满天金币从天而降，接都接不过来！',
+        '金龙环绕，福运冲天！今日大吉大利！',
+        '一道金光闪过，你的钱袋子鼓得要炸了！',
+        '太上老君也来道贺——你今天运气逆天了！',
+        '财神爷笑得合不拢嘴，疯狂往你兜里塞钱！',
+        '锦鲤附体！什么叫欧皇，这就叫欧皇！'
+    ],
+    BW: [
+        '运气相当不错！满载而归！',
+        '这波血赚！回去可以加个鸡腿！',
+        '好运当头！荷包鼓鼓的感觉真好！',
+        '小有斩获！今天运势不错嘛！',
+        '嘿嘿，这趟来对了，赚了一笔！',
+        '财运亨通！口袋里叮叮当当响！',
+        '不错不错，比预想的好多了！',
+        '小赚一笔，心情美滋滋！'
+    ],
+    NM: [
+        '平平淡淡才是真，没赚没亏，心态稳住。',
+        '波澜不惊的一次，钱袋子纹丝不动。',
+        '不好不坏，就当散个步吧。',
+        '一切如常，平安就是福。',
+        '今天就这样吧，至少没亏。',
+        '打了个平手，留得青山在。',
+        '不温不火，下次再接再厉。',
+        '稳如老狗，不赚不赔。'
+    ],
+    SW: [
+        '小有损失，但还能承受，别灰心。',
+        '破财消灾，就当买个教训吧...',
+        '哎，亏了一点点，不过问题不大。',
+        '钱包瘦了一圈，心疼但还行。',
+        '小亏一笔，权当交学费了。',
+        '唉，手气不太好，下次会更好的。',
+        '破了点小财，没关系，还有机会。',
+        '虽然亏了，但至少人还在！'
+    ],
+    MS: [
+        '大难临头！钱袋子被掏了个精光！',
+        '血亏！今天出门忘看黄历了吧！',
+        '惨不忍睹...钱包在哭泣...',
+        '完了完了，这下亏大了！',
+        '非酋本酋！运气差到离谱！',
+        '天塌了！这一波直接回到解放前！',
+        '欲哭无泪...早知道就不来了...',
+        '被坑惨了！钱像流水一样哗哗往外淌！',
+        '血本无归！今天的黄历写着：诸事不宜！',
+        '惨遭毒手！钱袋子被洗劫一空！'
+    ],
+    W2: [
+        '吉！天降鸿运，大赚一笔！',
+        '吉星高照！这一把稳了！',
+        '红运当头！恭喜发财！',
+        '大吉！命运女神站在你这边！',
+        '吉！今天是你的幸运日！',
+        '红！红得发紫！赚麻了！',
+        '吉兆显现！财运滚滚来！',
+        '天佑善人！大吉大利！'
+    ],
+    L2: [
+        '凶...黑云压顶，损失惨重...',
+        '凶兆降临！钱财散尽...',
+        '大凶！命运跟你开了个玩笑...',
+        '黑！一黑到底！血亏！',
+        '凶星当道...今天不宜出门...',
+        '凶！这一把输得裤衩都没了...',
+        '天降横祸！钱袋子被黑洞吞了...',
+        '大凶...早知道就选另一个了...'
+    ]
+};
 
 function v19GenEvent(areaId) {
     var lib = V19_LIB[areaId];
@@ -923,11 +1025,10 @@ function v19GenEvent(areaId) {
     var sn = V19_STYLES[Math.floor(Math.random() * V19_STYLES.length)];
     var st = lib[sn];
     if (!st) return '你来到了一个神秘的地方...';
-    var scene = st.s[Math.floor(Math.random() * st.s.length)];
-    var ch = st.c[Math.floor(Math.random() * st.c.length)];
-    var sit = st.t[Math.floor(Math.random() * st.t.length)];
-    _v19char = ch;
-    return '你在' + scene + '，遇到' + ch + '，' + sit + '...';
+    _v19scene = st.s[Math.floor(Math.random() * st.s.length)];
+    _v19char = st.c[Math.floor(Math.random() * st.c.length)];
+    _v19sit = st.t[Math.floor(Math.random() * st.t.length)];
+    return '你来到了「' + _v19scene + '」。\n\n只见「' + _v19char + '」就在眼前，' + _v19sit + '...\n\n你该如何抉择？';
 }
 
 function v19AdjProbs(areaId, choice) {
@@ -994,8 +1095,12 @@ function v19Choose(choice) {
     document.getElementById('v19-res-icon').textContent = d.icon;
     var te = document.getElementById('v19-res-title');
     te.textContent = d.title; te.style.color = d.color;
-    var storyTxt = (outcome==='JP'||outcome==='W2') ? '大喜过望，赏赐丰厚！' : (outcome==='MS'||outcome==='L2') ? '摇了摇头，你损失了一些钱财...' : (outcome==='BW') ? '喜笑颜开，财运亨通！' : '点了点头，一切如常。';
-    document.getElementById('v19-res-story').textContent = _v19char + storyTxt;
+    // 三段式叙事：选择过渡 + 结果描述
+    var trans = V19_TRANS[choice] || V19_TRANS.safe;
+    var transText = trans[Math.floor(Math.random() * trans.length)];
+    var resTexts = V19_RES_TEXTS[outcome] || ['命运已定。'];
+    var resText = resTexts[Math.floor(Math.random() * resTexts.length)];
+    document.getElementById('v19-res-story').textContent = transText + '\n\n' + resText;
     var ae = document.getElementById('v19-res-amount');
     ae.textContent = (profit >= 0 ? '+' : '') + profit.toLocaleString() + ' 香火钱';
     ae.style.color = profit >= 0 ? '#2ecc71' : '#e74c3c';
