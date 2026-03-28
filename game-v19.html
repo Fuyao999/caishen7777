@@ -60,6 +60,16 @@
         .v19-ch:hover { transform: translateY(-2px); border-color: #fff; }
         .v19-safe { background: linear-gradient(135deg, #27ae60, #2ecc71); }
         .v19-risk { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+    
+        /* 背包/厢房 */
+        .iv{background:rgba(0,0,0,.3);border:2px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;transition:.2s;position:relative;min-height:70px;}
+        .iv:hover{border-color:rgba(255,215,0,.5);transform:scale(1.05);}
+        .iv.sel{border-color:#FFD700;background:rgba(255,215,0,.15);box-shadow:0 0 10px rgba(255,215,0,.3);}
+        .iv .ii{font-size:22px;display:block;margin-bottom:2px;}
+        .iv .in{font-size:10px;color:#FFD700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+        .iv .iq{position:absolute;top:2px;right:4px;background:#e74c3c;color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;}
+        .iv.emp{border-style:dashed;opacity:.3;} .iv.emp .ii{font-size:14px;}
+
     </style>
 </head>
 <body>
@@ -101,6 +111,8 @@
             <button class="nav-btn active" title="庙宇管理" onclick="showTab('temple')">庙宇</button>
             <button class="nav-btn" title="外出化缘" onclick="showTab('alms')">化缘</button>
             <button class="nav-btn" title="购买道具" onclick="showTab('shop')">商城</button>
+            <button class="nav-btn" title="我的物品" onclick="showTab('inventory')">背包</button>
+            <button class="nav-btn" title="安全仓库" onclick="showTab('sideroom')">厢房</button>
             <button class="nav-btn" title="每日任务" onclick="showTab('task')">任务</button>
             <button class="nav-btn" title="称号系统" onclick="showTab('achievement')">成就</button>
             <button class="nav-btn" title="行善积德" onclick="showTab('bushu')">布施</button>
@@ -181,6 +193,39 @@
             <div class="log" id="alms-log"></div>
         </div>
         <div id="tab-shop" class="section hidden"><div class="section-title">🛒 商城</div><div id="shop-list"></div></div>
+        
+        <!-- 背包页面 -->
+        <div id="tab-inventory" class="section hidden">
+            <div class="section-title">🎒 我的背包 <span style="font-size:12px;color:#aaa;">(<span id="inv-count">0</span>/50)</span></div>
+            <div style="font-size:11px;color:#888;margin-bottom:8px;">
+                点击选中 → 使用/丢弃/移入厢房 | ⚠️ 死亡时背包物品可能掉落
+            </div>
+            <div id="inv-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;"></div>
+            <div style="text-align:center;margin:12px 0;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+                <button class="btn btn-gold" onclick="useInvItem()" style="font-size:12px;">✨ 使用</button>
+                <button class="btn btn-green" onclick="inv2side()" style="font-size:12px;">📦 移入厢房</button>
+                <button class="btn" onclick="dropInvItem()" style="font-size:12px;background:#c0392b;">🗑️ 丢弃</button>
+            </div>
+            <div class="log" id="inv-log"></div>
+        </div>
+
+        <!-- 厢房页面 -->
+        <div id="tab-sideroom" class="section hidden">
+            <div class="section-title">🏠 我的厢房 <span style="font-size:12px;color:#aaa;">(<span id="sr-count">0</span>/<span id="sr-cap">100</span>)</span></div>
+            <div style="font-size:11px;color:#888;margin-bottom:8px;">
+                安全存储，死亡不掉落 | 点击选中 → 移回背包
+            </div>
+            <div id="sr-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;"></div>
+            <div style="text-align:center;margin:12px 0;display:flex;gap:8px;justify-content:center;">
+                <button class="btn" onclick="side2inv()" style="font-size:12px;">📤 移回背包</button>
+                <button class="btn btn-gold" onclick="expandSR()" style="font-size:12px;">⬆️ 扩容(1000功德)</button>
+            </div>
+            <div style="background:rgba(255,215,0,0.1);padding:10px;border-radius:8px;margin-top:8px;font-size:11px;">
+                💡 初始100格 | 每次扩容+20格(1000功德) | 死亡保护 | 可存绑定道具
+            </div>
+            <div class="log" id="sr-log"></div>
+        </div>
+
         <div id="tab-task" class="section hidden"><div class="section-title">📜 任务</div><div id="task-list"></div></div>
         <div id="tab-achievement" class="section hidden">
             <div class="section-title">🏆 成就 | 称号: <span id="current-title">无</span></div>
@@ -2192,6 +2237,9 @@ function showTab(tab) {
     if (tab === 'rank') renderLeaderboard();
     // 切换到数据页面时刷新统计
     if (tab === 'data') renderStatistics();
+    // 背包 & 厢房
+    if (tab === 'inventory') { initInvSR(); renderInv(); }
+    if (tab === 'sideroom') { initInvSR(); renderSR(); }
 }
 
 function showModal(title, content) {
@@ -3428,6 +3476,263 @@ function showTutorial() {
 }
 
 init();
+
+
+// ======================== 背包 & 厢房系统 ========================
+var _invSel = -1, _srSel = -1;
+
+// ---- 道具定义库 ----
+var INV_ITEMS = {
+    // 恢复类
+    xiaohd:  {id:'xiaohd', name:'小还丹',  icon:'💊', type:'food', heal:20, desc:'恢复20点法力'},
+    dahd:    {id:'dahd',   name:'大还丹',  icon:'💎', type:'food', heal:50, desc:'恢复50点法力'},
+    lingjiu: {id:'lingjiu',name:'灵酒',    icon:'🍶', type:'food', heal:30, desc:'恢复30点法力'},
+    // 增益类
+    caiyunfu:{id:'caiyunfu',name:'财运符', icon:'🧧', type:'buff', buff:'luck', dur:3600, desc:'化缘吉概率+10%(1h)'},
+    fuyunfu: {id:'fuyunfu', name:'福运符', icon:'🏮', type:'buff', buff:'merit', dur:3600, desc:'功德获取+20%(1h)'},
+    hudufu:  {id:'hudufu',  name:'护渡符', icon:'🛡️', type:'buff', buff:'shield', dur:7200, desc:'免疫一次凶结局(2h)'},
+    // 材料类
+    lingshi: {id:'lingshi', name:'灵石碎片',icon:'🔮', type:'mat', desc:'升级/合成材料'},
+    tiancai: {id:'tiancai', name:'天材地宝',icon:'🌿', type:'mat', desc:'高级合成材料'},
+    suipian: {id:'suipian', name:'仙缘碎片',icon:'✨', type:'mat', desc:'集齐10个可兑换稀有道具'},
+    // 特殊类
+    chuansong:{id:'chuansong',name:'传送符',icon:'🌀', type:'special', desc:'立即刷新化缘次数+5'},
+    fuhuo:    {id:'fuhuo',   name:'复活令', icon:'♻️', type:'special', desc:'死亡时保留所有物品'},
+    baoxiang: {id:'baoxiang', name:'宝箱',  icon:'🎁', type:'special', desc:'随机获得1-3件道具'}
+};
+
+function initInvSR() {
+    if (!gameData.inv) { gameData.inv = []; for(var i=0;i<50;i++) gameData.inv.push(null); }
+    if (!gameData.sr)  { gameData.sr  = []; for(var i=0;i<100;i++) gameData.sr.push(null); }
+    if (!gameData.srCap) gameData.srCap = 100;
+}
+
+// ---- 渲染背包 ----
+function renderInv() {
+    var g = document.getElementById('inv-grid'); if(!g) return;
+    var h='', c=0;
+    for(var i=0;i<50;i++){
+        var it=gameData.inv[i], s=(i===_invSel)?' sel':'';
+        if(it){ c++;
+            h+='<div class="iv'+s+'" onclick="_invSel='+i+';_srSel=-1;renderInv();" title="'+
+                (it.desc||it.name)+'"><span class="ii">'+(it.icon||'📦')+'</span><span class="in">'+
+                it.name+'</span>'+(it.q>1?'<span class="iq">'+it.q+'</span>':'')+'</div>';
+        } else {
+            h+='<div class="iv emp"><span class="ii">·</span></div>';
+        }
+    }
+    g.innerHTML=h;
+    document.getElementById('inv-count').textContent=c;
+}
+
+// ---- 渲染厢房 ----
+function renderSR() {
+    var g = document.getElementById('sr-grid'); if(!g) return;
+    var h='', c=0, cap=gameData.srCap||100;
+    for(var i=0;i<cap;i++){
+        var it=gameData.sr[i], s=(i===_srSel)?' sel':'';
+        if(it){ c++;
+            h+='<div class="iv'+s+'" onclick="_srSel='+i+';_invSel=-1;renderSR();" title="'+
+                (it.desc||it.name)+'"><span class="ii">'+(it.icon||'📦')+'</span><span class="in">'+
+                it.name+'</span>'+(it.q>1?'<span class="iq">'+it.q+'</span>':'')+'</div>';
+        } else {
+            h+='<div class="iv emp"><span class="ii">·</span></div>';
+        }
+    }
+    g.innerHTML=h;
+    document.getElementById('sr-count').textContent=c;
+    document.getElementById('sr-cap').textContent=cap;
+}
+
+// ---- 添加物品到背包 ----
+function addInvItem(itemId, qty) {
+    initInvSR();
+    var def = INV_ITEMS[itemId]; if(!def) return false;
+    // 堆叠
+    for(var i=0;i<50;i++){
+        if(gameData.inv[i] && gameData.inv[i].id===itemId){
+            gameData.inv[i].q += qty; saveGame(); return true;
+        }
+    }
+    // 空位
+    for(var i=0;i<50;i++){
+        if(!gameData.inv[i]){
+            gameData.inv[i] = {id:def.id, name:def.name, icon:def.icon, type:def.type,
+                heal:def.heal, buff:def.buff, dur:def.dur, desc:def.desc, q:qty};
+            saveGame(); return true;
+        }
+    }
+    return false; // 满了
+}
+
+// ---- 使用物品 ----
+function useInvItem() {
+    if(_invSel<0||!gameData.inv[_invSel]){log('inv-log','请先选择物品');return;}
+    var it = gameData.inv[_invSel];
+    switch(it.type){
+        case 'food':
+            gameData.mana = Math.min(100, (gameData.mana||0) + (it.heal||20));
+            log('inv-log', '使用 '+it.name+'，法力+' + (it.heal||20));
+            break;
+        case 'buff':
+            if(!gameData.buffs) gameData.buffs = {};
+            gameData.buffs[it.buff] = Date.now() + (it.dur||3600)*1000;
+            log('inv-log', '使用 '+it.name+'，获得增益效果');
+            break;
+        case 'special':
+            if(it.id==='chuansong'){
+                gameData.almsCount = Math.max(0, (gameData.almsCount||0) - 5);
+                log('inv-log', '使用传送符，化缘次数+5');
+            } else if(it.id==='baoxiang'){
+                var pool = ['xiaohd','dahd','lingshi','suipian','caiyunfu'];
+                var n = 1 + Math.floor(Math.random()*3);
+                var got = [];
+                for(var k=0;k<n;k++){
+                    var rid = pool[Math.floor(Math.random()*pool.length)];
+                    addInvItem(rid, 1);
+                    got.push(INV_ITEMS[rid].name);
+                }
+                log('inv-log', '打开宝箱获得：' + got.join('、'));
+            } else if(it.id==='fuhuo'){
+                if(!gameData.buffs) gameData.buffs = {};
+                gameData.buffs.fuhuo = 1;
+                log('inv-log', '使用复活令，下次死亡保留物品');
+            } else {
+                log('inv-log', it.name + ' 暂无可用效果');
+                return;
+            }
+            break;
+        case 'mat':
+            log('inv-log', it.name + ' 是材料，无法直接使用');
+            return;
+        default:
+            log('inv-log', '使用了 '+it.name);
+    }
+    it.q--;
+    if(it.q<=0) gameData.inv[_invSel]=null;
+    _invSel=-1;
+    saveGame(); updateUI(); renderInv();
+}
+
+// ---- 丢弃物品 ----
+function dropInvItem() {
+    if(_invSel<0||!gameData.inv[_invSel]){log('inv-log','请先选择物品');return;}
+    var it = gameData.inv[_invSel];
+    if(!confirm('确定丢弃 '+it.name+' x'+it.q+' ？')) return;
+    gameData.inv[_invSel]=null; _invSel=-1;
+    saveGame(); renderInv();
+    log('inv-log', '已丢弃');
+}
+
+// ---- 背包→厢房 ----
+function inv2side() {
+    if(_invSel<0||!gameData.inv[_invSel]){log('inv-log','请先选择物品');return;}
+    var it = gameData.inv[_invSel], cap = gameData.srCap||100;
+    for(var i=0;i<cap;i++){
+        if(!gameData.sr[i]){
+            if(it.q>1){ it.q--; gameData.sr[i]={id:it.id,name:it.name,icon:it.icon,type:it.type,heal:it.heal,buff:it.buff,dur:it.dur,desc:it.desc,q:1}; }
+            else { gameData.sr[i]=it; gameData.inv[_invSel]=null; _invSel=-1; }
+            saveGame(); renderInv(); renderSR();
+            log('inv-log', it.name+' → 厢房');
+            return;
+        }
+    }
+    log('inv-log', '厢房已满！');
+}
+
+// ---- 厢房→背包 ----
+function side2inv() {
+    if(_srSel<0||!gameData.sr[_srSel]){log('sr-log','请先选择物品');return;}
+    var it = gameData.sr[_srSel];
+    // 堆叠
+    for(var i=0;i<50;i++){
+        if(gameData.inv[i]&&gameData.inv[i].id===it.id){
+            gameData.inv[i].q+=it.q; gameData.sr[_srSel]=null; _srSel=-1;
+            saveGame(); renderInv(); renderSR();
+            log('sr-log', it.name+' → 背包');
+            return;
+        }
+    }
+    // 空位
+    for(var i=0;i<50;i++){
+        if(!gameData.inv[i]){
+            gameData.inv[i]=it; gameData.sr[_srSel]=null; _srSel=-1;
+            saveGame(); renderInv(); renderSR();
+            log('sr-log', it.name+' → 背包');
+            return;
+        }
+    }
+    log('sr-log', '背包已满！');
+}
+
+// ---- 厢房扩容 ----
+function expandSR() {
+    if((gameData.merit||0)<1000){log('sr-log','功德不足(需1000)');return;}
+    gameData.merit -= 1000;
+    gameData.srCap = (gameData.srCap||100)+20;
+    for(var i=0;i<20;i++) gameData.sr.push(null);
+    saveGame(); updateUI(); renderSR();
+    log('sr-log', '扩容成功！容量→'+gameData.srCap);
+}
+
+// ---- 商城新增可购买道具 ----
+var invShopItems = [
+    {id:'xiaohd', price:200, cur:'money', label:'💊 小还丹 (200钱) 法力+20'},
+    {id:'dahd',   price:800, cur:'money', label:'💎 大还丹 (800钱) 法力+50'},
+    {id:'caiyunfu',price:500,cur:'money', label:'🧧 财运符 (500钱) 吉+10%/1h'},
+    {id:'hudufu', price:1000,cur:'money', label:'🛡️ 护渡符 (1000钱) 免疫凶/2h'},
+    {id:'chuansong',price:2000,cur:'money',label:'🌀 传送符 (2000钱) 化缘+5次'},
+    {id:'baoxiang',price:5000,cur:'money', label:'🎁 宝箱 (5000钱) 随机1-3道具'},
+    {id:'lingshi', price:100, cur:'merit', label:'🔮 灵石碎片 (100功德) 合成材料'},
+];
+
+// 给商城添加"道具"分区
+var _origRenderShop = null;
+function patchShop() {
+    var el = document.getElementById('shop-list');
+    if (!el) return;
+    // 先保存原商城内容
+    var origHTML = el.innerHTML;
+    // 追加道具分区
+    var extra = '<div style="margin-top:15px;"><div class="section-title" style="font-size:14px;">🎒 背包道具</div>';
+    invShopItems.forEach(function(si){
+        extra += '<div class="list-item" style="cursor:pointer;" onclick="buyInvShopItem(\''+si.id+'\','+si.price+',\''+si.cur+'\')">' +
+                 si.label + '<button class="btn btn-green" style="float:right;font-size:11px;padding:5px 10px;">买</button></div>';
+    });
+    extra += '</div>';
+    // 只追加一次
+    if (origHTML.indexOf('背包道具') === -1) {
+        el.innerHTML = origHTML + extra;
+    }
+}
+
+function buyInvShopItem(itemId, price, cur) {
+    if (cur==='money' && gameData.money < price) { showModal('钱不够', '需要'+price+'香火钱'); return; }
+    if (cur==='merit' && (gameData.merit||0) < price) { showModal('功德不足', '需要'+price+'功德'); return; }
+    if (cur==='money') gameData.money -= price;
+    if (cur==='merit') gameData.merit -= price;
+    if (addInvItem(itemId, 1)) {
+        showModal('购买成功', '获得 ' + INV_ITEMS[itemId].name + '，已放入背包 🎒');
+    } else {
+        // 退款
+        if(cur==='money') gameData.money += price;
+        if(cur==='merit') gameData.merit += price;
+        showModal('背包已满', '请先清理背包再购买');
+    }
+    saveGame(); updateUI();
+}
+
+// 在原showTab切商城时触发补丁
+var _origShowTab2 = showTab;
+showTab = function(tab) {
+    _origShowTab2.call(this, tab);
+    if (tab === 'shop') setTimeout(patchShop, 50);
+};
+
+// 初始化
+initInvSR();
+
+
 </script>
 </body>
 </html>
