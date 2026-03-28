@@ -1019,6 +1019,91 @@ var V19_RES_TEXTS = {
     ]
 };
 
+// NPC反应模板（根据结果好坏，{name}会替换为角色简称）
+var V19_NPC = {
+    JP: [
+        '{name}眼前一亮，哈哈大笑，从怀里掏出一个沉甸甸的大红包！',
+        '{name}激动得手舞足蹈，连声说"贵人！贵人啊！"',
+        '{name}双眼放光，一把拉住你的手说："你就是天选之人！"',
+        '{name}瞠目结舌，半天才回过神来，连忙把宝贝双手奉上！',
+        '{name}仰天大笑三声，拍着你的肩膀说："跟你混了！"',
+        '{name}激动得老泪纵横，颤抖着递上所有的家当...',
+        '{name}倒吸一口凉气，喊道："我活了这么多年头一回见！"',
+        '{name}二话不说，跪地磕头，把压箱底的宝贝全掏了出来！'
+    ],
+    BW: [
+        '{name}满意地点了点头，笑着递过来一个红包。',
+        '{name}竖起大拇指说："不错不错，有缘人！"',
+        '{name}露出赞许的笑容，从口袋里掏出些好东西给你。',
+        '{name}拍了拍你的肩膀，爽快地给了一笔赏钱。',
+        '{name}微微一笑说："小意思，拿去花吧。"',
+        '{name}点了点头，从袖中取出一叠银票递给你。',
+        '{name}笑呵呵地说："你这小家伙，运气还不错嘛！"',
+        '{name}掂了掂手里的钱袋，大方地分了你一半。'
+    ],
+    NM: [
+        '{name}不置可否地看了你一眼，既没给也没收。',
+        '{name}淡淡地说了句："缘分到此为止。"',
+        '{name}耸了耸肩，转身继续做自己的事。',
+        '{name}若有所思地看了你半天，最后什么也没说。',
+        '{name}叹了口气说："也罢，不赚不赔，挺好。"',
+        '{name}面无表情地挥了挥手，意思是你可以走了。',
+        '{name}抬了抬眼皮说："嗯，凑合吧。"',
+        '{name}沉默片刻，递了杯茶说："喝完走吧。"'
+    ],
+    SW: [
+        '{name}皱了皱眉头，不太满意地摇了摇头。',
+        '{name}叹了口气说："差了一点点啊..."',
+        '{name}面露为难之色，伸手收走了一些钱。',
+        '{name}苦笑着说："不好意思，规矩就是规矩。"',
+        '{name}摊了摊手，一脸无奈地说："下次运气会好的。"',
+        '{name}有些尴尬地搓了搓手，小声说："交个朋友，少亏点..."',
+        '{name}拍了拍你的背说："别灰心，小场面。"',
+        '{name}递给你一块手帕说："擦擦汗，没事的。"'
+    ],
+    MS: [
+        '{name}阴沉着脸，一把夺走了你的钱袋子！',
+        '{name}冷冷一笑，转身消失在黑暗中...连同你的钱。',
+        '{name}翻了个白眼说："就这？"然后把你的钱全收走了。',
+        '{name}露出诡异的微笑，你低头一看——钱袋子空了！',
+        '{name}猛地变了脸色，一脚把你踹了出去！',
+        '{name}哈哈大笑说："谢谢光临！"然后把门关上了...',
+        '{name}无情地摇了摇头，指着门说："请回吧。"',
+        '{name}嘿嘿一笑，你才发现自己被套路了...'
+    ],
+    W2: [
+        '{name}眼睛弯成月牙，笑着把赢来的钱推到你面前！',
+        '{name}一拍桌子大喊："红！你赢了！"',
+        '{name}佩服地看着你说："好胆识！钱是你的了！"',
+        '{name}竖起大拇指说："赌神转世啊你！"',
+        '{name}哈哈大笑，把筹码全推给了你！',
+        '{name}心服口服地掏出钱袋递过来。',
+        '{name}大手一挥说："痛快！这钱你拿着！"',
+        '{name}目瞪口呆地看着你，半天憋出一句："服了！"'
+    ],
+    L2: [
+        '{name}叹了口气，默默收走了桌上所有的筹码...',
+        '{name}面无表情地说了两个字："黑。你输了。"',
+        '{name}一脸同情地看着你说："赌这东西...唉。"',
+        '{name}冷冷地把你的赌注扫进口袋里。',
+        '{name}摊了摊手说："愿赌服输。"',
+        '{name}叹了口气说："下次...别来了。"',
+        '{name}没有说话，只是慢慢把你的钱收了起来。',
+        '{name}同情地看了你一眼，然后头也不回地走了...'
+    ]
+};
+
+// 角色简称提取（"正在喊321上链接的老财神" → "老财神"）
+function v19ShortName(fullName) {
+    if (!fullName) return '对方';
+    var idx = fullName.lastIndexOf('的');
+    if (idx >= 0 && idx < fullName.length - 1) {
+        return fullName.substring(idx + 1);
+    }
+    // 没有"的"，取最后3-4个字
+    return fullName.length > 4 ? fullName.substring(fullName.length - 4) : fullName;
+}
+
 function v19GenEvent(areaId) {
     var lib = V19_LIB[areaId];
     if (!lib) return '你来到了一个神秘的地方...';
@@ -1095,12 +1180,15 @@ function v19Choose(choice) {
     document.getElementById('v19-res-icon').textContent = d.icon;
     var te = document.getElementById('v19-res-title');
     te.textContent = d.title; te.style.color = d.color;
-    // 三段式叙事：选择过渡 + 结果描述
+    // 四段式叙事：选择过渡 + NPC反应 + 结果描述
     var trans = V19_TRANS[choice] || V19_TRANS.safe;
     var transText = trans[Math.floor(Math.random() * trans.length)];
+    var npcName = v19ShortName(_v19char);
+    var npcTexts = V19_NPC[outcome] || ['对方看了你一眼。'];
+    var npcText = npcTexts[Math.floor(Math.random() * npcTexts.length)].replace('{name}', npcName);
     var resTexts = V19_RES_TEXTS[outcome] || ['命运已定。'];
     var resText = resTexts[Math.floor(Math.random() * resTexts.length)];
-    document.getElementById('v19-res-story').textContent = transText + '\n\n' + resText;
+    document.getElementById('v19-res-story').textContent = transText + '\n\n' + npcText + '\n\n' + resText;
     var ae = document.getElementById('v19-res-amount');
     ae.textContent = (profit >= 0 ? '+' : '') + profit.toLocaleString() + ' 香火钱';
     ae.style.color = profit >= 0 ? '#2ecc71' : '#e74c3c';
