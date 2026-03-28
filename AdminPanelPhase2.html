@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>财神大陆 - 第二阶段管理后台</title>
+    <title>财神大陆 - 管理后台（完整版）</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -287,7 +287,7 @@
         <aside class="sidebar">
             <div class="logo">
                 <h1>财神大陆</h1>
-                <span>第二阶段管理后台</span>
+                <span>管理后台（完整版）</span>
             </div>
             <ul class="nav-menu">
                 <li class="active" onclick="showPage('dashboard')">
@@ -319,6 +319,12 @@
                 </li>
                 <li onclick="showPage('recharge')">
                     <i>💎</i><span>充值管理</span>
+                </li>
+                <li onclick="showPage('orders')">
+                    <i>📦</i><span>订单管理</span>
+                </li>
+                <li onclick="showPage('announcements')">
+                    <i>📢</i><span>公告管理</span>
                 </li>
                 <li onclick="showPage('logs')">
                     <i>📝</i><span>系统日志</span>
@@ -932,6 +938,82 @@
                 </div>
             </div>
 
+            <!-- 订单管理（第一阶段合并） -->
+            <div id="orders" class="page" style="display:none;">
+                <div class="header">
+                    <h2>📦 订单管理</h2>
+                    <div><button class="btn btn-primary" onclick="alert('导出订单')">导出订单</button></div>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="搜索订单号/用户ID">
+                    <select><option value="">全部状态</option><option>待支付</option><option>已支付</option><option>已退款</option><option>已取消</option></select>
+                    <input type="date" style="width:auto;padding:8px 12px;border:1px solid #0f3460;background:#1a1a2e;color:#eee;border-radius:4px">
+                    <button class="btn btn-primary">搜索</button>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><span class="panel-title">订单列表</span></div>
+                    <div class="panel-body">
+                        <table>
+                            <thead><tr><th>订单号</th><th>用户ID</th><th>用户昵称</th><th>商品</th><th>金额</th><th>支付渠道</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead>
+                            <tbody>
+                                <tr><td>ORD20260328001</td><td>1001</td><td>财神小玩家</td><td>648元礼包</td><td>¥648</td><td>支付宝</td><td><span class="badge badge-success">已支付</span></td><td>2026-03-28 10:00</td><td><button class="btn btn-sm btn-primary">详情</button></td></tr>
+                                <tr><td>ORD20260328002</td><td>1002</td><td>修仙大佬</td><td>月卡</td><td>¥30</td><td>微信</td><td><span class="badge badge-success">已支付</span></td><td>2026-03-28 10:30</td><td><button class="btn btn-sm btn-primary">详情</button></td></tr>
+                                <tr><td>ORD20260328003</td><td>1003</td><td>旺财</td><td>98元礼包</td><td>¥98</td><td>-</td><td><span class="badge badge-warning">待支付</span></td><td>2026-03-28 11:00</td><td><button class="btn btn-sm btn-primary">详情</button> <button class="btn btn-sm btn-danger">取消</button></td></tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination"><button>上一页</button><button class="active">1</button><button>2</button><button>3</button><button>下一页</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 公告管理（第一阶段合并） -->
+            <div id="announcements" class="page" style="display:none;">
+                <div class="header">
+                    <h2>📢 公告管理</h2>
+                    <div><button class="btn btn-primary" onclick="showAnnounceModal()">+ 发布公告</button></div>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><span class="panel-title">历史公告</span></div>
+                    <div class="panel-body">
+                        <table>
+                            <thead><tr><th>ID</th><th>标题</th><th>类型</th><th>发布人</th><th>发布时间</th><th>状态</th><th>操作</th></tr></thead>
+                            <tbody>
+                                <tr><td>ANN001</td><td>【维护】3月28日服务器维护公告</td><td><span class="badge badge-warning">维护</span></td><td>admin</td><td>2026-03-28 08:00</td><td><span class="badge badge-success">已发布</span></td><td><button class="btn btn-sm btn-primary">编辑</button> <button class="btn btn-sm btn-danger">下架</button></td></tr>
+                                <tr><td>ANN002</td><td>【活动】财神诞庆典活动开启！</td><td><span class="badge badge-info">活动</span></td><td>admin</td><td>2026-03-25 10:00</td><td><span class="badge badge-success">已发布</span></td><td><button class="btn btn-sm btn-primary">编辑</button> <button class="btn btn-sm btn-danger">下架</button></td></tr>
+                                <tr><td>ANN003</td><td>【更新】V19版本更新内容一览</td><td><span class="badge badge-success">更新</span></td><td>admin</td><td>2026-03-20 14:00</td><td><span class="badge badge-success">已发布</span></td><td><button class="btn btn-sm btn-primary">编辑</button> <button class="btn btn-sm btn-danger">下架</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- 发布公告弹窗 -->
+                <div id="announceModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;z-index:1000">
+                    <div style="background:#16213e;padding:30px;border-radius:8px;width:600px;max-height:80vh;overflow-y:auto;border:1px solid #0f3460">
+                        <h3 style="margin-bottom:20px">📢 发布公告</h3>
+                        <div style="margin-bottom:15px">
+                            <label style="display:block;margin-bottom:5px;color:#888">公告标题</label>
+                            <input type="text" id="announceTitle" placeholder="请输入公告标题" style="width:100%;padding:8px 12px;border:1px solid #0f3460;background:#1a1a2e;color:#eee;border-radius:4px">
+                        </div>
+                        <div style="margin-bottom:15px">
+                            <label style="display:block;margin-bottom:5px;color:#888">公告类型</label>
+                            <select id="announceType" style="width:100%;padding:8px 12px;border:1px solid #0f3460;background:#1a1a2e;color:#eee;border-radius:4px">
+                                <option value="maintenance">维护公告</option>
+                                <option value="activity">活动公告</option>
+                                <option value="update">更新公告</option>
+                                <option value="urgent">紧急通知</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom:15px">
+                            <label style="display:block;margin-bottom:5px;color:#888">公告内容</label>
+                            <textarea id="announceContent" rows="6" placeholder="请输入公告内容..." style="width:100%;padding:8px 12px;border:1px solid #0f3460;background:#1a1a2e;color:#eee;border-radius:4px;resize:vertical"></textarea>
+                        </div>
+                        <div style="text-align:right">
+                            <button class="btn" onclick="closeAnnounceModal()" style="background:#34495e;margin-right:10px">取消</button>
+                            <button class="btn btn-primary" onclick="publishAnnouncement()">发布</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="logs" class="page" style="display:none;">
                 <div class="header">
                     <h2>📝 系统日志</h2>
@@ -1019,19 +1101,31 @@
     <script>
         // 页面切换
         function showPage(pageName) {
-            // 隐藏所有页面
             document.querySelectorAll('.page').forEach(page => {
                 page.style.display = 'none';
             });
-            
-            // 显示选中页面
             document.getElementById(pageName).style.display = 'block';
-            
-            // 更新导航状态
             document.querySelectorAll('.nav-menu li').forEach(li => {
                 li.classList.remove('active');
             });
             event.target.closest('li').classList.add('active');
+        }
+
+        // 公告管理
+        function showAnnounceModal() {
+            document.getElementById('announceModal').style.display = 'flex';
+        }
+        function closeAnnounceModal() {
+            document.getElementById('announceModal').style.display = 'none';
+        }
+        function publishAnnouncement() {
+            var title = document.getElementById('announceTitle').value;
+            if (title) {
+                alert('公告已发布: ' + title);
+                closeAnnounceModal();
+            } else {
+                alert('请输入公告标题');
+            }
         }
     </</script>
 </body>
