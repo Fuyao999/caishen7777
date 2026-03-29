@@ -22,6 +22,7 @@ function authMiddleware(req, res, next) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
+    req.userId = decoded.userId;  // 兼容路由中直接用 req.userId
     next();
   } catch (err) {
     return res.status(401).json({ 
