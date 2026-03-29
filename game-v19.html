@@ -119,6 +119,7 @@
             <button class="nav-btn" title="云游大厅" onclick="showTab('roam')" style="background:rgba(100,200,255,0.15)">☁️云游</button>
             <button class="nav-btn" title="好友互动" onclick="showTab('friend')">好友</button>
             <button class="nav-btn" title="升级庙宇" onclick="showTab('upgrade')">升级</button>
+            <button class="nav-btn" title="庙宇装修" onclick="showTab('decor')" style="background:rgba(255,150,200,0.15)">🎨装修</button>
             <button class="nav-btn" title="功德排行" onclick="showTab('rank')">排行</button>
             <button class="nav-btn" title="数据统计" onclick="showTab('data')">数据</button>
             <button class="nav-btn" title="系统设置" onclick="showTab('settings')">设置</button>
@@ -288,6 +289,36 @@
         </div>
         
         <!-- 排行页面 -->
+        
+        <!-- ===== 庙宇装修页面 ===== -->
+        <div id="tab-decor" class="section hidden">
+            <h3 style="text-align:center;color:#ff96c8;margin-bottom:4px">🎨 庙宇装修</h3>
+            <p style="text-align:center;color:#aaa;font-size:12px;margin-bottom:12px">
+                装点您的庙宇，彰显财神风采 | 当前主题: <span id="decor-current" style="color:#FFD700">默认</span>
+            </p>
+            
+            <!-- 主题选择 -->
+            <div style="margin-bottom:16px">
+                <div style="font-size:13px;color:#ff96c8;font-weight:bold;margin-bottom:8px">🏮 庙宇主题</div>
+                <div id="decor-themes" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
+            </div>
+            
+            <!-- 装饰物品 -->
+            <div style="margin-bottom:16px">
+                <div style="font-size:13px;color:#ff96c8;font-weight:bold;margin-bottom:8px">✨ 装饰物品</div>
+                <div id="decor-items" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px"></div>
+            </div>
+            
+            <!-- 已装备的装饰 -->
+            <div style="padding:10px;background:rgba(255,150,200,0.08);border-radius:8px;border:1px solid rgba(255,150,200,0.2)">
+                <div style="font-size:12px;color:#ff96c8;font-weight:bold;margin-bottom:6px">🏠 当前装修</div>
+                <div id="decor-equipped" style="font-size:11px;color:#aaa">暂未装修</div>
+                <div style="margin-top:8px;font-size:11px;color:#888">
+                    装修加成: <span id="decor-bonus" style="color:#FFD700">无</span>
+                </div>
+            </div>
+        </div>
+
         <div id="tab-rank" class="section hidden">
             <div class="section-title">🏆 排行榜</div>
             <div id="leaderboard-container"></div>
@@ -3885,6 +3916,151 @@ initInvSR();
         if (typeof showTab === 'function') {
             const _old = showTab;
             showTab = function(tab) { _old(tab); if (tab === 'roam') refreshRoamList(); };
+        }
+
+        
+        // ===== 庙宇装修系统 =====
+        const DECOR_THEMES = [
+            {id:"default",name:"默认素雅",desc:"朴素的泥砖庙宇",price:0,bonus:{},colors:["#1a1a2e","#16213e"],owned:true},
+            {id:"golden",name:"金碧辉煌",desc:"黄金铺地，富贵逼人",price:5000,bonus:{gold_rate:10},colors:["#2a1a00","#4a3000"]},
+            {id:"jade",name:"翡翠仙境",desc:"碧玉为墙，仙气飘渺",price:8000,bonus:{luck:5},colors:["#0a2a1a","#1a4a2a"]},
+            {id:"crimson",name:"朱红祥云",desc:"红墙金瓦，喜庆吉祥",price:6000,bonus:{charm:8},colors:["#2a0a0a","#4a1a1a"]},
+            {id:"cloud",name:"云端仙府",desc:"白云为基，飘渺如仙",price:12000,bonus:{gold_rate:15,luck:3},colors:["#1a2a3a","#2a3a4a"]},
+            {id:"dragon",name:"龙宫宝殿",desc:"龙柱盘旋，帝王气象",price:20000,bonus:{atk:10,def:5,gold_rate:20},colors:["#1a0a2a","#2a1a3a"]},
+        ];
+
+        const DECOR_ITEMS = [
+            {id:"lantern_red",name:"红灯笼",emoji:"🏮",price:500,bonus:{charm:2},slot:"门前"},
+            {id:"lantern_gold",name:"金灯笼",emoji:"🌟",price:1500,bonus:{gold_rate:5},slot:"门前"},
+            {id:"incense_burner",name:"铜香炉",emoji:"🪔",price:800,bonus:{luck:2},slot:"正殿"},
+            {id:"gold_ingot",name:"金元宝堆",emoji:"💰",price:3000,bonus:{gold_rate:10},slot:"正殿"},
+            {id:"jade_ruyi",name:"玉如意",emoji:"🪬",price:2000,bonus:{luck:5},slot:"供桌"},
+            {id:"dragon_pillar",name:"盘龙柱",emoji:"🐉",price:5000,bonus:{atk:5,def:3},slot:"大门"},
+            {id:"fortune_cat",name:"招财猫",emoji:"🐱",price:1000,bonus:{gold_rate:3},slot:"柜台"},
+            {id:"bonsai",name:"迎客松",emoji:"🌲",price:1200,bonus:{charm:3},slot:"庭院"},
+            {id:"koi_pond",name:"锦鲤池",emoji:"🐟",price:4000,bonus:{luck:8},slot:"庭院"},
+            {id:"bell",name:"铜铃",emoji:"🔔",price:600,bonus:{charm:1},slot:"檐角"},
+            {id:"scroll",name:"财神卷轴",emoji:"📜",price:2500,bonus:{gold_rate:8},slot:"墙上"},
+            {id:"phoenix",name:"凤凰摆件",emoji:"🦅",price:8000,bonus:{atk:8,luck:5},slot:"正殿"},
+        ];
+
+        function getDecorData() {
+            let d = JSON.parse(localStorage.getItem('caishen_decor') || '{}');
+            if (!d.theme) d = {theme:"default",ownedThemes:["default"],ownedItems:[],equippedItems:[]};
+            return d;
+        }
+        function saveDecorData(d) { localStorage.setItem('caishen_decor', JSON.stringify(d)); }
+
+        function renderDecorPage() {
+            const dd = getDecorData();
+            const gd = JSON.parse(localStorage.getItem('caishen_v19') || '{}');
+            
+            // 当前主题
+            const curTheme = DECOR_THEMES.find(t => t.id === dd.theme) || DECOR_THEMES[0];
+            document.getElementById('decor-current').textContent = curTheme.name;
+            
+            // 主题列表
+            document.getElementById('decor-themes').innerHTML = DECOR_THEMES.map(t => {
+                const owned = dd.ownedThemes.includes(t.id);
+                const active = dd.theme === t.id;
+                const bonusText = Object.entries(t.bonus).map(([k,v]) => `${k}+${v}`).join(' ') || '无加成';
+                return `
+                <div style="background:linear-gradient(135deg,${t.colors[0]},${t.colors[1]});border-radius:10px;padding:10px;
+                     border:2px solid ${active ? '#FFD700' : 'rgba(255,255,255,0.1)'}">
+                    <div style="font-weight:bold;color:${active ? '#FFD700' : '#fff'};font-size:13px;margin-bottom:4px">${t.name}</div>
+                    <div style="font-size:11px;color:#aaa;margin-bottom:4px">${t.desc}</div>
+                    <div style="font-size:10px;color:#88ccff;margin-bottom:6px">加成: ${bonusText}</div>
+                    ${active ? '<div style="text-align:center;color:#FFD700;font-size:11px">✅ 使用中</div>' :
+                      owned ? `<button onclick="applyTheme('${t.id}')" style="width:100%;padding:4px;background:#333;color:#FFD700;border:1px solid #FFD700;border-radius:4px;cursor:pointer;font-size:11px">应用</button>` :
+                      `<button onclick="buyTheme('${t.id}',${t.price})" style="width:100%;padding:4px;background:linear-gradient(135deg,#FFD700,#FFA500);color:#000;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:bold">💰 ${t.price.toLocaleString()}</button>`}
+                </div>`;
+            }).join('');
+            
+            // 装饰物品列表
+            document.getElementById('decor-items').innerHTML = DECOR_ITEMS.map(item => {
+                const owned = dd.ownedItems.includes(item.id);
+                const equipped = dd.equippedItems.includes(item.id);
+                const bonusText = Object.entries(item.bonus).map(([k,v]) => `${k}+${v}`).join(' ');
+                return `
+                <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:8px;text-align:center;
+                     border:1px solid ${equipped ? '#FFD700' : 'rgba(255,255,255,0.1)'}">
+                    <div style="font-size:24px;margin-bottom:4px">${item.emoji}</div>
+                    <div style="font-size:11px;color:#fff;font-weight:bold">${item.name}</div>
+                    <div style="font-size:9px;color:#888;margin:2px 0">${item.slot} · ${bonusText}</div>
+                    ${equipped ? `<button onclick="unequipDecorItem('${item.id}')" style="width:100%;padding:3px;background:#333;color:#aaa;border:1px solid #555;border-radius:4px;cursor:pointer;font-size:10px">卸下</button>` :
+                      owned ? `<button onclick="equipDecorItem('${item.id}')" style="width:100%;padding:3px;background:#333;color:#FFD700;border:1px solid #FFD700;border-radius:4px;cursor:pointer;font-size:10px">装饰</button>` :
+                      `<button onclick="buyDecorItem('${item.id}',${item.price})" style="width:100%;padding:3px;background:linear-gradient(135deg,#FFD700,#FFA500);color:#000;border:none;border-radius:4px;cursor:pointer;font-size:10px;font-weight:bold">💰${item.price}</button>`}
+                </div>`;
+            }).join('');
+            
+            // 已装备
+            const equipped = dd.equippedItems.map(id => DECOR_ITEMS.find(i => i.id === id)).filter(Boolean);
+            document.getElementById('decor-equipped').innerHTML = equipped.length === 0 ? '暂未装修' :
+                equipped.map(i => `<span style="margin-right:6px">${i.emoji}${i.name}(${i.slot})</span>`).join('');
+            
+            // 总加成
+            let totalBonus = {...(curTheme.bonus || {})};
+            equipped.forEach(i => {
+                Object.entries(i.bonus).forEach(([k,v]) => { totalBonus[k] = (totalBonus[k]||0) + v; });
+            });
+            const bonusStr = Object.entries(totalBonus).map(([k,v]) => `${k}+${v}`).join(' ') || '无';
+            document.getElementById('decor-bonus').textContent = bonusStr;
+        }
+
+        function buyTheme(themeId, price) {
+            const gd = JSON.parse(localStorage.getItem('caishen_v19') || '{}');
+            if ((gd.gold || 0) < price) { alert('金币不足！'); return; }
+            if (!confirm(`购买主题需要 ${price.toLocaleString()} 金币，确定？`)) return;
+            gd.gold -= price;
+            localStorage.setItem('caishen_v19', JSON.stringify(gd));
+            const dd = getDecorData();
+            dd.ownedThemes.push(themeId);
+            dd.theme = themeId;
+            saveDecorData(dd);
+            alert('🎉 主题购买成功并已应用！');
+            renderDecorPage();
+            if (typeof updateDisplay === 'function') updateDisplay();
+        }
+
+        function applyTheme(themeId) {
+            const dd = getDecorData();
+            dd.theme = themeId;
+            saveDecorData(dd);
+            renderDecorPage();
+        }
+
+        function buyDecorItem(itemId, price) {
+            const gd = JSON.parse(localStorage.getItem('caishen_v19') || '{}');
+            if ((gd.gold || 0) < price) { alert('金币不足！'); return; }
+            gd.gold -= price;
+            localStorage.setItem('caishen_v19', JSON.stringify(gd));
+            const dd = getDecorData();
+            dd.ownedItems.push(itemId);
+            dd.equippedItems.push(itemId);
+            saveDecorData(dd);
+            alert('🎉 装饰购买成功并已装备！');
+            renderDecorPage();
+            if (typeof updateDisplay === 'function') updateDisplay();
+        }
+
+        function equipDecorItem(itemId) {
+            const dd = getDecorData();
+            if (!dd.equippedItems.includes(itemId)) dd.equippedItems.push(itemId);
+            saveDecorData(dd);
+            renderDecorPage();
+        }
+
+        function unequipDecorItem(itemId) {
+            const dd = getDecorData();
+            dd.equippedItems = dd.equippedItems.filter(id => id !== itemId);
+            saveDecorData(dd);
+            renderDecorPage();
+        }
+
+        // 进入装修页面时渲染
+        {
+            const _oldST2 = showTab;
+            showTab = function(tab) { _oldST2(tab); if (tab === 'decor') renderDecorPage(); };
         }
 
         </script>
