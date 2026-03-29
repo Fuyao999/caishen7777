@@ -74,7 +74,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🏮 财神大陆 <span id="player-name-display" style="color:#FFD700;font-size:16px;cursor:pointer" onclick="showNamingDialog(false)"></span></h1>
+        <h1>🏮 财神大陆 <span id="player-name-display" style="color:#FFD700;font-size:16px;cursor:pointer" onclick="showNamingDialog(false)"></span> <span id="player-id-display" style="color:#aaa;font-size:12px;cursor:pointer" title="点击复制ID" onclick="copyPlayerId()"></span></h1>
         
         <div class="resources">
             <div class="res-item"><span class="res-value" id="res-money">2400</span><span class="res-label">👛钱兜兜</span></div>
@@ -4070,6 +4070,41 @@ initInvSR();
         }
 
         
+        // ===== 玩家ID系统 =====
+function getPlayerId() {
+    var gd = JSON.parse(localStorage.getItem("caishen_v19") || "{}");
+    return gd.playerId || "";
+}
+function generatePlayerId() {
+    var gd = JSON.parse(localStorage.getItem("caishen_v19") || "{}");
+    if (!gd.playerId) {
+        // 生成7位数字ID (1000000-9999999)
+        gd.playerId = String(1000000 + Math.floor(Math.random() * 9000000));
+        localStorage.setItem("caishen_v19", JSON.stringify(gd));
+    }
+    return gd.playerId;
+}
+function updatePlayerIdDisplay() {
+    var el = document.getElementById("player-id-display");
+    var pid = getPlayerId();
+    if (el && pid) el.textContent = "ID:" + pid;
+}
+// 点击ID复制到剪贴板
+function copyPlayerId() {
+    var pid = getPlayerId();
+    if (pid && navigator.clipboard) {
+        navigator.clipboard.writeText(pid).then(function(){
+            var el = document.getElementById("player-id-display");
+            if (el) {
+                var old = el.textContent;
+                el.textContent = "\u2705 \u5df2\u590d\u5236";
+                el.style.color = "#2ecc71";
+                setTimeout(function(){ el.textContent = old; el.style.color = "#aaa"; }, 1200);
+            }
+        });
+    }
+}
+
         // ===== 玩家名称系统 =====
 function getPlayerName() {
     var gd = JSON.parse(localStorage.getItem("caishen_v19") || "{}");
@@ -4121,7 +4156,9 @@ function showNamingDialog(isFirst) {
 // 页面加载后检查是否需要取名
 window.addEventListener("DOMContentLoaded", function() {
     setTimeout(function() {
+        generatePlayerId();
         updatePlayerNameDisplay();
+        updatePlayerIdDisplay();
         if (!getPlayerName()) showNamingDialog(true);
     }, 500);
 });
