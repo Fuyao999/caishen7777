@@ -32,6 +32,14 @@ const pvpRoutes       = require('./routes/pvp');
 const rechargeRoutes  = require('./routes/recharge');
 const eventRoutes     = require('./routes/events');
 const adminRoutes     = require('./routes/admin');
+const announcementRoutes = require('./routes/announcements');
+const deityRoutes     = require('./routes/deities');
+const storyRoutes     = require('./routes/stories');
+const domainRoutes    = require('./routes/domains');
+const questRoutes     = require('./routes/quests');
+const decorationRoutes = require('./routes/decoration');
+const analyticsRoutes = require('./routes/analytics');
+const settingsRoutes  = require('./routes/settings');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -72,6 +80,14 @@ app.use('/api/pvp',       pvpRoutes);
 app.use('/api/recharge',  rechargeRoutes);
 app.use('/api/events',    eventRoutes);
 app.use('/api/admin',     adminRoutes);
+app.use('/api/announcements', announcementRoutes);
+app.use('/api/deities',   deityRoutes);
+app.use('/api/stories',   storyRoutes);
+app.use('/api/domains',   domainRoutes);
+app.use('/api/quests',    questRoutes);
+app.use('/api/decoration', decorationRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/settings',  settingsRoutes);
 
 // ==================== 健康检查 ====================
 app.get('/api/health', (req, res) => {

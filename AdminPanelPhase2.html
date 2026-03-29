@@ -2760,6 +2760,14 @@ async function loadAntiCheat(page = 1) {
                 case 'pvp': loadPvp(); break;
                 case 'events': loadEvents(); break;
                 case 'anticheat': loadAntiCheat(); break;
+                case 'announcements': loadAnnouncements(); break;
+                case 'deities': loadDeities(); break;
+                case 'stories': loadStories(); break;
+                case 'domains': loadDomains(); break;
+                case 'quests': loadQuests(); break;
+                case 'decoration': loadDecoration(); break;
+                case 'analytics': loadAnalytics(); break;
+                case 'settings': loadSettings(); break;
             }
         };
 
@@ -2767,6 +2775,222 @@ async function loadAntiCheat(page = 1) {
         // ===== 机器人随机名称生成器 =====
         const ROBOT_SURNAMES = ['赵','钱','孙','李','周','吴','郑','王','冯','陈','金','银','马','朱','林','黄','张','刘','杨','许','何','吕','施','曹','严','华','魏','陶','姜','戚','谢','邹','柏','苏','潘','葛','范','彭','鲁','韦','昌','苗','凤','花','方','俞','任','袁','柳','唐','薛','雷','贺','倪','汤','龙','龚','万','段','石'];
         const ROBOT_NAMES = ['聚财','鸿运','瑞光','如意','福来','财旺','宝山','吉祥','锦绣','元亨','金玉','祥云','通宝','万利','承恩','得道','清风','明月','紫霞','玄武','春生','秋实','天赐','地利','星辰','云鹤','松柏','竹梅','兰芝','玉堂','富贵','荣华','太平','安康','永昌','长青','百川','千帆','逸仙','凌云','飞鸿','腾达','进宝','招财','纳福','迎祥','开泰','亨通','利达','贞吉'];
+        // ===== 管理后台第二批API对接（8个页面） =====
+
+// --- 公告管理 ---
+async function loadAnnouncements() {
+    const data = await apiFetch('/api/announcements/');
+    const tbody = document.querySelector('#announcements table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u516c\u544a</td></tr>';
+        return;
+    }
+    const items = data.data.announcements || [];
+    if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u516c\u544a</td></tr>';
+        return;
+    }
+    tbody.innerHTML = items.map(a => '<tr>' +
+        '<td>' + a.id + '</td>' +
+        '<td>' + (a.title || '-') + '</td>' +
+        '<td><span class="badge badge-info">' + (a.type || 'system') + '</span></td>' +
+        '<td>' + (a.priority || 0) + '</td>' +
+        '<td><span class="badge ' + (a.is_active ? 'badge-success' : 'badge-secondary') + '">' + (a.is_active ? '\u542f\u7528' : '\u505c\u7528') + '</span></td>' +
+        '<td>' + (a.created_at ? new Date(a.created_at).toLocaleString() : '-') + '</td>' +
+        '</tr>').join('');
+}
+
+// --- 财神管理 ---
+async function loadDeities() {
+    const data = await apiFetch('/api/deities/');
+    const tbody = document.querySelector('#deities table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u8d22\u795e\u6570\u636e</td></tr>';
+        return;
+    }
+    const items = data.data.deities || [];
+    if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u8d22\u795e\u6570\u636e</td></tr>';
+        return;
+    }
+    var elemColors = {gold:'#FFD700',wood:'#2ecc71',water:'#3498db',fire:'#e74c3c',earth:'#f39c12'};
+    tbody.innerHTML = items.map(d => '<tr>' +
+        '<td>' + d.id + '</td>' +
+        '<td style="color:#FFD700;font-weight:bold">' + (d.name || '-') + '</td>' +
+        '<td>' + (d.title || '-') + '</td>' +
+        '<td><span style="color:' + (elemColors[d.element]||'#aaa') + '">' + (d.element || '-') + '</span></td>' +
+        '<td><span class="badge badge-warning">' + (d.rarity || 'normal') + '</span></td>' +
+        '<td>' + (d.skill_name || '-') + '</td>' +
+        '<td>Lv.' + (d.unlock_level || 1) + '+</td>' +
+        '</tr>').join('');
+}
+
+// --- 故事管理 ---
+async function loadStories() {
+    const data = await apiFetch('/api/stories/');
+    const tbody = document.querySelector('#stories table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u6545\u4e8b\u6570\u636e</td></tr>';
+        return;
+    }
+    const items = data.data.stories || [];
+    var countEl = document.querySelector('#stories .stat-card .value');
+    if (countEl) countEl.textContent = items.length;
+    if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u6545\u4e8b\u6570\u636e\uff08\u53ef\u901a\u8fc7\u6279\u91cf\u5bfc\u5165\u6dfb\u52a0\uff09</td></tr>';
+        return;
+    }
+    tbody.innerHTML = items.map(s => '<tr>' +
+        '<td>' + s.id + '</td>' +
+        '<td>' + (s.region_name || s.region || '-') + '</td>' +
+        '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (s.title || s.intro?.substring(0,30) || '-') + '</td>' +
+        '<td>' + (s.tags || '-') + '</td>' +
+        '<td><span class="badge ' + (s.is_active ? 'badge-success' : 'badge-secondary') + '">' + (s.is_active ? '\u542f\u7528' : '\u505c\u7528') + '</span></td>' +
+        '<td>' + (s.created_at ? new Date(s.created_at).toLocaleDateString() : '-') + '</td>' +
+        '</tr>').join('');
+}
+
+// --- 财域管理 ---
+async function loadDomains() {
+    const data = await apiFetch('/api/domains/');
+    const tbody = document.querySelector('#domains table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u8d22\u57df\u6570\u636e</td></tr>';
+        return;
+    }
+    const items = data.data.domains || [];
+    var elemIcons = {gold:'\u2728',wood:'\u{1F333}',water:'\u{1F4A7}',fire:'\u{1F525}',earth:'\u{1F30D}'};
+    var elemColors = {gold:'#FFD700',wood:'#2ecc71',water:'#3498db',fire:'#e74c3c',earth:'#f39c12'};
+    tbody.innerHTML = items.map(d => '<tr>' +
+        '<td>' + (d.domain_key || d.id) + '</td>' +
+        '<td style="color:#FFD700;font-weight:bold">' + (d.name || '-') + '</td>' +
+        '<td><span style="color:' + (elemColors[d.element]||'#aaa') + '">' + (elemIcons[d.element]||'') + ' ' + (d.element || '-') + '</span></td>' +
+        '<td>Lv.' + (d.min_level||1) + '-' + (d.max_level||99) + '</td>' +
+        '<td>' + (d.boss_name || '-') + ' (Lv.' + (d.boss_level||'?') + ')</td>' +
+        '<td><span class="badge ' + (d.is_open ? 'badge-success' : 'badge-danger') + '">' + (d.is_open ? '\u5f00\u653e' : '\u5173\u95ed') + '</span></td>' +
+        '<td style="max-width:150px;overflow:hidden;text-overflow:ellipsis">' + (d.description || '-') + '</td>' +
+        '</tr>').join('');
+}
+
+// --- 任务成就管理 ---
+async function loadQuests() {
+    const data = await apiFetch('/api/quests/');
+    const tbody = document.querySelector('#quests table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u4efb\u52a1\u6570\u636e</td></tr>';
+        return;
+    }
+    const items = data.data.quests || [];
+    if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u4efb\u52a1\u6570\u636e</td></tr>';
+        return;
+    }
+    var typeColors = {daily:'badge-info',weekly:'badge-primary',main:'badge-warning',side:'badge-success',achievement:'badge-danger'};
+    tbody.innerHTML = items.map(q => '<tr>' +
+        '<td>' + q.id + '</td>' +
+        '<td>' + (q.name || '-') + '</td>' +
+        '<td><span class="badge ' + (typeColors[q.type]||'badge-info') + '">' + (q.type || '-') + '</span></td>' +
+        '<td>' + (q.target_type || '-') + ' x' + (q.target_count || 1) + '</td>' +
+        '<td>' + (q.reward_gold||0) + '\u91d1 / ' + (q.reward_exp||0) + '\u7ecf\u9a8c</td>' +
+        '<td>Lv.' + (q.unlock_level || 1) + '+</td>' +
+        '<td><span class="badge badge-success">\u542f\u7528</span></td>' +
+        '</tr>').join('');
+}
+
+// --- 装修管理 ---
+async function loadDecoration() {
+    const data = await apiFetch('/api/decoration/');
+    const tbody = document.querySelector('#decoration table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u88c5\u4fee\u7269\u54c1</td></tr>';
+        return;
+    }
+    const items = data.data.decorations || [];
+    if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u88c5\u4fee\u7269\u54c1</td></tr>';
+        return;
+    }
+    tbody.innerHTML = items.map(d => '<tr>' +
+        '<td>' + d.id + '</td>' +
+        '<td>' + (d.name || '-') + '</td>' +
+        '<td>' + (d.category || '-') + '</td>' +
+        '<td><span class="badge badge-warning">' + (d.rarity || 'normal') + '</span></td>' +
+        '<td>' + (d.price_gold||0) + '\u91d1 / ' + (d.price_yuanbao||0) + '\u5143\u5b9d</td>' +
+        '<td>' + (d.bonus_type||'-') + ' +' + (d.bonus_value||0) + '</td>' +
+        '<td><span class="badge ' + (d.is_limited ? 'badge-danger' : 'badge-success') + '">' + (d.is_limited ? '\u9650\u5b9a' : '\u5e38\u89c4') + '</span></td>' +
+        '</tr>').join('');
+}
+
+// --- 埋点管理 ---
+async function loadAnalytics() {
+    const data = await apiFetch('/api/analytics/summary');
+    const tbody = document.querySelector('#analytics table tbody');
+    if (!tbody) return;
+    // 更新统计卡片
+    var cards = document.querySelectorAll('#analytics .stat-card .value');
+    if (data && data.code === 200 && data.data) {
+        if (cards.length >= 2) {
+            cards[0].textContent = (data.data.total || 0).toLocaleString();
+            cards[1].textContent = (data.data.today || 0).toLocaleString();
+        }
+        var events = data.data.events || [];
+        if (!events.length) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u57cb\u70b9\u6570\u636e</td></tr>';
+            return;
+        }
+        tbody.innerHTML = events.map(e => '<tr>' +
+            '<td>' + (e.event_name || '-') + '</td>' +
+            '<td>' + (e.event_category || '-') + '</td>' +
+            '<td>' + (e.count || 0) + '</td>' +
+            '<td>' + (e.last_time ? new Date(e.last_time).toLocaleString() : '-') + '</td>' +
+            '</tr>').join('');
+    } else {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u57cb\u70b9\u6570\u636e</td></tr>';
+    }
+}
+
+// --- 系统设置 ---
+async function loadSettings() {
+    const data = await apiFetch('/api/settings/');
+    const tbody = document.querySelector('#settings table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#888;padding:20px">\u65e0\u6cd5\u52a0\u8f7d\u8bbe\u7f6e</td></tr>';
+        return;
+    }
+    var settings = data.data.settings || [];
+    if (!settings.length) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u8bbe\u7f6e\u9879</td></tr>';
+        return;
+    }
+    tbody.innerHTML = settings.map(s => '<tr>' +
+        '<td style="color:#64c8ff">' + (s.setting_key || '-') + '</td>' +
+        '<td><input type="text" value="' + (s.setting_value || '') + '" data-key="' + s.setting_key + '" style="background:#1a1a2e;color:#eee;border:1px solid #333;padding:4px 8px;border-radius:4px;width:200px" onchange="updateSetting(this)"></td>' +
+        '<td>' + (s.setting_type || 'string') + '</td>' +
+        '<td style="color:#888">' + (s.description || '-') + '</td>' +
+        '</tr>').join('');
+}
+
+async function updateSetting(input) {
+    var key = input.getAttribute('data-key');
+    var val = input.value;
+    var data = await apiFetch('/api/settings/' + key, {
+        method: 'PUT',
+        body: JSON.stringify({ value: val })
+    });
+    if (data && data.code === 200) {
+        showToast('\u2705 ' + key + ' \u5df2\u66f4\u65b0', 'success');
+    } else {
+        showToast('\u274c \u66f4\u65b0\u5931\u8d25', 'error');
+    }
+}
+
         // ROBOT_MODES 和 badge 映射统一在下方 changeRobotMode 区域定义
 
         function randomRobotName() {
