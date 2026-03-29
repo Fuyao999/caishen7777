@@ -3570,8 +3570,26 @@ function showTutorial() {
     showStep();
 }
 
-// 启动：检查登录状态
+// 启动：检查API可达性+登录状态
 (async function() {
+    var apiReachable = false;
+    try {
+        var ctrl = new AbortController();
+        var tid = setTimeout(function(){ ctrl.abort(); }, 2000);
+        var r = await fetch(V19_API.base + '/api/health', { signal: ctrl.signal });
+        clearTimeout(tid);
+        var j = await r.json();
+        apiReachable = (j && j.code === 200);
+    } catch(e) { apiReachable = false; }
+
+    if (!apiReachable) {
+        hideGameLogin();
+        loadGame();
+        init();
+        console.log('API不可达，游客模式');
+        return;
+    }
+
     var tokenValid = await V19_API.checkToken();
     if (tokenValid) {
         // 已登录，隐藏登录界面，加载游戏
