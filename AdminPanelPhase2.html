@@ -2417,6 +2417,327 @@
             `).join('');
         }
 
+        // ===== 管理后台全页面API对接 =====
+// 有API的页面：真实数据加载
+// 无API的页面：保留前端mock
+
+// --- 充值管理 ---
+async function loadRecharge(page = 1) {
+    const data = await apiFetch('/api/recharge/orders?page=' + page + '&limit=20');
+    const tbody = document.querySelector('#recharge table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200 || !data.data) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u5145\u503c\u8bb0\u5f55</td></tr>';
+        return;
+    }
+    const orders = data.data.orders || data.data || [];
+    if (!orders.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u5145\u503c\u8bb0\u5f55</td></tr>';
+        return;
+    }
+    tbody.innerHTML = orders.map(o => '<tr>' +
+        '<td>' + (o.order_no || o.id) + '</td>' +
+        '<td>' + (o.user_id || '-') + '</td>' +
+        '<td>' + (o.package_name || o.amount + '\u5143') + '</td>' +
+        '<td>\u00a5' + (o.amount || 0) + '</td>' +
+        '<td>' + (o.yuanbao || 0) + '\u5143\u5b9d</td>' +
+        '<td><span class="badge ' + (o.status === 'paid' ? 'badge-success' : 'badge-warning') + '">' + (o.status === 'paid' ? '\u5df2\u652f\u4ed8' : '\u5f85\u652f\u4ed8') + '</span></td>' +
+        '<td>' + (o.created_at ? new Date(o.created_at).toLocaleString() : '-') + '</td>' +
+        '</tr>').join('');
+}
+
+// --- 订单管理 ---
+async function loadOrders(page = 1) {
+    // 订单和充值共用API
+    await loadRecharge(page);
+    // 把数据渲染到orders页面的表格
+    const srcTbody = document.querySelector('#recharge table tbody');
+    const dstTbody = document.querySelector('#orders table tbody');
+    if (srcTbody && dstTbody && dstTbody !== srcTbody) {
+        dstTbody.innerHTML = srcTbody.innerHTML;
+    }
+}
+
+// --- 交易管理 ---
+async function loadTrades(page = 1) {
+    const data = await apiFetch('/api/market/?page=' + page + '&limit=20');
+    const tbody = document.querySelector('#trades table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u4ea4\u6613\u6570\u636e</td></tr>';
+        return;
+    }
+    const items = data.data.stalls || data.data || [];
+    if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u4ea4\u6613\u6570\u636e</td></tr>';
+        return;
+    }
+    tbody.innerHTML = items.map(s => '<tr>' +
+        '<td>' + (s.id || '-') + '</td>' +
+        '<td>' + (s.seller_name || 'ID:' + s.user_id) + '</td>' +
+        '<td>' + (s.item_name || '-') + '</td>' +
+        '<td>' + (s.price || 0) + '</td>' +
+        '<td>' + (s.quantity || 1) + '</td>' +
+        '<td><span class="badge badge-success">\u5728\u552e</span></td>' +
+        '<td>' + (s.created_at ? new Date(s.created_at).toLocaleString() : '-') + '</td>' +
+        '</tr>').join('');
+}
+
+// --- 商品管理 ---
+async function loadProducts(page = 1) {
+    const data = await apiFetch('/api/shop/?page=' + page + '&limit=50');
+    const tbody = document.querySelector('#products table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u5546\u54c1\u6570\u636e</td></tr>';
+        return;
+    }
+    const items = data.data.items || data.data || [];
+    if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u5546\u54c1\u6570\u636e</td></tr>';
+        return;
+    }
+    tbody.innerHTML = items.map(i => '<tr>' +
+        '<td>' + (i.id || '-') + '</td>' +
+        '<td>' + (i.name || '-') + '</td>' +
+        '<td>' + (i.type || '-') + '</td>' +
+        '<td>' + (i.price || 0) + '</td>' +
+        '<td>' + (i.stock === -1 ? '\u65e0\u9650' : (i.stock || 0)) + '</td>' +
+        '<td><span class="badge badge-success">\u4e0a\u67b6</span></td>' +
+        '</tr>').join('');
+}
+
+// --- 道具管理 ---
+async function loadItems(page = 1) {
+    const data = await apiFetch('/api/admin/items?page=' + page + '&limit=50');
+    const tbody = document.querySelector('#items table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u9053\u5177\u6570\u636e</td></tr>';
+        return;
+    }
+    const items = data.data.items || data.data || [];
+    if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u9053\u5177\u6570\u636e</td></tr>';
+        return;
+    }
+    tbody.innerHTML = items.map(i => '<tr>' +
+        '<td>' + (i.id || '-') + '</td>' +
+        '<td>' + (i.name || '-') + '</td>' +
+        '<td>' + (i.type || i.category || '-') + '</td>' +
+        '<td>' + (i.rarity || '\u666e\u901a') + '</td>' +
+        '<td>' + (i.description || '-') + '</td>' +
+        '<td><button class="btn btn-sm btn-primary" onclick="viewItemDetail(' + i.id + ')">\u8be6\u60c5</button></td>' +
+        '</tr>').join('');
+}
+async function viewItemDetail(itemId) {
+    showToast('\ud83d\udce6 \u9053\u5177#' + itemId + ' \u8be6\u60c5\u529f\u80fd\u5f00\u53d1\u4e2d', 'info');
+}
+
+// --- 生灵管理 (灵兽+精怪) ---
+async function loadCreatures() {
+    const petsData = await apiFetch('/api/pets/');
+    const spiritsData = await apiFetch('/api/spirits/');
+    const tbody = document.querySelector('#creatures table tbody');
+    if (!tbody) return;
+
+    var rows = [];
+    if (petsData && petsData.code === 200 && petsData.data) {
+        var pets = petsData.data.pets || petsData.data || [];
+        pets.forEach(function(p) {
+            rows.push('<tr><td>' + (p.id || '-') + '</td><td>' + (p.name || '-') + '</td><td><span class="badge badge-info">\u7075\u517d</span></td><td>' + (p.rarity || '\u666e\u901a') + '</td><td>Lv.' + (p.level || 1) + '</td><td>' + (p.skill || '-') + '</td></tr>');
+        });
+    }
+    if (spiritsData && spiritsData.code === 200 && spiritsData.data) {
+        var spirits = spiritsData.data.spirits || spiritsData.data || [];
+        spirits.forEach(function(s) {
+            rows.push('<tr><td>' + (s.id || '-') + '</td><td>' + (s.name || '-') + '</td><td><span class="badge badge-warning">\u7cbe\u602a</span></td><td>' + (s.rarity || '\u666e\u901a') + '</td><td>Lv.' + (s.level || 1) + '</td><td>' + (s.skill || '-') + '</td></tr>');
+        });
+    }
+    if (rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u751f\u7075\u6570\u636e</td></tr>';
+    } else {
+        tbody.innerHTML = rows.join('');
+    }
+}
+
+// --- 技能管理 ---
+async function loadSkillMgr() {
+    const data = await apiFetch('/api/skills/');
+    const tbody = document.querySelector('#skillmgr table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u6280\u80fd\u6570\u636e</td></tr>';
+        return;
+    }
+    const skills = data.data.skills || data.data || [];
+    if (!skills.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u6280\u80fd\u6570\u636e</td></tr>';
+        return;
+    }
+    tbody.innerHTML = skills.map(s => '<tr>' +
+        '<td>' + (s.id || '-') + '</td>' +
+        '<td>' + (s.name || '-') + '</td>' +
+        '<td>' + (s.type || '-') + '</td>' +
+        '<td>' + (s.element || '-') + '</td>' +
+        '<td>' + (s.damage || s.effect || '-') + '</td>' +
+        '<td>Lv.' + (s.max_level || 10) + '</td>' +
+        '</tr>').join('');
+}
+
+// --- 装备管理 ---
+async function loadEquipMgr() {
+    const data = await apiFetch('/api/equipment/');
+    const tbody = document.querySelector('#equipmgr table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u88c5\u5907\u6570\u636e</td></tr>';
+        return;
+    }
+    const equips = data.data.equipment || data.data || [];
+    if (!equips.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u88c5\u5907\u6570\u636e</td></tr>';
+        return;
+    }
+    tbody.innerHTML = equips.map(e => '<tr>' +
+        '<td>' + (e.id || '-') + '</td>' +
+        '<td>' + (e.name || '-') + '</td>' +
+        '<td>' + (e.slot || e.type || '-') + '</td>' +
+        '<td><span class="badge badge-warning">' + (e.rarity || '\u666e\u901a') + '</span></td>' +
+        '<td>+' + (e.attack || 0) + ' ATK / +' + (e.defense || 0) + ' DEF</td>' +
+        '<td>Lv.' + (e.level || 0) + '/' + (e.enhance_level || 0) + '\u5f3a</td>' +
+        '</tr>').join('');
+}
+
+// --- 门派管理 ---
+async function loadSects() {
+    const data = await apiFetch('/api/sects/');
+    const tbody = document.querySelector('#sects table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u95e8\u6d3e\u6570\u636e</td></tr>';
+        return;
+    }
+    const sects = data.data.sects || data.data || [];
+    if (!sects.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u95e8\u6d3e\u6570\u636e</td></tr>';
+        return;
+    }
+    tbody.innerHTML = sects.map(s => '<tr>' +
+        '<td>' + (s.id || '-') + '</td>' +
+        '<td style="color:#FFD700;font-weight:bold">' + (s.name || '-') + '</td>' +
+        '<td>' + (s.leader_name || 'ID:' + (s.leader_id || '-')) + '</td>' +
+        '<td>' + (s.member_count || 0) + '/' + (s.max_members || 50) + '</td>' +
+        '<td>Lv.' + (s.level || 1) + '</td>' +
+        '<td>' + (s.funds || 0).toLocaleString() + '</td>' +
+        '</tr>').join('');
+}
+
+// --- 师徒管理 ---
+async function loadMentors() {
+    const data = await apiFetch('/api/mentor/');
+    const tbody = document.querySelector('#mentors table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u5e08\u5f92\u6570\u636e</td></tr>';
+        return;
+    }
+    const rels = data.data.relationships || data.data || [];
+    if (!rels.length) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u5e08\u5f92\u6570\u636e</td></tr>';
+        return;
+    }
+    tbody.innerHTML = rels.map(r => '<tr>' +
+        '<td>' + (r.id || '-') + '</td>' +
+        '<td style="color:#FFD700">' + (r.mentor_name || 'ID:' + r.mentor_id) + '</td>' +
+        '<td>' + (r.apprentice_name || 'ID:' + r.apprentice_id) + '</td>' +
+        '<td><span class="badge badge-success">' + (r.status || '\u8fdb\u884c\u4e2d') + '</span></td>' +
+        '<td>' + (r.created_at ? new Date(r.created_at).toLocaleString() : '-') + '</td>' +
+        '</tr>').join('');
+}
+
+// --- PVP管理 ---
+async function loadPvp() {
+    const data = await apiFetch('/api/pvp/rank?limit=50');
+    const tbody = document.querySelector('#pvp table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0PVP\u6570\u636e</td></tr>';
+        return;
+    }
+    const ranks = data.data.rankings || data.data || [];
+    if (!ranks.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0PVP\u6570\u636e</td></tr>';
+        return;
+    }
+    tbody.innerHTML = ranks.map((r, idx) => '<tr>' +
+        '<td style="color:#FFD700;font-weight:bold">' + (idx + 1) + '</td>' +
+        '<td>' + (r.username || r.player_name || 'ID:' + r.user_id) + '</td>' +
+        '<td>' + (r.rating || r.score || 0) + '</td>' +
+        '<td>' + (r.wins || 0) + '\u80dc/' + (r.losses || 0) + '\u8d1f</td>' +
+        '<td>' + (r.wins ? ((r.wins / (r.wins + (r.losses || 0)) * 100).toFixed(1)) : '0') + '%</td>' +
+        '<td><span class="badge badge-info">' + (r.rank_title || '\u65b0\u624b') + '</span></td>' +
+        '</tr>').join('');
+}
+
+// --- 活动管理 ---
+async function loadEvents() {
+    const data = await apiFetch('/api/events/');
+    const tbody = document.querySelector('#events table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u6d3b\u52a8\u6570\u636e</td></tr>';
+        return;
+    }
+    const events = data.data.events || data.data || [];
+    if (!events.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u6d3b\u52a8\u6570\u636e</td></tr>';
+        return;
+    }
+    tbody.innerHTML = events.map(e => {
+        var status = '\u672a\u5f00\u59cb';
+        var badge = 'badge-info';
+        var now = Date.now();
+        var start = e.start_time ? new Date(e.start_time).getTime() : 0;
+        var end = e.end_time ? new Date(e.end_time).getTime() : 0;
+        if (now >= start && now <= end) { status = '\u8fdb\u884c\u4e2d'; badge = 'badge-success'; }
+        else if (now > end) { status = '\u5df2\u7ed3\u675f'; badge = 'badge-secondary'; }
+        return '<tr>' +
+            '<td>' + (e.id || '-') + '</td>' +
+            '<td>' + (e.name || '-') + '</td>' +
+            '<td><span class="badge badge-warning">' + (e.type || '-') + '</span></td>' +
+            '<td>' + (e.start_time ? new Date(e.start_time).toLocaleDateString() : '-') + '</td>' +
+            '<td>' + (e.end_time ? new Date(e.end_time).toLocaleDateString() : '-') + '</td>' +
+            '<td>' + (e.participants || 0) + '</td>' +
+            '<td><span class="badge ' + badge + '">' + status + '</span></td>' +
+            '</tr>';
+    }).join('');
+}
+
+// --- 反作弊 ---
+async function loadAntiCheat(page = 1) {
+    const data = await apiFetch('/api/admin/cheats?page=' + page + '&limit=20');
+    const tbody = document.querySelector('#anticheat table tbody');
+    if (!tbody) return;
+    if (!data || data.code !== 200) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u4f5c\u5f0a\u8bb0\u5f55\uff08\u597d\u73b0\u8c61\uff01\uff09</td></tr>';
+        return;
+    }
+    const cheats = data.data.cheats || data.data || [];
+    if (!cheats.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px">\u6682\u65e0\u4f5c\u5f0a\u8bb0\u5f55\uff08\u597d\u73b0\u8c61\uff01\uff09</td></tr>';
+        return;
+    }
+    tbody.innerHTML = cheats.map(c => '<tr>' +
+        '<td>' + (c.id || '-') + '</td>' +
+        '<td>' + (c.username || 'ID:' + c.user_id) + '</td>' +
+        '<td>' + (c.type || '-') + '</td>' +
+        '<td>' + (c.details || '-') + '</td>' +
+        '<td><span class="badge ' + (c.resolved ? 'badge-success' : 'badge-danger') + '">' + (c.resolved ? '\u5df2\u5904\u7406' : '\u5f85\u5904\u7406') + '</span></td>' +
+        '<td>' + (c.created_at ? new Date(c.created_at).toLocaleString() : '-') + '</td>' +
+        '</tr>').join('');
+}
+
         // ===== 页面切换时自动加载数据 =====
         const _origShowPage = showPage;
         showPage = function(pageName) {
@@ -2426,7 +2747,19 @@
                 case 'dashboard': loadDashboard(); break;
                 case 'users': loadUsers(); break;
                 case 'logs': loadLogs(); break;
-                // 其他页面后续补充
+                case 'recharge': loadRecharge(); break;
+                case 'orders': loadOrders(); break;
+                case 'trades': loadTrades(); break;
+                case 'products': loadProducts(); break;
+                case 'items': loadItems(); break;
+                case 'creatures': loadCreatures(); break;
+                case 'skillmgr': loadSkillMgr(); break;
+                case 'equipmgr': loadEquipMgr(); break;
+                case 'sects': loadSects(); break;
+                case 'mentors': loadMentors(); break;
+                case 'pvp': loadPvp(); break;
+                case 'events': loadEvents(); break;
+                case 'anticheat': loadAntiCheat(); break;
             }
         };
 
