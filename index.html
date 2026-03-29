@@ -3789,26 +3789,26 @@ initInvSR();
 
         // ===== 云游大厅系统 =====
         const ROAM_NPCS = [
-            {name:"张三丰",level:45,temple:"仙庙",desc:"武当开山祖师的庙宇，香火鼎盛",gold:800,style:"道家清修"},
-            {name:"沈万三",level:60,temple:"天庙",desc:"江南首富的聚宝盆，金碧辉煌",gold:2000,style:"富丽堂皇"},
-            {name:"范蠡",level:55,temple:"圣庙",desc:"商圣范蠡的陶朱公庙，朴实大方",gold:1500,style:"古朴典雅"},
-            {name:"刘海蟾",level:30,temple:"灵庙",desc:"刘海戏金蟾，庙中金蟾吐宝",gold:500,style:"灵气充沛"},
-            {name:"赵公明",level:70,temple:"天庙",desc:"正财神赵公明的金殿，威严庄重",gold:3000,style:"金碧辉煌"},
-            {name:"比干",level:50,temple:"仙庙",desc:"文财神比干之庙，书卷气浓",gold:1200,style:"文雅清新"},
-            {name:"关帝",level:65,temple:"天庙",desc:"武财神关羽之庙，义气冲天",gold:2500,style:"威武大气"},
-            {name:"李诡祖",level:35,temple:"灵庙",desc:"增福财神庙，福气满满",gold:600,style:"温馨喜庆"},
-            {name:"财帛星君",level:75,temple:"天庙",desc:"天庭财帛星君下凡处，仙气飘渺",gold:3500,style:"仙气缭绕"},
-            {name:"小福仙",level:8,temple:"小庙",desc:"刚修成的小庙，虽小却温馨",gold:100,style:"简朴温馨"},
-            {name:"招财童子",level:15,temple:"中庙",desc:"招财童子的乐园，到处是小金元宝",gold:200,style:"童趣可爱"},
-            {name:"土地公",level:25,temple:"大庙",desc:"土地公公的庙，乡土气息浓厚",gold:400,style:"乡土淳朴"},
-            {name:"月老",level:40,temple:"灵庙",desc:"月下老人的红线阁，姻缘满堂",gold:700,style:"浪漫温情"},
-            {name:"福禄寿",level:80,temple:"天庙",desc:"三星高照的宝殿，福寿延绵",gold:4000,style:"祥瑞满堂"},
-            {name:"黄大仙",level:38,temple:"灵庙",desc:"有求必应的黄大仙庙",gold:650,style:"灵验非凡"},
-            {name:"妈祖",level:58,temple:"圣庙",desc:"海上女神妈祖之庙，护佑四方",gold:1800,style:"庄严慈悲"},
-            {name:"财神娘娘",level:48,temple:"仙庙",desc:"五路财神之母的庙宇，温柔富贵",gold:1000,style:"雍容华贵"},
-            {name:"散财童子",level:20,temple:"中庙",desc:"爱散财的童子庙，来者有份",gold:300,style:"欢乐无穷"},
-            {name:"聚宝仙翁",level:90,temple:"天庙",desc:"传说中聚宝盆的守护者",gold:5000,style:"神秘莫测"},
-            {name:"金蝉子",level:42,temple:"灵庙",desc:"金蝉脱壳之处，禅意深远",gold:750,style:"禅意悠然"},
+            {name:"张三丰",level:45,temple:"仙庙",desc:"武当开山祖师的庙宇，香火鼎盛",gold:800,style:"道家清修",mode:"休闲型",modeColor:"#2ecc71"},
+            {name:"沈万三",level:60,temple:"天庙",desc:"江南首富的聚宝盆，金碧辉煌",gold:2000,style:"富丽堂皇",mode:"商人型",modeColor:"#6c5ce7"},
+            {name:"范蠡",level:55,temple:"圣庙",desc:"商圣范蠡的陶朱公庙，朴实大方",gold:1500,style:"古朴典雅",mode:"商人型",modeColor:"#6c5ce7"},
+            {name:"刘海蟾",level:30,temple:"灵庙",desc:"刘海戏金蟾，庙中金蟾吐宝",gold:500,style:"灵气充沛",mode:"活跃型",modeColor:"#17a2b8"},
+            {name:"赵公明",level:70,temple:"天庙",desc:"正财神赵公明的金殿，威严庄重",gold:3000,style:"金碧辉煌",mode:"竞技型",modeColor:"#e74c3c"},
+            {name:"比干",level:50,temple:"仙庙",desc:"文财神比干之庙，书卷气浓",gold:1200,style:"文雅清新",mode:"休闲型",modeColor:"#2ecc71"},
+            {name:"关帝",level:65,temple:"天庙",desc:"武财神关羽之庙，义气冲天",gold:2500,style:"威武大气",mode:"竞技型",modeColor:"#e74c3c"},
+            {name:"李诡祖",level:35,temple:"灵庙",desc:"增福财神庙，福气满满",gold:600,style:"温馨喜庆",mode:"活跃型",modeColor:"#17a2b8"},
+            {name:"财帛星君",level:75,temple:"天庙",desc:"天庭财帛星君下凡处，仙气飘渺",gold:3500,style:"仙气缭绕",mode:"肝帝型",modeColor:"#f5a623"},
+            {name:"小福仙",level:8,temple:"小庙",desc:"刚修成的小庙，虽小却温馨",gold:100,style:"简朴温馨",mode:"休闲型",modeColor:"#2ecc71"},
+            {name:"招财童子",level:15,temple:"中庙",desc:"招财童子的乐园，到处是小金元宝",gold:200,style:"童趣可爱",mode:"社交型",modeColor:"#fd79a8"},
+            {name:"土地公",level:25,temple:"大庙",desc:"土地公公的庙，乡土气息浓厚",gold:400,style:"乡土淳朴",mode:"休闲型",modeColor:"#2ecc71"},
+            {name:"月老",level:40,temple:"灵庙",desc:"月下老人的红线阁，姻缘满堂",gold:700,style:"浪漫温情",mode:"社交型",modeColor:"#fd79a8"},
+            {name:"福禄寿",level:80,temple:"天庙",desc:"三星高照的宝殿，福寿延绵",gold:4000,style:"祥瑞满堂",mode:"肝帝型",modeColor:"#f5a623"},
+            {name:"黄大仙",level:38,temple:"灵庙",desc:"有求必应的黄大仙庙",gold:650,style:"灵验非凡",mode:"活跃型",modeColor:"#17a2b8"},
+            {name:"妈祖",level:58,temple:"圣庙",desc:"海上女神妈祖之庙，护佑四方",gold:1800,style:"庄严慈悲",mode:"社交型",modeColor:"#fd79a8"},
+            {name:"财神娘娘",level:48,temple:"仙庙",desc:"五路财神之母的庙宇，温柔富贵",gold:1000,style:"雍容华贵",mode:"商人型",modeColor:"#6c5ce7"},
+            {name:"散财童子",level:20,temple:"中庙",desc:"爱散财的童子庙，来者有份",gold:300,style:"欢乐无穷",mode:"社交型",modeColor:"#fd79a8"},
+            {name:"聚宝仙翁",level:90,temple:"天庙",desc:"传说中聚宝盆的守护者",gold:5000,style:"神秘莫测",mode:"挖宝型",modeColor:"#00b894"},
+            {name:"金蝉子",level:42,temple:"灵庙",desc:"金蝉脱壳之处，禅意深远",gold:750,style:"禅意悠然",mode:"休闲型",modeColor:"#2ecc71"},
         ];
 
         function getOrInitRoamData() {
@@ -3832,11 +3832,17 @@ initInvSR();
             container.innerHTML = shuffled.map(npc => {
                 const visited = rd.visited.includes(npc.name);
                 const canSteal = !visited && rd.stealCount < 10;
+                const onlineRate = MODE_ONLINE_RATE[npc.mode] || 0.5;
+                const isOnline = Math.random() < onlineRate;
                 return `
                 <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;border:1px solid ${visited ? 'rgba(100,100,100,0.3)' : 'rgba(100,200,255,0.3)'}">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
                         <span style="font-weight:bold;color:${visited ? '#666' : '#FFD700'};font-size:13px">${npc.name}</span>
                         <span style="font-size:11px;color:#aaa">Lv.${npc.level}</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                        <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:${npc.modeColor}22;color:${npc.modeColor};border:1px solid ${npc.modeColor}44">${npc.mode}</span>
+                        <span style="font-size:10px;color:${isOnline ? '#2ecc71' : '#666'}">${isOnline ? '🟢 在线' : '⚫ 离线'}</span>
                     </div>
                     <div style="font-size:11px;color:#888;margin-bottom:4px">🏮 ${npc.temple} · ${npc.style}</div>
                     <div style="font-size:11px;color:#aaa;margin-bottom:8px">${npc.desc}</div>
