@@ -37,7 +37,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ==================== 中间件 ====================
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false,  // V19和管理后台都是内联JS，需要关闭CSP
+  crossOriginEmbedderPolicy: false
+}));
 app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
 app.use(morgan('dev'));
 app.use(express.json({ limit: '10mb' }));
@@ -82,6 +85,32 @@ app.get('/api/health', (req, res) => {
 
 // ==================== 静态文件 (可选) ====================
 app.use(express.static(path.join(__dirname, 'public')));
+
+// ==================== 根路径 + 静态文件 ====================
+app.use(express.static(path.join(__dirname, '..')));  // serve AdminPanelPhase2.html等
+
+app.get('/', (req, res) => {
+  res.send(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>财神大陆 API</title>
+  <style>body{background:#1a1a2e;color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+  .box{text-align:center;max-width:500px}.emoji{font-size:80px;margin-bottom:16px}h1{color:#f5a623;margin-bottom:8px}
+  a{color:#64c8ff;text-decoration:none;display:inline-block;margin:8px 12px;padding:10px 20px;background:rgba(100,200,255,0.1);border:1px solid rgba(100,200,255,0.3);border-radius:8px}
+  a:hover{background:rgba(100,200,255,0.2)}.api-list{text-align:left;background:rgba(255,255,255,0.05);padding:16px;border-radius:8px;margin-top:16px;font-size:13px;color:#aaa;line-height:1.8}</style></head>
+  <body><div class="box">
+  <div class="emoji">🏮</div><h1>财神大陆 API Server</h1><p style="color:#888">v1.0.0 · 运行中</p>
+  <div style="margin-top:20px">
+    <a href="/AdminPanelPhase2.html">🎛️ 管理后台</a>
+    <a href="/api/health">💚 健康检查</a>
+  </div>
+  <div class="api-list"><b style="color:#f5a623">API 接口一览:</b><br>
+  POST /api/auth/register · /api/auth/login<br>
+  GET /api/player/info · POST /api/player/sign-in<br>
+  GET /api/inventory · /api/shop · /api/equipment<br>
+  POST /api/alms/go · GET /api/alms/status<br>
+  GET /api/sects · /api/pets · /api/mounts · /api/skills<br>
+  GET /api/market · /api/pvp/rank · /api/events<br>
+  GET /api/admin/dashboard · /api/admin/users</div>
+  </div></body></html>`);
+});
 
 // ==================== 错误处理 ====================
 app.use((req, res) => {
