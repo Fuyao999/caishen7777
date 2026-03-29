@@ -282,6 +282,31 @@
     </style>
 </head>
 <body>
+    <!-- ===== 登录覆盖层 ===== -->
+    <div id="login-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#1a1a2e;z-index:9999;display:flex;align-items:center;justify-content:center">
+        <div style="background:#2a2a3e;padding:40px;border-radius:16px;text-align:center;width:360px;box-shadow:0 10px 40px rgba(0,0,0,0.5)">
+            <div style="font-size:48px;margin-bottom:12px">🏮</div>
+            <h2 style="color:#f5a623;margin-bottom:8px">财神大陆</h2>
+            <p style="color:#888;font-size:13px;margin-bottom:24px">管理后台 v2.0</p>
+            <div style="margin-bottom:12px">
+                <input type="text" id="admin-username" placeholder="用户名" value="testuser"
+                    style="width:100%;padding:10px 14px;background:#1a1a2e;border:1px solid #444;color:#fff;border-radius:8px;font-size:14px;box-sizing:border-box">
+            </div>
+            <div style="margin-bottom:12px">
+                <input type="password" id="admin-password" placeholder="密码" value="123456"
+                    style="width:100%;padding:10px 14px;background:#1a1a2e;border:1px solid #444;color:#fff;border-radius:8px;font-size:14px;box-sizing:border-box">
+            </div>
+            <div style="margin-bottom:12px">
+                <input type="text" id="api-base-input" placeholder="API地址" value="http://localhost:3000"
+                    style="width:100%;padding:10px 14px;background:#1a1a2e;border:1px solid #444;color:#fff;border-radius:8px;font-size:14px;box-sizing:border-box">
+            </div>
+            <button onclick="adminLogin()" style="width:100%;padding:12px;background:linear-gradient(135deg,#f5a623,#e6951e);color:#000;border:none;border-radius:8px;font-size:15px;font-weight:bold;cursor:pointer">
+                登录管理后台
+            </button>
+            <div id="login-error" style="color:#e74c3c;font-size:12px;margin-top:10px;display:none"></div>
+        </div>
+    </div>
+
     <div class="container">
         <!-- 侧边栏 -->
         <aside class="sidebar">
@@ -2237,6 +2262,195 @@
         }
         function prevDecorationPage() { console.log("decoration prev page"); }
         function nextDecorationPage() { console.log("decoration next page"); }
+
+        
+        // ===== API对接核心 =====
+        let API_BASE = localStorage.getItem('admin_api_base') || 'http://localhost:3000';
+        let ADMIN_TOKEN = localStorage.getItem('admin_token') || '';
+
+        async function apiFetch(path, options = {}) {
+            const url = API_BASE + path;
+            const headers = { 'Content-Type': 'application/json', ...options.headers };
+            if (ADMIN_TOKEN) headers['Authorization'] = 'Bearer ' + ADMIN_TOKEN;
+            try {
+                const res = await fetch(url, { ...options, headers });
+                const data = await res.json();
+                if (data.code === 401) { showLoginOverlay(); return null; }
+                return data;
+            } catch(e) {
+                console.error('API请求失败:', url, e);
+                return null;
+            }
+        }
+
+        function showLoginOverlay() {
+            document.getElementById('login-overlay').style.display = 'flex';
+        }
+
+        async function adminLogin() {
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+            API_BASE = document.getElementById('api-base-input').value.replace(/\/$/, '');
+            localStorage.setItem('admin_api_base', API_BASE);
+
+            const errEl = document.getElementById('login-error');
+            errEl.style.display = 'none';
+
+            const data = await apiFetch('/api/auth/login', {
+                method: 'POST',
+                body: JSON.stringify({ username, password })
+            });
+
+            if (data && data.code === 200 && data.data && data.data.token) {
+                ADMIN_TOKEN = data.data.token;
+                localStorage.setItem('admin_token', ADMIN_TOKEN);
+                document.getElementById('login-overlay').style.display = 'none';
+                loadDashboard();
+            } else {
+                errEl.textContent = (data && data.message) || '登录失败，请检查API地址和账号';
+                errEl.style.display = 'block';
+            }
+        }
+
+        // 自动登录（如果有缓存token）
+        window.addEventListener('DOMContentLoaded', async () => {
+            if (ADMIN_TOKEN) {
+                const check = await apiFetch('/api/health');
+                if (check && check.code === 200) {
+                    document.getElementById('login-overlay').style.display = 'none';
+                    loadDashboard();
+                    return;
+                }
+            }
+            showLoginOverlay();
+        });
+
+        // ===== Dashboard数据加载 =====
+        async function loadDashboard() {
+            const data = await apiFetch('/api/admin/dashboard');
+            if (!data || data.code !== 200) return;
+            const d = data.data;
+
+            // 统计卡片
+            const cards = document.querySelectorAll('#dashboard .stat-card .value');
+            if (cards.length >= 4) {
+                cards[0].textContent = (d.users?.total || 0).toLocaleString();
+                cards[1].textContent = (d.users?.activeToday || 0).toLocaleString();
+                cards[2].textContent = '—';  // 在线数需要WebSocket
+                cards[3].textContent = '¥' + (d.revenue?.todayCNY || 0).toLocaleString();
+            }
+
+            // 更新管理员名称
+            const adminInfo = document.querySelector('#dashboard .admin-info span');
+            if (adminInfo) adminInfo.textContent = '管理员：' + (localStorage.getItem('admin_username') || 'admin');
+        }
+
+        // ===== Users数据加载 =====
+        async function loadUsers(page = 1) {
+            const data = await apiFetch('/api/admin/users?page=' + page + '&limit=20');
+            if (!data || data.code !== 200) return;
+
+            const tbody = document.querySelector('#users table tbody');
+            if (!tbody) return;
+
+            const users = data.data.users || [];
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#888;padding:20px">暂无用户数据</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = users.map(u => `
+                <tr>
+                    <td>${u.id}</td>
+                    <td>${u.username}</td>
+                    <td>${u.nickname || '-'}</td>
+                    <td>Lv.${u.level} ${u.realm_name || ''}</td>
+                    <td>${(u.gold || 0).toLocaleString()}</td>
+                    <td>VIP${u.vip_level || 0}</td>
+                    <td><span class="badge ${u.status === 1 ? 'badge-success' : 'badge-danger'}">${u.status === 1 ? '正常' : '封禁'}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="viewUser(${u.id})">查看</button>
+                        ${u.status === 1 
+                            ? '<button class=\"btn btn-sm btn-danger\" onclick=\"banUser(' + u.id + ')\">封禁</button>'
+                            : '<button class=\"btn btn-sm btn-success\" onclick=\"unbanUser(' + u.id + ')\">解封</button>'}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function viewUser(userId) {
+            const data = await apiFetch('/api/admin/users/' + userId);
+            if (!data || data.code !== 200) return;
+            const u = data.data;
+            showModal('用户详情 #' + userId, `
+                <div style="display:grid;gap:8px;font-size:13px">
+                    <div><b>用户名:</b> ${u.username || '-'}</div>
+                    <div><b>昵称:</b> ${u.player?.nickname || '-'}</div>
+                    <div><b>等级:</b> Lv.${u.player?.level || 1} ${u.player?.realm_name || '凡人'}</div>
+                    <div><b>金币:</b> ${(u.player?.gold || 0).toLocaleString()}</div>
+                    <div><b>元宝:</b> ${(u.player?.yuanbao || 0).toLocaleString()}</div>
+                    <div><b>VIP:</b> ${u.player?.vip_level || 0}</div>
+                    <div><b>累计充值:</b> ¥${u.player?.total_recharge || '0.00'}</div>
+                    <div><b>注册时间:</b> ${u.created_at ? new Date(u.created_at).toLocaleString() : '-'}</div>
+                    <div><b>最后登录:</b> ${u.last_login_at ? new Date(u.last_login_at).toLocaleString() : '-'}</div>
+                </div>
+            `);
+        }
+
+        async function banUser(userId) {
+            const reason = prompt('封禁原因:');
+            if (!reason) return;
+            const data = await apiFetch('/api/admin/users/' + userId + '/ban', {
+                method: 'POST', body: JSON.stringify({ reason })
+            });
+            if (data && data.code === 200) { alert('封禁成功'); loadUsers(); }
+            else alert('操作失败: ' + (data?.message || '未知错误'));
+        }
+
+        async function unbanUser(userId) {
+            if (!confirm('确定解封该用户?')) return;
+            const data = await apiFetch('/api/admin/users/' + userId + '/unban', { method: 'POST' });
+            if (data && data.code === 200) { alert('解封成功'); loadUsers(); }
+            else alert('操作失败: ' + (data?.message || '未知错误'));
+        }
+
+        // ===== Logs数据加载 =====
+        async function loadLogs(page = 1) {
+            const data = await apiFetch('/api/admin/logs?page=' + page + '&limit=20');
+            if (!data || data.code !== 200) return;
+
+            const tbody = document.querySelector('#logs table tbody');
+            if (!tbody) return;
+
+            const logs = data.data.logs || [];
+            if (logs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;padding:20px">暂无日志</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = logs.map(l => `
+                <tr>
+                    <td>${l.id}</td>
+                    <td>${l.username || '系统'}</td>
+                    <td>${l.action}</td>
+                    <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis">${l.details || '-'}</td>
+                    <td>${new Date(l.created_at).toLocaleString()}</td>
+                </tr>
+            `).join('');
+        }
+
+        // ===== 页面切换时自动加载数据 =====
+        const _origShowPage = showPage;
+        showPage = function(pageName) {
+            _origShowPage(pageName);
+            // 根据页面自动加载对应API数据
+            switch(pageName) {
+                case 'dashboard': loadDashboard(); break;
+                case 'users': loadUsers(); break;
+                case 'logs': loadLogs(); break;
+                // 其他页面后续补充
+            }
+        };
 
         </script>
 </body>
