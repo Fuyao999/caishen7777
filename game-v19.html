@@ -116,6 +116,7 @@
             <button class="nav-btn" title="每日任务" onclick="showTab('task')">任务</button>
             <button class="nav-btn" title="称号系统" onclick="showTab('achievement')">成就</button>
             <button class="nav-btn" title="行善积德" onclick="showTab('bushu')">布施</button>
+            <button class="nav-btn" title="云游大厅" onclick="showTab('roam')" style="background:rgba(100,200,255,0.15)">☁️云游</button>
             <button class="nav-btn" title="好友互动" onclick="showTab('friend')">好友</button>
             <button class="nav-btn" title="升级庙宇" onclick="showTab('upgrade')">升级</button>
             <button class="nav-btn" title="功德排行" onclick="showTab('rank')">排行</button>
@@ -245,6 +246,27 @@
             <div class="log" id="bushu-log"></div>
         </div>
         
+        
+        <!-- ===== 云游大厅页面 ===== -->
+        <div id="tab-roam" class="section hidden">
+            <h3 style="text-align:center;color:#64c8ff;margin-bottom:4px">☁️ 云游大厅</h3>
+            <p style="text-align:center;color:#aaa;font-size:12px;margin-bottom:12px">
+                云游四方，拜访他人庙宇，随缘化缘 | 
+                <span style="color:#FFD700">今日庙宇化缘: <span id="roam-remain">0</span>/10次</span>
+            </p>
+            <div style="display:flex;justify-content:center;margin-bottom:12px">
+                <button onclick="refreshRoamList()" style="padding:8px 20px;background:linear-gradient(135deg,#64c8ff,#4a9eff);color:#fff;border:none;border-radius:20px;cursor:pointer;font-size:13px">
+                    🔄 换一批庙宇
+                </button>
+            </div>
+            <div id="roam-list" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
+            <div id="roam-visit" style="display:none;margin-top:12px"></div>
+            <div style="margin-top:12px;padding:10px;background:rgba(100,200,255,0.08);border-radius:8px;border:1px solid rgba(100,200,255,0.2)">
+                <div style="font-size:12px;color:#64c8ff;font-weight:bold;margin-bottom:6px">📜 云游记录</div>
+                <div id="roam-log" style="font-size:11px;color:#aaa;max-height:100px;overflow-y:auto">暂无记录</div>
+            </div>
+        </div>
+
         <div id="tab-friend" class="section hidden">
             <div class="section-title">👥 好友系统 (今日拜访: <span id="visit-count">0</span>/20)</div>
             
@@ -3733,6 +3755,138 @@ showTab = function(tab) {
 initInvSR();
 
 
-</script>
+
+        // ===== 云游大厅系统 =====
+        const ROAM_NPCS = [
+            {name:"张三丰",level:45,temple:"仙庙",desc:"武当开山祖师的庙宇，香火鼎盛",gold:800,style:"道家清修"},
+            {name:"沈万三",level:60,temple:"天庙",desc:"江南首富的聚宝盆，金碧辉煌",gold:2000,style:"富丽堂皇"},
+            {name:"范蠡",level:55,temple:"圣庙",desc:"商圣范蠡的陶朱公庙，朴实大方",gold:1500,style:"古朴典雅"},
+            {name:"刘海蟾",level:30,temple:"灵庙",desc:"刘海戏金蟾，庙中金蟾吐宝",gold:500,style:"灵气充沛"},
+            {name:"赵公明",level:70,temple:"天庙",desc:"正财神赵公明的金殿，威严庄重",gold:3000,style:"金碧辉煌"},
+            {name:"比干",level:50,temple:"仙庙",desc:"文财神比干之庙，书卷气浓",gold:1200,style:"文雅清新"},
+            {name:"关帝",level:65,temple:"天庙",desc:"武财神关羽之庙，义气冲天",gold:2500,style:"威武大气"},
+            {name:"李诡祖",level:35,temple:"灵庙",desc:"增福财神庙，福气满满",gold:600,style:"温馨喜庆"},
+            {name:"财帛星君",level:75,temple:"天庙",desc:"天庭财帛星君下凡处，仙气飘渺",gold:3500,style:"仙气缭绕"},
+            {name:"小福仙",level:8,temple:"小庙",desc:"刚修成的小庙，虽小却温馨",gold:100,style:"简朴温馨"},
+            {name:"招财童子",level:15,temple:"中庙",desc:"招财童子的乐园，到处是小金元宝",gold:200,style:"童趣可爱"},
+            {name:"土地公",level:25,temple:"大庙",desc:"土地公公的庙，乡土气息浓厚",gold:400,style:"乡土淳朴"},
+            {name:"月老",level:40,temple:"灵庙",desc:"月下老人的红线阁，姻缘满堂",gold:700,style:"浪漫温情"},
+            {name:"福禄寿",level:80,temple:"天庙",desc:"三星高照的宝殿，福寿延绵",gold:4000,style:"祥瑞满堂"},
+            {name:"黄大仙",level:38,temple:"灵庙",desc:"有求必应的黄大仙庙",gold:650,style:"灵验非凡"},
+            {name:"妈祖",level:58,temple:"圣庙",desc:"海上女神妈祖之庙，护佑四方",gold:1800,style:"庄严慈悲"},
+            {name:"财神娘娘",level:48,temple:"仙庙",desc:"五路财神之母的庙宇，温柔富贵",gold:1000,style:"雍容华贵"},
+            {name:"散财童子",level:20,temple:"中庙",desc:"爱散财的童子庙，来者有份",gold:300,style:"欢乐无穷"},
+            {name:"聚宝仙翁",level:90,temple:"天庙",desc:"传说中聚宝盆的守护者",gold:5000,style:"神秘莫测"},
+            {name:"金蝉子",level:42,temple:"灵庙",desc:"金蝉脱壳之处，禅意深远",gold:750,style:"禅意悠然"},
+        ];
+
+        function getOrInitRoamData() {
+            let d = JSON.parse(localStorage.getItem('caishen_roam') || '{}');
+            const today = new Date().toISOString().slice(0,10);
+            if (d.date !== today) {
+                d = { date: today, visited: [], stealCount: 0, log: [] };
+                localStorage.setItem('caishen_roam', JSON.stringify(d));
+            }
+            return d;
+        }
+        function saveRoamData(d) { localStorage.setItem('caishen_roam', JSON.stringify(d)); }
+
+        function refreshRoamList() {
+            const rd = getOrInitRoamData();
+            document.getElementById('roam-remain').textContent = Math.max(0, 10 - rd.stealCount);
+            
+            // 随机选6个NPC
+            const shuffled = [...ROAM_NPCS].sort(() => Math.random() - 0.5).slice(0, 6);
+            const container = document.getElementById('roam-list');
+            container.innerHTML = shuffled.map(npc => {
+                const visited = rd.visited.includes(npc.name);
+                const canSteal = !visited && rd.stealCount < 10;
+                return `
+                <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;border:1px solid ${visited ? 'rgba(100,100,100,0.3)' : 'rgba(100,200,255,0.3)'}">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                        <span style="font-weight:bold;color:${visited ? '#666' : '#FFD700'};font-size:13px">${npc.name}</span>
+                        <span style="font-size:11px;color:#aaa">Lv.${npc.level}</span>
+                    </div>
+                    <div style="font-size:11px;color:#888;margin-bottom:4px">🏮 ${npc.temple} · ${npc.style}</div>
+                    <div style="font-size:11px;color:#aaa;margin-bottom:8px">${npc.desc}</div>
+                    <button onclick="roamSteal('${npc.name}',${npc.gold},${npc.level})" 
+                        style="width:100%;padding:6px;border:none;border-radius:6px;cursor:pointer;font-size:12px;
+                        background:${canSteal ? 'linear-gradient(135deg,#FFD700,#FFA500)' : '#333'};
+                        color:${canSteal ? '#1a1a2e' : '#666'};font-weight:bold"
+                        ${canSteal ? '' : 'disabled'}>
+                        ${visited ? '✅ 已化缘' : (rd.stealCount >= 10 ? '次数已用完' : '🙏 前去化缘')}
+                    </button>
+                </div>`;
+            }).join('');
+            
+            // 更新日志
+            updateRoamLog(rd);
+        }
+
+        function roamSteal(npcName, baseGold, npcLevel) {
+            const rd = getOrInitRoamData();
+            if (rd.visited.includes(npcName) || rd.stealCount >= 10) return;
+            
+            // 成功率70%，NPC等级越高成功率越低
+            const successRate = Math.max(0.3, 0.7 - npcLevel * 0.003);
+            const isSuccess = Math.random() < successRate;
+            
+            let result, goldChange;
+            if (isSuccess) {
+                // 成功：获得baseGold的10%-30%
+                const ratio = 0.1 + Math.random() * 0.2;
+                goldChange = Math.floor(baseGold * ratio);
+                result = '🎉 化缘成功！';
+            } else {
+                // 失败：被发现，损失少量金币
+                goldChange = -Math.floor(baseGold * 0.05);
+                result = '😅 被发现了！';
+            }
+            
+            // 更新数据
+            rd.visited.push(npcName);
+            rd.stealCount++;
+            const logEntry = `${result} ${npcName}的庙 ${goldChange >= 0 ? '+' : ''}${goldChange}金币`;
+            rd.log.unshift(logEntry);
+            saveRoamData(rd);
+            
+            // 更新游戏金币（兼容V19的存储结构）
+            try {
+                const gd = JSON.parse(localStorage.getItem('caishen_v19') || '{}');
+                gd.gold = (gd.gold || 0) + goldChange;
+                localStorage.setItem('caishen_v19', JSON.stringify(gd));
+            } catch(e) {}
+            
+            // 弹出结果
+            const emoji = isSuccess ? '🎊' : '😓';
+            alert(`${emoji} ${result}\n\n访问了${npcName}的${npcLevel}级庙宇\n${goldChange >= 0 ? '获得' : '损失'} ${Math.abs(goldChange)} 金币\n\n今日剩余: ${10 - rd.stealCount}次`);
+            
+            refreshRoamList();
+            if (typeof updateDisplay === 'function') updateDisplay();
+        }
+
+        function updateRoamLog(rd) {
+            const el = document.getElementById('roam-log');
+            if (rd.log.length === 0) {
+                el.innerHTML = '<span style="color:#666">今日暂无云游记录，去拜访其他庙宇吧！</span>';
+            } else {
+                el.innerHTML = rd.log.map(l => `<div style="padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.05)">${l}</div>`).join('');
+            }
+        }
+
+        // 进入云游页面时自动刷新
+        const origShowTab = typeof showTab === 'function' ? showTab : null;
+        const _origShowTabForRoam = showTab;
+        const _patchedShowTab = function(tab) {
+            _origShowTabForRoam(tab);
+            if (tab === 'roam') refreshRoamList();
+        };
+        // 用MutationObserver或直接重写
+        if (typeof showTab === 'function') {
+            const _old = showTab;
+            showTab = function(tab) { _old(tab); if (tab === 'roam') refreshRoamList(); };
+        }
+
+        </script>
 </body>
 </html>
