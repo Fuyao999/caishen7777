@@ -332,6 +332,20 @@
                 <li onclick="showPage('settings')">
                     <i>⚙️</i><span>系统设置</span>
                 </li>
+                <!-- ===== 新增页面 ===== -->
+                <li style="border-top:1px solid rgba(255,255,255,0.1);margin:8px 0;padding:0"></li>
+                <li onclick="showPage('analytics')"><span>📊 埋点管理</span></li>
+                <li onclick="showPage('products')"><span>🏪 商品管理</span></li>
+                <li onclick="showPage('items')"><span>🎒 道具管理</span></li>
+                <li onclick="showPage('deities')"><span>🏮 财神管理</span></li>
+                <li onclick="showPage('stories')"><span>📖 故事管理</span></li>
+                <li onclick="showPage('creatures')"><span>🐾 生灵管理</span></li>
+                <li onclick="showPage('skillmgr')"><span>⚡ 技能管理</span></li>
+                <li onclick="showPage('equipmgr')"><span>🗡️ 装备管理</span></li>
+                <li onclick="showPage('domains')"><span>🌍 财域管理</span></li>
+                <li onclick="showPage('quests')"><span>🏆 任务成就</span></li>
+                <li onclick="showPage('decoration')"><span>🎨 装修管理</span></li>
+
             </ul>
         </aside>
 
@@ -1095,7 +1109,449 @@
                     </div>
                 </div>
             </div>
-        </main>
+        
+
+            <!-- 📊 埋点管理页面 -->
+            <div id="analytics" class="page" style="display:none">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <h2 style="margin:0">📊 埋点管理</h2>
+                    <div>
+                        <input type="text" id="analytics-search" placeholder="搜索..." 
+                               style="padding:8px 12px;border:1px solid #555;background:#2a2a2a;color:#fff;border-radius:4px;margin-right:8px"
+                               onkeyup="searchAnalytics()">
+                        <button onclick="addAnalytics()" 
+                                style="padding:8px 16px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold">
+                            + 新增
+                        </button>
+                    </div>
+                </div>
+                <div style="background:#2a2a2a;border-radius:8px;overflow:hidden">
+                    <table style="width:100%;border-collapse:collapse">
+                        <thead>
+                            <tr style="background:#333">
+                                <th style="padding:12px;text-align:left;color:#f5a623">ID</th>
+                                <th>事件名称</th><th>触发次数</th><th>日均次数</th><th>最近触发</th><th>状态</th>
+                                <th style="padding:12px;text-align:left;color:#f5a623">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="analytics-table-body">
+                            <tr><td colspan="7" style="padding:20px;text-align:center;color:#888">
+                                加载中... (连接API: /api/admin/analytics)
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="color:#888" id="analytics-count">共 0 条</span>
+                    <div>
+                        <button onclick="prevAnalyticsPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">上一页</button>
+                        <span style="margin:0 12px;color:#ccc" id="analytics-page-info">1 / 1</span>
+                        <button onclick="nextAnalyticsPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🏪 商品管理页面 -->
+            <div id="products" class="page" style="display:none">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <h2 style="margin:0">🏪 商品管理</h2>
+                    <div>
+                        <input type="text" id="products-search" placeholder="搜索..." 
+                               style="padding:8px 12px;border:1px solid #555;background:#2a2a2a;color:#fff;border-radius:4px;margin-right:8px"
+                               onkeyup="searchProducts()">
+                        <button onclick="addProducts()" 
+                                style="padding:8px 16px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold">
+                            + 新增
+                        </button>
+                    </div>
+                </div>
+                <div style="background:#2a2a2a;border-radius:8px;overflow:hidden">
+                    <table style="width:100%;border-collapse:collapse">
+                        <thead>
+                            <tr style="background:#333">
+                                <th style="padding:12px;text-align:left;color:#f5a623">ID</th>
+                                <th>商品名</th><th>类型</th><th>价格(金币)</th><th>出售价</th><th>等级要求</th><th>状态</th>
+                                <th style="padding:12px;text-align:left;color:#f5a623">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table-body">
+                            <tr><td colspan="8" style="padding:20px;text-align:center;color:#888">
+                                加载中... (连接API: /api/admin/products)
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="color:#888" id="products-count">共 0 条</span>
+                    <div>
+                        <button onclick="prevProductsPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">上一页</button>
+                        <span style="margin:0 12px;color:#ccc" id="products-page-info">1 / 1</span>
+                        <button onclick="nextProductsPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🎒 道具管理页面 -->
+            <div id="items" class="page" style="display:none">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <h2 style="margin:0">🎒 道具管理</h2>
+                    <div>
+                        <input type="text" id="items-search" placeholder="搜索..." 
+                               style="padding:8px 12px;border:1px solid #555;background:#2a2a2a;color:#fff;border-radius:4px;margin-right:8px"
+                               onkeyup="searchItems()">
+                        <button onclick="addItems()" 
+                                style="padding:8px 16px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold">
+                            + 新增
+                        </button>
+                    </div>
+                </div>
+                <div style="background:#2a2a2a;border-radius:8px;overflow:hidden">
+                    <table style="width:100%;border-collapse:collapse">
+                        <thead>
+                            <tr style="background:#333">
+                                <th style="padding:12px;text-align:left;color:#f5a623">ID</th>
+                                <th>道具名</th><th>类型</th><th>品质</th><th>可叠加</th><th>可交易</th><th>使用效果</th>
+                                <th style="padding:12px;text-align:left;color:#f5a623">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="items-table-body">
+                            <tr><td colspan="8" style="padding:20px;text-align:center;color:#888">
+                                加载中... (连接API: /api/admin/items)
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="color:#888" id="items-count">共 0 条</span>
+                    <div>
+                        <button onclick="prevItemsPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">上一页</button>
+                        <span style="margin:0 12px;color:#ccc" id="items-page-info">1 / 1</span>
+                        <button onclick="nextItemsPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🏮 财神管理页面 -->
+            <div id="deities" class="page" style="display:none">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <h2 style="margin:0">🏮 财神管理</h2>
+                    <div>
+                        <input type="text" id="deities-search" placeholder="搜索..." 
+                               style="padding:8px 12px;border:1px solid #555;background:#2a2a2a;color:#fff;border-radius:4px;margin-right:8px"
+                               onkeyup="searchDeities()">
+                        <button onclick="addDeities()" 
+                                style="padding:8px 16px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold">
+                            + 新增
+                        </button>
+                    </div>
+                </div>
+                <div style="background:#2a2a2a;border-radius:8px;overflow:hidden">
+                    <table style="width:100%;border-collapse:collapse">
+                        <thead>
+                            <tr style="background:#333">
+                                <th style="padding:12px;text-align:left;color:#f5a623">ID</th>
+                                <th>财神名</th><th>境界</th><th>属性</th><th>技能</th><th>故事</th><th>解锁条件</th>
+                                <th style="padding:12px;text-align:left;color:#f5a623">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="deities-table-body">
+                            <tr><td colspan="8" style="padding:20px;text-align:center;color:#888">
+                                加载中... (连接API: /api/admin/deities)
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="color:#888" id="deities-count">共 0 条</span>
+                    <div>
+                        <button onclick="prevDeitiesPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">上一页</button>
+                        <span style="margin:0 12px;color:#ccc" id="deities-page-info">1 / 1</span>
+                        <button onclick="nextDeitiesPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 📖 故事管理页面 -->
+            <div id="stories" class="page" style="display:none">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <h2 style="margin:0">📖 故事管理</h2>
+                    <div>
+                        <input type="text" id="stories-search" placeholder="搜索..." 
+                               style="padding:8px 12px;border:1px solid #555;background:#2a2a2a;color:#fff;border-radius:4px;margin-right:8px"
+                               onkeyup="searchStories()">
+                        <button onclick="addStories()" 
+                                style="padding:8px 16px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold">
+                            + 新增
+                        </button>
+                    </div>
+                </div>
+                <div style="background:#2a2a2a;border-radius:8px;overflow:hidden">
+                    <table style="width:100%;border-collapse:collapse">
+                        <thead>
+                            <tr style="background:#333">
+                                <th style="padding:12px;text-align:left;color:#f5a623">ID</th>
+                                <th>区域</th><th>故事简介</th><th>结局数</th><th>风格</th><th>创建时间</th><th>状态</th>
+                                <th style="padding:12px;text-align:left;color:#f5a623">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stories-table-body">
+                            <tr><td colspan="8" style="padding:20px;text-align:center;color:#888">
+                                加载中... (连接API: /api/admin/stories)
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="color:#888" id="stories-count">共 0 条</span>
+                    <div>
+                        <button onclick="prevStoriesPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">上一页</button>
+                        <span style="margin:0 12px;color:#ccc" id="stories-page-info">1 / 1</span>
+                        <button onclick="nextStoriesPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🐾 生灵管理页面 -->
+            <div id="creatures" class="page" style="display:none">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <h2 style="margin:0">🐾 生灵管理</h2>
+                    <div>
+                        <input type="text" id="creatures-search" placeholder="搜索..." 
+                               style="padding:8px 12px;border:1px solid #555;background:#2a2a2a;color:#fff;border-radius:4px;margin-right:8px"
+                               onkeyup="searchCreatures()">
+                        <button onclick="addCreatures()" 
+                                style="padding:8px 16px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold">
+                            + 新增
+                        </button>
+                    </div>
+                </div>
+                <div style="background:#2a2a2a;border-radius:8px;overflow:hidden">
+                    <table style="width:100%;border-collapse:collapse">
+                        <thead>
+                            <tr style="background:#333">
+                                <th style="padding:12px;text-align:left;color:#f5a623">ID</th>
+                                <th>名称</th><th>类型</th><th>品质</th><th>基础攻击</th><th>基础防御</th><th>技能</th>
+                                <th style="padding:12px;text-align:left;color:#f5a623">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="creatures-table-body">
+                            <tr><td colspan="8" style="padding:20px;text-align:center;color:#888">
+                                加载中... (连接API: /api/admin/creatures)
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="color:#888" id="creatures-count">共 0 条</span>
+                    <div>
+                        <button onclick="prevCreaturesPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">上一页</button>
+                        <span style="margin:0 12px;color:#ccc" id="creatures-page-info">1 / 1</span>
+                        <button onclick="nextCreaturesPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ⚡ 技能管理页面 -->
+            <div id="skillmgr" class="page" style="display:none">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <h2 style="margin:0">⚡ 技能管理</h2>
+                    <div>
+                        <input type="text" id="skillmgr-search" placeholder="搜索..." 
+                               style="padding:8px 12px;border:1px solid #555;background:#2a2a2a;color:#fff;border-radius:4px;margin-right:8px"
+                               onkeyup="searchSkillmgr()">
+                        <button onclick="addSkillmgr()" 
+                                style="padding:8px 16px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold">
+                            + 新增
+                        </button>
+                    </div>
+                </div>
+                <div style="background:#2a2a2a;border-radius:8px;overflow:hidden">
+                    <table style="width:100%;border-collapse:collapse">
+                        <thead>
+                            <tr style="background:#333">
+                                <th style="padding:12px;text-align:left;color:#f5a623">ID</th>
+                                <th>技能名</th><th>类型</th><th>元素</th><th>伤害</th><th>消耗</th><th>等级要求</th>
+                                <th style="padding:12px;text-align:left;color:#f5a623">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="skillmgr-table-body">
+                            <tr><td colspan="8" style="padding:20px;text-align:center;color:#888">
+                                加载中... (连接API: /api/admin/skillmgr)
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="color:#888" id="skillmgr-count">共 0 条</span>
+                    <div>
+                        <button onclick="prevSkillmgrPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">上一页</button>
+                        <span style="margin:0 12px;color:#ccc" id="skillmgr-page-info">1 / 1</span>
+                        <button onclick="nextSkillmgrPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🗡️ 装备管理页面 -->
+            <div id="equipmgr" class="page" style="display:none">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <h2 style="margin:0">🗡️ 装备管理</h2>
+                    <div>
+                        <input type="text" id="equipmgr-search" placeholder="搜索..." 
+                               style="padding:8px 12px;border:1px solid #555;background:#2a2a2a;color:#fff;border-radius:4px;margin-right:8px"
+                               onkeyup="searchEquipmgr()">
+                        <button onclick="addEquipmgr()" 
+                                style="padding:8px 16px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold">
+                            + 新增
+                        </button>
+                    </div>
+                </div>
+                <div style="background:#2a2a2a;border-radius:8px;overflow:hidden">
+                    <table style="width:100%;border-collapse:collapse">
+                        <thead>
+                            <tr style="background:#333">
+                                <th style="padding:12px;text-align:left;color:#f5a623">ID</th>
+                                <th>装备名</th><th>槽位</th><th>品质</th><th>属性加成</th><th>等级要求</th><th>掉落来源</th>
+                                <th style="padding:12px;text-align:left;color:#f5a623">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="equipmgr-table-body">
+                            <tr><td colspan="8" style="padding:20px;text-align:center;color:#888">
+                                加载中... (连接API: /api/admin/equipmgr)
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="color:#888" id="equipmgr-count">共 0 条</span>
+                    <div>
+                        <button onclick="prevEquipmgrPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">上一页</button>
+                        <span style="margin:0 12px;color:#ccc" id="equipmgr-page-info">1 / 1</span>
+                        <button onclick="nextEquipmgrPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🌍 财域管理页面 -->
+            <div id="domains" class="page" style="display:none">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <h2 style="margin:0">🌍 财域管理</h2>
+                    <div>
+                        <input type="text" id="domains-search" placeholder="搜索..." 
+                               style="padding:8px 12px;border:1px solid #555;background:#2a2a2a;color:#fff;border-radius:4px;margin-right:8px"
+                               onkeyup="searchDomains()">
+                        <button onclick="addDomains()" 
+                                style="padding:8px 16px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold">
+                            + 新增
+                        </button>
+                    </div>
+                </div>
+                <div style="background:#2a2a2a;border-radius:8px;overflow:hidden">
+                    <table style="width:100%;border-collapse:collapse">
+                        <thead>
+                            <tr style="background:#333">
+                                <th style="padding:12px;text-align:left;color:#f5a623">ID</th>
+                                <th>财域名</th><th>五行</th><th>地支</th><th>等级要求</th><th>怪物数</th><th>掉落表</th>
+                                <th style="padding:12px;text-align:left;color:#f5a623">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="domains-table-body">
+                            <tr><td colspan="8" style="padding:20px;text-align:center;color:#888">
+                                加载中... (连接API: /api/admin/domains)
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="color:#888" id="domains-count">共 0 条</span>
+                    <div>
+                        <button onclick="prevDomainsPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">上一页</button>
+                        <span style="margin:0 12px;color:#ccc" id="domains-page-info">1 / 1</span>
+                        <button onclick="nextDomainsPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🏆 任务成就页面 -->
+            <div id="quests" class="page" style="display:none">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <h2 style="margin:0">🏆 任务成就</h2>
+                    <div>
+                        <input type="text" id="quests-search" placeholder="搜索..." 
+                               style="padding:8px 12px;border:1px solid #555;background:#2a2a2a;color:#fff;border-radius:4px;margin-right:8px"
+                               onkeyup="searchQuests()">
+                        <button onclick="addQuests()" 
+                                style="padding:8px 16px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold">
+                            + 新增
+                        </button>
+                    </div>
+                </div>
+                <div style="background:#2a2a2a;border-radius:8px;overflow:hidden">
+                    <table style="width:100%;border-collapse:collapse">
+                        <thead>
+                            <tr style="background:#333">
+                                <th style="padding:12px;text-align:left;color:#f5a623">ID</th>
+                                <th>名称</th><th>类型</th><th>描述</th><th>奖励</th><th>完成条件</th><th>完成人数</th>
+                                <th style="padding:12px;text-align:left;color:#f5a623">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="quests-table-body">
+                            <tr><td colspan="8" style="padding:20px;text-align:center;color:#888">
+                                加载中... (连接API: /api/admin/quests)
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="color:#888" id="quests-count">共 0 条</span>
+                    <div>
+                        <button onclick="prevQuestsPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">上一页</button>
+                        <span style="margin:0 12px;color:#ccc" id="quests-page-info">1 / 1</span>
+                        <button onclick="nextQuestsPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🎨 装修管理页面 -->
+            <div id="decoration" class="page" style="display:none">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <h2 style="margin:0">🎨 装修管理</h2>
+                    <div>
+                        <input type="text" id="decoration-search" placeholder="搜索..." 
+                               style="padding:8px 12px;border:1px solid #555;background:#2a2a2a;color:#fff;border-radius:4px;margin-right:8px"
+                               onkeyup="searchDecoration()">
+                        <button onclick="addDecoration()" 
+                                style="padding:8px 16px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold">
+                            + 新增
+                        </button>
+                    </div>
+                </div>
+                <div style="background:#2a2a2a;border-radius:8px;overflow:hidden">
+                    <table style="width:100%;border-collapse:collapse">
+                        <thead>
+                            <tr style="background:#333">
+                                <th style="padding:12px;text-align:left;color:#f5a623">ID</th>
+                                <th>装修名</th><th>类型</th><th>品质</th><th>价格</th><th>效果</th><th>上架状态</th>
+                                <th style="padding:12px;text-align:left;color:#f5a623">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="decoration-table-body">
+                            <tr><td colspan="8" style="padding:20px;text-align:center;color:#888">
+                                加载中... (连接API: /api/admin/decoration)
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="color:#888" id="decoration-count">共 0 条</span>
+                    <div>
+                        <button onclick="prevDecorationPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">上一页</button>
+                        <span style="margin:0 12px;color:#ccc" id="decoration-page-info">1 / 1</span>
+                        <button onclick="nextDecorationPage()" style="padding:6px 12px;background:#333;color:#fff;border:1px solid #555;border-radius:4px;cursor:pointer">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            </main>
     </div>
     <!-- ===== 通用模态框 ===== -->
     <div id="globalModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:2000;justify-content:center;align-items:center">
@@ -1633,6 +2089,155 @@
                 return;
             }
         });
-    </script>
+    
+        // ===== 新增11页面的交互逻辑 =====
+        const API_BASE = window.API_BASE || "http://localhost:3000/api";
+        const adminToken = localStorage.getItem("admin_token") || "";
+
+
+        // ----- 📊 埋点管理 -----
+        function searchAnalytics() { console.log("搜索📊 埋点管理:", document.getElementById("analytics-search").value); }
+        function addAnalytics() {
+            showModal("📊 埋点管理 - 新增", `
+                <div style="display:grid;gap:12px">
+                    <div><label style="display:block;margin-bottom:4px;color:#ccc">事件名称</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="事件名称"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">触发次数</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="触发次数"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">日均次数</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="日均次数"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">最近触发</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="最近触发"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">状态</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="状态"></div>
+                    <button onclick="closeModal()" style="padding:10px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold;margin-top:8px">保存</button>
+                </div>
+            `);
+        }
+        function prevAnalyticsPage() { console.log("analytics prev page"); }
+        function nextAnalyticsPage() { console.log("analytics next page"); }
+
+        // ----- 🏪 商品管理 -----
+        function searchProducts() { console.log("搜索🏪 商品管理:", document.getElementById("products-search").value); }
+        function addProducts() {
+            showModal("🏪 商品管理 - 新增", `
+                <div style="display:grid;gap:12px">
+                    <div><label style="display:block;margin-bottom:4px;color:#ccc">商品名</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="商品名"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">类型</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="类型"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">价格(金币)</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="价格(金币)"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">出售价</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="出售价"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">等级要求</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="等级要求"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">状态</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="状态"></div>
+                    <button onclick="closeModal()" style="padding:10px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold;margin-top:8px">保存</button>
+                </div>
+            `);
+        }
+        function prevProductsPage() { console.log("products prev page"); }
+        function nextProductsPage() { console.log("products next page"); }
+
+        // ----- 🎒 道具管理 -----
+        function searchItems() { console.log("搜索🎒 道具管理:", document.getElementById("items-search").value); }
+        function addItems() {
+            showModal("🎒 道具管理 - 新增", `
+                <div style="display:grid;gap:12px">
+                    <div><label style="display:block;margin-bottom:4px;color:#ccc">道具名</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="道具名"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">类型</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="类型"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">品质</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="品质"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">可叠加</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="可叠加"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">可交易</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="可交易"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">使用效果</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="使用效果"></div>
+                    <button onclick="closeModal()" style="padding:10px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold;margin-top:8px">保存</button>
+                </div>
+            `);
+        }
+        function prevItemsPage() { console.log("items prev page"); }
+        function nextItemsPage() { console.log("items next page"); }
+
+        // ----- 🏮 财神管理 -----
+        function searchDeities() { console.log("搜索🏮 财神管理:", document.getElementById("deities-search").value); }
+        function addDeities() {
+            showModal("🏮 财神管理 - 新增", `
+                <div style="display:grid;gap:12px">
+                    <div><label style="display:block;margin-bottom:4px;color:#ccc">财神名</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="财神名"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">境界</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="境界"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">属性</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="属性"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">技能</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="技能"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">故事</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="故事"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">解锁条件</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="解锁条件"></div>
+                    <button onclick="closeModal()" style="padding:10px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold;margin-top:8px">保存</button>
+                </div>
+            `);
+        }
+        function prevDeitiesPage() { console.log("deities prev page"); }
+        function nextDeitiesPage() { console.log("deities next page"); }
+
+        // ----- 📖 故事管理 -----
+        function searchStories() { console.log("搜索📖 故事管理:", document.getElementById("stories-search").value); }
+        function addStories() {
+            showModal("📖 故事管理 - 新增", `
+                <div style="display:grid;gap:12px">
+                    <div><label style="display:block;margin-bottom:4px;color:#ccc">区域</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="区域"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">故事简介</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="故事简介"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">结局数</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="结局数"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">风格</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="风格"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">创建时间</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="创建时间"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">状态</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="状态"></div>
+                    <button onclick="closeModal()" style="padding:10px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold;margin-top:8px">保存</button>
+                </div>
+            `);
+        }
+        function prevStoriesPage() { console.log("stories prev page"); }
+        function nextStoriesPage() { console.log("stories next page"); }
+
+        // ----- 🐾 生灵管理 -----
+        function searchCreatures() { console.log("搜索🐾 生灵管理:", document.getElementById("creatures-search").value); }
+        function addCreatures() {
+            showModal("🐾 生灵管理 - 新增", `
+                <div style="display:grid;gap:12px">
+                    <div><label style="display:block;margin-bottom:4px;color:#ccc">名称</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="名称"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">类型</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="类型"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">品质</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="品质"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">基础攻击</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="基础攻击"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">基础防御</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="基础防御"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">技能</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="技能"></div>
+                    <button onclick="closeModal()" style="padding:10px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold;margin-top:8px">保存</button>
+                </div>
+            `);
+        }
+        function prevCreaturesPage() { console.log("creatures prev page"); }
+        function nextCreaturesPage() { console.log("creatures next page"); }
+
+        // ----- ⚡ 技能管理 -----
+        function searchSkillmgr() { console.log("搜索⚡ 技能管理:", document.getElementById("skillmgr-search").value); }
+        function addSkillmgr() {
+            showModal("⚡ 技能管理 - 新增", `
+                <div style="display:grid;gap:12px">
+                    <div><label style="display:block;margin-bottom:4px;color:#ccc">技能名</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="技能名"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">类型</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="类型"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">元素</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="元素"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">伤害</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="伤害"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">消耗</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="消耗"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">等级要求</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="等级要求"></div>
+                    <button onclick="closeModal()" style="padding:10px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold;margin-top:8px">保存</button>
+                </div>
+            `);
+        }
+        function prevSkillmgrPage() { console.log("skillmgr prev page"); }
+        function nextSkillmgrPage() { console.log("skillmgr next page"); }
+
+        // ----- 🗡️ 装备管理 -----
+        function searchEquipmgr() { console.log("搜索🗡️ 装备管理:", document.getElementById("equipmgr-search").value); }
+        function addEquipmgr() {
+            showModal("🗡️ 装备管理 - 新增", `
+                <div style="display:grid;gap:12px">
+                    <div><label style="display:block;margin-bottom:4px;color:#ccc">装备名</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="装备名"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">槽位</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="槽位"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">品质</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="品质"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">属性加成</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="属性加成"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">等级要求</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="等级要求"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">掉落来源</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="掉落来源"></div>
+                    <button onclick="closeModal()" style="padding:10px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold;margin-top:8px">保存</button>
+                </div>
+            `);
+        }
+        function prevEquipmgrPage() { console.log("equipmgr prev page"); }
+        function nextEquipmgrPage() { console.log("equipmgr next page"); }
+
+        // ----- 🌍 财域管理 -----
+        function searchDomains() { console.log("搜索🌍 财域管理:", document.getElementById("domains-search").value); }
+        function addDomains() {
+            showModal("🌍 财域管理 - 新增", `
+                <div style="display:grid;gap:12px">
+                    <div><label style="display:block;margin-bottom:4px;color:#ccc">财域名</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="财域名"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">五行</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="五行"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">地支</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="地支"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">等级要求</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="等级要求"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">怪物数</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="怪物数"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">掉落表</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="掉落表"></div>
+                    <button onclick="closeModal()" style="padding:10px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold;margin-top:8px">保存</button>
+                </div>
+            `);
+        }
+        function prevDomainsPage() { console.log("domains prev page"); }
+        function nextDomainsPage() { console.log("domains next page"); }
+
+        // ----- 🏆 任务成就 -----
+        function searchQuests() { console.log("搜索🏆 任务成就:", document.getElementById("quests-search").value); }
+        function addQuests() {
+            showModal("🏆 任务成就 - 新增", `
+                <div style="display:grid;gap:12px">
+                    <div><label style="display:block;margin-bottom:4px;color:#ccc">名称</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="名称"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">类型</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="类型"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">描述</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="描述"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">奖励</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="奖励"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">完成条件</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="完成条件"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">完成人数</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="完成人数"></div>
+                    <button onclick="closeModal()" style="padding:10px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold;margin-top:8px">保存</button>
+                </div>
+            `);
+        }
+        function prevQuestsPage() { console.log("quests prev page"); }
+        function nextQuestsPage() { console.log("quests next page"); }
+
+        // ----- 🎨 装修管理 -----
+        function searchDecoration() { console.log("搜索🎨 装修管理:", document.getElementById("decoration-search").value); }
+        function addDecoration() {
+            showModal("🎨 装修管理 - 新增", `
+                <div style="display:grid;gap:12px">
+                    <div><label style="display:block;margin-bottom:4px;color:#ccc">装修名</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="装修名"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">类型</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="类型"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">品质</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="品质"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">价格</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="价格"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">效果</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="效果"></div><div><label style="display:block;margin-bottom:4px;color:#ccc">上架状态</label><input type="text" style="width:100%;padding:8px;background:#333;border:1px solid #555;color:#fff;border-radius:4px" placeholder="上架状态"></div>
+                    <button onclick="closeModal()" style="padding:10px;background:#f5a623;color:#000;border:none;border-radius:4px;cursor:pointer;font-weight:bold;margin-top:8px">保存</button>
+                </div>
+            `);
+        }
+        function prevDecorationPage() { console.log("decoration prev page"); }
+        function nextDecorationPage() { console.log("decoration next page"); }
+
+        </script>
 </body>
 </html>
