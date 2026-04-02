@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Label, Button, ScrollView, director } from 'cc';
+import { _decorator, Component, Node, Label, Button, ScrollView, director, Color } from 'cc';
 import { PlayerDataManager } from '../Core/PlayerDataManager';
 
 const { ccclass, property } = _decorator;
@@ -121,7 +121,7 @@ export class RoamUI extends Component {
         const nameLabel = nameNode.addComponent(Label);
         nameLabel.string = player.name;
         nameLabel.fontSize = 16;
-        nameLabel.color = new (require('cc')).Color(255, 215, 0, 255);
+        nameLabel.color = new Color(255, 215, 0, 255);
         nameNode.setPosition(-50, 15, 0);
         
         // 庙宇
@@ -130,7 +130,7 @@ export class RoamUI extends Component {
         const templeLabel = templeNode.addComponent(Label);
         templeLabel.string = `${player.templeName} Lv.${player.level}`;
         templeLabel.fontSize = 12;
-        templeLabel.color = new (require('cc')).Color(170, 170, 170, 255);
+        templeLabel.color = new Color(170, 170, 170, 255);
         templeNode.setPosition(-50, -5, 0);
         
         // 存储
@@ -139,7 +139,7 @@ export class RoamUI extends Component {
         const storageLabel = storageNode.addComponent(Label);
         storageLabel.string = `💰 ${player.storage}`;
         storageLabel.fontSize = 12;
-        storageLabel.color = new (require('cc')).Color(255, 200, 100, 255);
+        storageLabel.color = new Color(255, 200, 100, 255);
         storageNode.setPosition(-50, -25, 0);
         
         // 化缘按钮
@@ -153,11 +153,11 @@ export class RoamUI extends Component {
         
         if (player.canAlms) {
             btnLabel.string = '🚶 化缘';
-            btnLabel.color = new (require('cc')).Color(255, 215, 0, 255);
+            btnLabel.color = new Color(255, 215, 0, 255);
             btnNode.on('click', () => this.onAlmsPlayer(player));
         } else {
             btnLabel.string = '❌ 已访问';
-            btnLabel.color = new (require('cc')).Color(170, 170, 170, 255);
+            btnLabel.color = new Color(170, 170, 170, 255);
         }
         
         return node;

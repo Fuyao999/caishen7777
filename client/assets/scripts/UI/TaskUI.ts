@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Label, Button, ScrollView, director } from 'cc';
+import { _decorator, Component, Node, Label, Button, ScrollView, director, Color } from 'cc';
 import { PlayerDataManager } from '../Core/PlayerDataManager';
 
 const { ccclass, property } = _decorator;
@@ -143,8 +143,8 @@ export class TaskUI extends Component {
         nameLabel.string = task.name;
         nameLabel.fontSize = 16;
         nameLabel.color = isCompleted ? 
-            new (require('cc')).Color(100, 255, 100, 255) : 
-            new (require('cc')).Color(255, 215, 0, 255);
+            new Color(100, 255, 100, 255) : 
+            new Color(255, 215, 0, 255);
         nameNode.setPosition(-80, 20, 0);
         
         // 描述
@@ -153,7 +153,7 @@ export class TaskUI extends Component {
         const descLabel = descNode.addComponent(Label);
         descLabel.string = task.desc;
         descLabel.fontSize = 12;
-        descLabel.color = new (require('cc')).Color(170, 170, 170, 255);
+        descLabel.color = new Color(170, 170, 170, 255);
         descNode.setPosition(-80, 0, 0);
         
         // 奖励
@@ -169,7 +169,7 @@ export class TaskUI extends Component {
         const rewardLabel = rewardNode.addComponent(Label);
         rewardLabel.string = rewardText;
         rewardLabel.fontSize = 11;
-        rewardLabel.color = new (require('cc')).Color(255, 200, 100, 255);
+        rewardLabel.color = new Color(255, 200, 100, 255);
         rewardNode.setPosition(-80, -20, 0);
         
         // 按钮
@@ -183,14 +183,14 @@ export class TaskUI extends Component {
         
         if (isCompleted) {
             btnLabel.string = '✅ 已领取';
-            btnLabel.color = new (require('cc')).Color(100, 255, 100, 255);
+            btnLabel.color = new Color(100, 255, 100, 255);
         } else if (canClaim) {
             btnLabel.string = '🎁 领取';
-            btnLabel.color = new (require('cc')).Color(255, 215, 0, 255);
+            btnLabel.color = new Color(255, 215, 0, 255);
             btnNode.on('click', () => this.onClaimReward(task));
         } else {
             btnLabel.string = '⏳ 未完成';
-            btnLabel.color = new (require('cc')).Color(170, 170, 170, 255);
+            btnLabel.color = new Color(170, 170, 170, 255);
         }
         
         return node;

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Label, Button, ScrollView, director } from 'cc';
+import { _decorator, Component, Node, Label, Button, ScrollView, director, Color } from 'cc';
 import { PlayerDataManager } from '../Core/PlayerDataManager';
 
 const { ccclass, property } = _decorator;

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Label, Button, ScrollView, director } from 'cc';
+import { _decorator, Component, Node, Label, Button, ScrollView, director, Color } from 'cc';
 import { PlayerDataManager } from '../Core/PlayerDataManager';
 
 const { ccclass, property } = _decorator;
@@ -136,7 +136,7 @@ export class InventoryUI extends Component {
         const countLabel = countNode.addComponent(Label);
         countLabel.string = `×${count}`;
         countLabel.fontSize = 11;
-        countLabel.color = new (require('cc')).Color(255, 215, 0, 255);
+        countLabel.color = new Color(255, 215, 0, 255);
         countNode.setPosition(25, 25, 0);
         
         // 点击事件

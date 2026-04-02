@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Label, Button, ScrollView, EditBox, director } from 'cc';
+import { _decorator, Component, Node, Label, Button, ScrollView, EditBox, director, Color } from 'cc';
 import { PlayerDataManager } from '../Core/PlayerDataManager';
 
 const { ccclass, property } = _decorator;
@@ -103,7 +103,7 @@ export class FriendUI extends Component {
         const nameLabel = nameNode.addComponent(Label);
         nameLabel.string = friend.name;
         nameLabel.fontSize = 16;
-        nameLabel.color = new (require('cc')).Color(255, 215, 0, 255);
+        nameLabel.color = new Color(255, 215, 0, 255);
         nameNode.setPosition(-60, 15, 0);
         
         // 等级
@@ -112,7 +112,7 @@ export class FriendUI extends Component {
         const levelLabel = levelNode.addComponent(Label);
         levelLabel.string = `Lv.${friend.level}`;
         levelLabel.fontSize = 12;
-        levelLabel.color = new (require('cc')).Color(170, 170, 170, 255);
+        levelLabel.color = new Color(170, 170, 170, 255);
         levelNode.setPosition(-60, -10, 0);
         
         // 代点香按钮

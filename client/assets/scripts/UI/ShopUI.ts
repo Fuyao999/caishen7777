@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Label, Button, ScrollView, director } from 'cc';
+import { _decorator, Component, Node, Label, Button, ScrollView, director, Color } from 'cc';
 import { PlayerDataManager } from '../Core/PlayerDataManager';
 
 const { ccclass, property } = _decorator;
@@ -143,13 +143,13 @@ export class ShopUI extends Component {
         // 更新按钮状态
         if (this.tabMoneyBtn) {
             this.tabMoneyBtn.node.getComponent(Label).color = tab === 'money' ? 
-                new (require('cc')).Color(255, 215, 0, 255) : 
-                new (require('cc')).Color(200, 200, 200, 255);
+                new Color(255, 215, 0, 255) : 
+                new Color(200, 200, 200, 255);
         }
         if (this.tabYuanbaoBtn) {
             this.tabYuanbaoBtn.node.getComponent(Label).color = tab === 'yuanbao' ? 
-                new (require('cc')).Color(255, 215, 0, 255) : 
-                new (require('cc')).Color(200, 200, 200, 255);
+                new Color(255, 215, 0, 255) : 
+                new Color(200, 200, 200, 255);
         }
         
         // 渲染商品列表
@@ -198,7 +198,7 @@ export class ShopUI extends Component {
         const nameLabel = nameNode.addComponent(Label);
         nameLabel.string = item.name;
         nameLabel.fontSize = 18;
-        nameLabel.color = new (require('cc')).Color(255, 215, 0, 255);
+        nameLabel.color = new Color(255, 215, 0, 255);
         nameNode.setPosition(-40, 30, 0);
         
         // 描述
@@ -207,7 +207,7 @@ export class ShopUI extends Component {
         const descLabel = descNode.addComponent(Label);
         descLabel.string = item.desc;
         descLabel.fontSize = 12;
-        descLabel.color = new (require('cc')).Color(170, 170, 170, 255);
+        descLabel.color = new Color(170, 170, 170, 255);
         descNode.setPosition(-40, 5, 0);
         
         // 价格

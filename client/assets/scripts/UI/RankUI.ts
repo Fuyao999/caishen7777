@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Label, Button, ScrollView, director } from 'cc';
+import { _decorator, Component, Node, Label, Button, ScrollView, director, Color } from 'cc';
 import { PlayerDataManager } from '../Core/PlayerDataManager';
 
 const { ccclass, property } = _decorator;
@@ -157,8 +157,8 @@ export class RankUI extends Component {
         nameLabel.string = item.name + (item.isSelf ? ' (我)' : '');
         nameLabel.fontSize = 14;
         nameLabel.color = item.isSelf ? 
-            new (require('cc')).Color(255, 215, 0, 255) : 
-            new (require('cc')).Color(255, 255, 255, 255);
+            new Color(255, 215, 0, 255) : 
+            new Color(255, 255, 255, 255);
         nameNode.setPosition(-60, 10, 0);
         
         // 等级
@@ -167,7 +167,7 @@ export class RankUI extends Component {
         const levelLabel = levelNode.addComponent(Label);
         levelLabel.string = `Lv.${item.level}`;
         levelLabel.fontSize = 12;
-        levelLabel.color = new (require('cc')).Color(170, 170, 170, 255);
+        levelLabel.color = new Color(170, 170, 170, 255);
         levelNode.setPosition(-60, -10, 0);
         
         // 功德
@@ -176,7 +176,7 @@ export class RankUI extends Component {
         const meritLabel = meritNode.addComponent(Label);
         meritLabel.string = `⭐ ${item.merit.toLocaleString()}`;
         meritLabel.fontSize = 14;
-        meritLabel.color = new (require('cc')).Color(255, 200, 100, 255);
+        meritLabel.color = new Color(255, 200, 100, 255);
         meritNode.setPosition(100, 0, 0);
         
         return node;
