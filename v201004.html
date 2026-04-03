@@ -703,14 +703,19 @@ function init() {
     }
     
     checkFirstLogin();
-    renderGods();
-    renderShop();
-    renderRegions();
-    renderTasks();
-    renderAchievements();
-    renderInvitationSystem(); // 渲染邀请系统
-    // 默认显示庙宇页面
-    document.getElementById('tab-temple').classList.remove('hidden');
+    // 延迟一点渲染，确保DOM准备好
+    setTimeout(() => {
+        renderGods();
+        renderShop();
+        renderRegions();
+        renderTasks();
+        renderAchievements();
+        renderInvitationSystem();
+        // 默认显示庙宇页面
+        const templeTab = document.getElementById('tab-temple');
+        if (templeTab) templeTab.classList.remove('hidden');
+        updateUI();
+    }, 100);
     startGameLoop();
     updateUI();
     
@@ -906,6 +911,16 @@ function startGameLoop() {
 }
 
 function updateTempleOutput() {
+    // 修复：确保currentIncense有默认值，避免计时不走
+    if (!gameData.currentIncense || !gameData.currentIncense.endTime) {
+        // 如果没有香火状态，不计算产出
+    } else {
+        // 检查香火是否已过期，如果过期则重置
+        if (Date.now() >= gameData.currentIncense.endTime) {
+            gameData.currentIncense = null;
+        }
+    }
+    
     // 计算实际庙宇上限（包含财神加成）
     let actualStorage = templeData[gameData.level].storage;
     const chenjiugong = gods.find(g => g.id === 'chenjiugong');
@@ -1059,6 +1074,22 @@ function renewIncense(type) {
     
     const remainingHours = Math.ceil((gameData.currentIncense.endTime - now) / 3600000);
     log('temple-log', `🔥 续香成功！使用${names[type]}，香火剩余${remainingHours}小时`);
+    
+    // 强制立即更新香火计时器显示
+    const incenseTimeEl = document.getElementById('incense-time');
+    if (incenseTimeEl) {
+        const remaining = Math.ceil((gameData.currentIncense.endTime - Date.now()) / 60000);
+        const hours = Math.floor(remaining / 60);
+        const mins = remaining % 60;
+        incenseTimeEl.textContent = `${hours}小时${mins}分钟`;
+        incenseTimeEl.style.color = '#2ecc71';
+    }
+    const autoIncenseEl = document.getElementById('auto-incense');
+    if (autoIncenseEl) {
+        autoIncenseEl.textContent = '燃烧中🔥';
+        autoIncenseEl.style.color = '#2ecc71';
+    }
+    
     updateUI();
     saveGame();
     // 同步香火状态到服务器（无痕模式恢复用）
@@ -11374,6 +11405,28 @@ function renderAchievements() {
         gameData.currentTitle 
             ? titlesData.find(t => t.id === gameData.currentTitle)?.name || '财神爷'
             : '无';
+    renderTitleList();
+}
+
+// 渲染已解锁的称号列表（标题预览区）
+function renderTitleList() {
+    if (!gameData.unlockedTitles) gameData.unlockedTitles = [];
+    const unlocked = titlesData.filter(t => gameData.unlockedTitles.includes(t.id));
+    if (unlocked.length === 0) {
+        document.getElementById('title-list').innerHTML = '<div style="text-align:center;color:#888;font-size:12px;padding:10px;">尚未解锁任何称号</div>';
+        return;
+    }
+    let html = '<div style="display:flex;flex-wrap:wrap;gap:8px;padding:5px 0;">';
+    unlocked.forEach(title => {
+        const isEquipped = gameData.currentTitle === title.id;
+        html += `<div onclick="equipTitle('${title.id}','${title.name}')" 
+            style="background:${isEquipped?'rgba(255,215,0,0.3)':'rgba(0,0,0,0.2)'};padding:6px 12px;border-radius:20px;
+            font-size:11px;cursor:pointer;border:1px solid ${isEquipped?'#FFD700':'#555'};
+            color:${isEquipped?'#FFD700':'#aaa'}">
+            ${isEquipped?'✅':'✨'}${title.name}</div>`;
+    });
+    html += '</div>';
+    document.getElementById('title-list').innerHTML = html;
 }
 const upgradeNeeds = {
     1: { money: 5000, banners: 3, merit: 100, stage: '泥胎' },
@@ -11976,6 +12029,10 @@ function showTab(tab) {
     // 背包 & 厢房
     if (tab === 'inventory') { initInvSR(); renderInv(); }
     if (tab === 'sideroom') { initInvSR(); renderSR(); }
+    // 成就页面
+    if (tab === 'achievement') { renderAchievements(); }
+    // 任务页面
+    if (tab === 'task') { renderTasks(); }
 }
 
 function showModal(title, content) {
